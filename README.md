@@ -21,6 +21,7 @@ All should be run inside the **site** directory
 
 ## Development
 ### Useful commands
+ * Start the module: `npm start`
  * Install a new module: `npm install <module_name> --save-dev`
  * Run a file: `node <example_file.js>`
 
