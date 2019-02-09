@@ -6,6 +6,7 @@ A website for experimenting with agent sharing. Client and server side built on 
  * *optional:* Global installation of [npm standard module](https://www.npmjs.com/package/standard) for running tests. This can be done by `npm install standard --global`
 
 ## Running Tests
+All should be run inside the **site** directory
  * Coding style: `standard --fix`, or to ignore fixing just `standard`
  * Function tests: `npm test tests`
  * End to end tests: *TODO*

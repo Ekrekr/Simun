@@ -8,10 +8,10 @@ var server = http.createServer()
 // Placeholder until real tests are needed. This is how to export functions for
 // testing.
 module.exports = {
-    exampleFunc: function exampleFunc (input) {
-        return !input
-    }
-};
+  exampleFunc: function exampleFunc (input) {
+    return !input
+  }
+}
 
 // request - Emitted for Each request from the client (We would listen here).
 server.on('request', (request, response) => {
