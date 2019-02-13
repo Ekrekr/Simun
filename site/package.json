@@ -1,0 +1,31 @@
+{
+  "name": "Simon",
+  "version": "1.0.0",
+  "description": "A website for experimenting with agent sharing, client and server side.",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "standard": "^12.0.1"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ekrekr/Simon.git"
+  },
+  "author": "Elias Kassell Raymond",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Ekrekr/Simon/issues"
+  },
+  "homepage": "https://github.com/Ekrekr/Simon#readme"
+}
