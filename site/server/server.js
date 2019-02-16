@@ -63,22 +63,18 @@ server.listen(8008, () => {
 
 // Server stuff ya know
 
-var express = require("express");
-var app = express();
-var fs = require("fs");
-var path = require('path');
+var express = require("express"),
+  app = express(),
+  fs = require("fs"),
+  path = require('path')
 
-//var app = express();
-//    app.set("view options", {layout: false});
-//    app.use(express.static(__dirname + '/views'));
-
-app.get('/', function(req, res){
-    res.sendFile('index.html', {root : path.join(__dirname + '/../public') } );
-});
+app.get('/', function (req, res){
+  res.sendFile('index.html', {root : path.join(__dirname + '/../public') } )
+})
 
 app.listen(8080, function () {
-  console.log('Express server started');
-});
+  console.log('Express server started')
+})
 
 /*app.use("../public/index.html", auth);
 var options = { setHeaders: deliverXHTML };
