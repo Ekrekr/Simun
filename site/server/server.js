@@ -66,15 +66,21 @@ server.listen(8008, () => {
 var express = require("express");
 var app = express();
 var fs = require("fs");
-var banned = [];
-//banUpperCase("./public/", "");
+var path = require('path');
 
-// Define the sequence of functions to be called for each request.  Make URLs
-// lower case, ban upper case filenames, require authorisation for admin.html,
-// and deliver static files from ./public.
-//app.use(lower);
-//app.use(ban)
-app.use("../public/index.html", auth);
+//var app = express();
+//    app.set("view options", {layout: false});
+//    app.use(express.static(__dirname + '/views'));
+
+app.get('/', function(req, res){
+    res.sendFile('index.html', {root : path.join(__dirname + '/../public') } );
+});
+
+app.listen(8080, function () {
+  console.log('Express server started');
+});
+
+/*app.use("../public/index.html", auth);
 var options = { setHeaders: deliverXHTML };
 app.use(express.static(__dirname + '../public/index'));
 app.listen(8008, () => console.log('server listening on port 8008!'));
@@ -94,45 +100,4 @@ function auth(req, res, next) {
 
 app.get('/', function(req, res) {
   res.sendFile('../public/index.html');
-})
-
-
-/*// Make the URL lower case.
-function lower(req, res, next) {
-    req.url = req.url.toLowerCase();
-    next();
-}*/
-
-/*// Forbid access to the URLs in the banned list.
-function ban(req, res, next) {
-    for (var i=0; i<banned.length; i++) {
-        var b = banned[i];
-        if (req.url.startsWith(b)) {
-            res.status(404).send("Filename not lower case");
-            return;
-        }
-    }
-    next();
-}
-
-
-
-// Check a folder for files/subfolders with non-lowercase names.  Add them to
-// the banned list so they don't get delivered, making the site case sensitive,
-// so that it can be moved from Windows to Linux, for example. Synchronous I/O
-// is used because this function is only called during startup.  This avoids
-// expensive file system operations during normal execution.  A file with a
-// non-lowercase name added while the server is running will get delivered, but
-// it will be detected and banned when the server is next restarted.
-function banUpperCase(root, folder) {
-    var folderBit = 1 << 14;
-    var names = fs.readdirSync(root + folder);
-    for (var i=0; i<names.length; i++) {
-        var name = names[i];
-        var file = folder + "/" + name;
-        if (name != name.toLowerCase()) banned.push(file.toLowerCase());
-        var mode = fs.statSync(root + file).mode;
-        if ((mode & folderBit) == 0) continue;
-        banUpperCase(root, file);
-    }
-}*/
+})*/
