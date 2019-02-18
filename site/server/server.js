@@ -40,6 +40,8 @@ server.on('request', (request, response) => {
   response.end()
 })
 
+server.on('error', console.error)
+
 // connect - Raised for all the ‘connect’ request by the HTTP client.
 server.on('connect', (request, response) => {
 })
@@ -66,10 +68,17 @@ var express = require("express"),
 
 //Gets the file from the selected root directory
 app.get('/', function (req, res){
-  res.sendFile('index.html', {root : path.join(__dirname + '/../public') } )
+  res.sendFile('login.html', {root : path.join(__dirname + '/../public') } )
 })
 
 //Location that the express server has been started at
-app.listen(8080, function () {
+app.listen(8000, function () {
   console.log('Express server started')
 })
+
+// Called by express.static.  Deliver response as XHTML.
+function deliverXHTML(res, path, stat) {
+  if (path.endsWith(".html")) {
+      res.header("Content-Type", "application/xhtml+xml");
+  }
+}
