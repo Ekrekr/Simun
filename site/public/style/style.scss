@@ -5,4 +5,7 @@ $second-width: 5px;
    @return $n * $first-width + ($n - 1) * $second-width;
 }
 
-#set_width { padding-left: 50px; adjust_width($n); }
+#set_widths {
+   padding-left: 50px
+   adjust_width($n) 
+}
