@@ -3,7 +3,8 @@ A website for experimenting with agent sharing. Client and server side built on 
 
 ## Prerequisites
  * nodejs. [Example using homebrew for mac users](https://www.dyclassroom.com/howto-mac/how-to-install-nodejs-and-npm-on-mac-using-homebrew)
- * Sass, to generate css. To install sass do `sudo gem install sass`.
+ * [Sass](https://sass-lang.com/), to generate css. To install sass do `sudo gem install sass`.
+ * [Pug](https://pugjs.org/api/getting-started.html), to generate html. To install pug do `npm install pug`.
  * Global installation of [npm standard module](https://www.npmjs.com/package/standard) for running tests. This can be done by `npm install standard --global`
 
 ## Running Tests
@@ -14,6 +15,7 @@ All should be run inside the **site** directory
 
 ## Deployment
  * Start the server (from **site** directory): `npm start server/server`
+ * Run sass auto update of css: `sass --watch site/public/style/main.scss`
 
 ## Built With
 ### Deployment

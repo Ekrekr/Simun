@@ -1,0 +1,37 @@
+/* Colours ------------------------------------------------------------------ */
+/* Fonts -------------------------------------------------------------------- */
+@font-face {
+  font-family: 'GlacialIndifference';
+  src: url("fonts/glacial-indifference/GlacialIndifference-Regular.otf") format("opentype"); }
+@font-face {
+  font-family: 'GlacialIndifference';
+  src: url("fonts/glacial-indifference/GlacialIndifference-Bold.otf") format("opentype");
+  font-weight: bold; }
+@font-face {
+  font-family: 'GlacialIndifference';
+  src: url("fonts/glacial-indifference/GlacialIndifference-Italic.otf") format("opentype");
+  font-weight: italic; }
+@font-face {
+  font-family: 'OpenSans';
+  src: url("fonts/open-sans/OpenSans-Regular.ttf") format("truetype"); }
+@font-face {
+  font-family: 'OpenSans';
+  src: url("fonts/open-sans/OpenSans-Bold.ttf") format("truetype");
+  font-weight: bold; }
+@font-face {
+  font-family: 'OpenSans';
+  src: url("fonts/open-sans/OpenSans-Italic.ttf") format("truetype");
+  font-weight: italic; }
+/* Text styles -------------------------------------------------------------- */
+body {
+  font-family: GlacialIndifference;
+  background-color: #054a91;
+  text-align: center; }
+
+h1, h2, h3, h4 {
+  font-family: GlacialIndifference; }
+
+p {
+  font-family: OpenSans; }
+
+/*# sourceMappingURL=main.css.map */
