@@ -21,7 +21,7 @@ input[type=text], input[type=password] {
   box-sizing: border-box;
 }
 
- .class1, 
+ .class1,
  .class2 {
     color: red;
  }
@@ -30,5 +30,5 @@ input[type=text], input[type=password] {
    background-color: red;
    width: 50%;
    padding-left: 100px;
-   padding-right: 100px;   
+   padding-right: 100px;
 }
