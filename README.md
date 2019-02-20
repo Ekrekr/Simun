@@ -8,16 +8,24 @@ A website for experimenting with agent sharing. Client and server side built on 
 ## Running Tests
 All should be run inside the **site** directory
  * Coding style: `standard --fix`, or to ignore fixing just `standard`
- * Function tests (run from site directory): `npm test tests`
+ * Function tests: `npm test tests`
  * End to end tests: *TODO*
 
 ## Deployment
- * Start the server: `npm start server/server`
+ * Start the server (from **site** directory): `npm start server/server`
 
 ## Built With
+### Deployment
+ * [Bootstrap](https://www.npmjs.com/package/bootstrap)
+ * [css](https://www.npmjs.com/package/css)
+ * [express](https://www.npmjs.com/package/express)
+ * [request](https://www.npmjs.com/package/request)
+
+### Development
  * [chai](https://www.npmjs.com/package/chai)
  * [mocha](https://www.npmjs.com/package/mocha)
  * [standard](https://www.npmjs.com/package/standard)
+ * [Express](https://www.npmjs.com/package/standard)
 
 ## Development
 ### Useful commands
