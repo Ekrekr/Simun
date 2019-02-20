@@ -1,15 +1,20 @@
+@charset "utf-8";
+
+@import url("framework.css");
+
+
 #class3 {
-    color: #AF80ED;
+  color: var(color-central);
  }
 #class4 {
-    color: #DE5E85;
+  color: var(color-harsh);
  }
 
-.background {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(230, 160, 101);
+.background#foo {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: $color-central;
 }
 
 input[type=text], input[type=password] {
