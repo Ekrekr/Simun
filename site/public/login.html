@@ -1,11 +1,25 @@
-<!DOCTYPE html>
-<html style=" height:100%;">
-<head>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>Simon</title>
-<body>
-    <h1>Login</h1>
-    <p>The central log in page which everyone must go through to interact with posts.</p>
-    <p>To <a href="index.html">home</a></p>
-</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Simon</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"></link>
+    <link rel="stylesheet" type="text/css" href="./style/style.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+    <script type="text/css" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  <body class="background">
+    <div class="container">
+      <h1 id="class3">Login</h1>
+      <h3>
+        The central login page which everyone must go through to interact with
+        posts.
+      </h3>
+      <label for="uname"><b>Username</b></label>
+      <input type="text" name="uname"></input> 
+           
+      <label for="psw"><b>Password</b></label>
+      <input type="password" name="psw"></input>
+      <button type="submit" onclick="location.href = './index.html';"> Login </button>
+    </div>
+  </body>
 </html>
