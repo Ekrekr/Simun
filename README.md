@@ -8,7 +8,7 @@ A website for experimenting with agent sharing. Client and server side built on 
 ## Running Tests
 All should be run inside the **site** directory
  * Coding style: `standard --fix`, or to ignore fixing just `standard`
- * Function tests: `npm test tests`
+ * Function tests (run from site directory): `npm test tests`
  * End to end tests: *TODO*
 
 ## Deployment
