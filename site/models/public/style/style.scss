@@ -1,4 +1,11 @@
 /* Colours ------------------------------------------------------------------ */
+$color-central:    #054a91;
+$color-harsh:      #161a15;
+$color-plain:      #E9E5EA;
+$color-highlight1: #ff521b;
+$color-highlight2: #e6a065;
+$color-highlight3: #f2f3ae;
+
 /* Fonts -------------------------------------------------------------------- */
 @font-face {
   font-family: 'GlacialIndifference';
@@ -22,16 +29,45 @@
   font-family: 'OpenSans';
   src: url("fonts/open-sans/OpenSans-Italic.ttf") format("truetype");
   font-weight: italic; }
+
 /* Text styles -------------------------------------------------------------- */
 body {
   font-family: GlacialIndifference;
-  background-color: #054a91;
-  text-align: center; }
+  text-align: center;
+  width: 100%;
+}
 
 h1, h2, h3, h4 {
-  font-family: GlacialIndifference; }
+  font-family: GlacialIndifference;
+}
 
 p {
-  font-family: OpenSans; }
+  font-family: OpenSans;
+}
 
-/*# sourceMappingURL=main.css.map */
+input {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Custom classes ----------------------------------------------------------------- */
+
+.login-bg {
+  /* The image used */
+  background-image: url("../assets/images/simon_logo.svg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.fully-centered {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
