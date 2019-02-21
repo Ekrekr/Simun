@@ -3,21 +3,33 @@ A website for experimenting with agent sharing. Client and server side built on 
 
 ## Prerequisites
  * nodejs. [Example using homebrew for mac users](https://www.dyclassroom.com/howto-mac/how-to-install-nodejs-and-npm-on-mac-using-homebrew)
- * *optional:* Global installation of [npm standard module](https://www.npmjs.com/package/standard) for running tests. This can be done by `npm install standard --global`
+ * [Sass](https://sass-lang.com/), to generate css. To install sass do `sudo gem install sass`.
+ * [Pug](https://pugjs.org/api/getting-started.html), to generate html. To install pug do `npm install pug`.
+ * Global installation of [npm standard module](https://www.npmjs.com/package/standard) for running tests. This can be done by `npm install standard --global`
 
 ## Running Tests
 All should be run inside the **site** directory
  * Coding style: `standard --fix`, or to ignore fixing just `standard`
- * Function tests (run from site directory): `npm test tests`
+ * Function tests: `npm test tests`
  * End to end tests: *TODO*
 
 ## Deployment
- * Start the server: `npm start server/server`
+ * Start the server (from **site** directory): `npm start server/server`
+ * Run sass auto update of css: `sass --watch site/public/style/main.scss`
 
 ## Built With
+### Deployment
+ * [Bootstrap](https://www.npmjs.com/package/bootstrap)
+ * [css](https://www.npmjs.com/package/css)
+ * [express](https://www.npmjs.com/package/express)
+ * [request](https://www.npmjs.com/package/request)
+ * [node-sass](https://www.npmjs.com/package/node-sass)
+
+### Development
  * [chai](https://www.npmjs.com/package/chai)
  * [mocha](https://www.npmjs.com/package/mocha)
  * [standard](https://www.npmjs.com/package/standard)
+ * [Express](https://www.npmjs.com/package/standard)
 
 ## Development
 ### Useful commands
@@ -31,6 +43,11 @@ All should be run inside the **site** directory
  * [Automated testing](https://hackernoon.com/a-crash-course-on-testing-with-node-js-6c7428d3da02)
  * [Markdown cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
  * [Readme template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+
+### Design
+* Follow this colour sheet in general
+![colour sheet](design/colour_scheme.png)
+* Title font is [Glacial-indifference](http://scripts.sil.org/). Main font is Open Sans.
 
 ## License
 This project is licensed under the GNU GPLv3 license; see LICENSE file for details

@@ -1,34 +1,58 @@
-#class3 {
-    color: #AF80ED;
- }
-#class4 {
-    color: #DE5E85;
- }
+/* Colours ------------------------------------------------------------------ */
+/* Fonts -------------------------------------------------------------------- */
+@font-face {
+  font-family: 'GlacialIndifference';
+  src: url("fonts/glacial-indifference/GlacialIndifference-Regular.otf") format("opentype"); }
+@font-face {
+  font-family: 'GlacialIndifference';
+  src: url("fonts/glacial-indifference/GlacialIndifference-Bold.otf") format("opentype");
+  font-weight: bold; }
+@font-face {
+  font-family: 'GlacialIndifference';
+  src: url("fonts/glacial-indifference/GlacialIndifference-Italic.otf") format("opentype");
+  font-weight: italic; }
+@font-face {
+  font-family: 'OpenSans';
+  src: url("fonts/open-sans/OpenSans-Regular.ttf") format("truetype"); }
+@font-face {
+  font-family: 'OpenSans';
+  src: url("fonts/open-sans/OpenSans-Bold.ttf") format("truetype");
+  font-weight: bold; }
+@font-face {
+  font-family: 'OpenSans';
+  src: url("fonts/open-sans/OpenSans-Italic.ttf") format("truetype");
+  font-weight: italic; }
+/* Text styles -------------------------------------------------------------- */
+body {
+  font-family: GlacialIndifference;
+  text-align: center;
+  width: 100%; }
 
-.background {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(230, 160, 101);
-}
+h1, h2, h3, h4 {
+  font-family: GlacialIndifference; }
 
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
+p {
+  font-family: OpenSans; }
 
- .class1, 
- .class2 {
-    color: red;
- }
+input {
+  text-align: center;
+  margin-bottom: 10px; }
 
-.set-width{
-   background-color: red;
-   width: 50%;
-   padding-left: 100px;
-   padding-right: 100px;   
-}
+/* Custom classes ----------------------------------------------------------------- */
+.login-bg {
+  /* The image used */
+  background-image: url("../assets/images/simon_logo.svg");
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: fixed;
+  background-repeat: no-repeat;
+  background-size: cover; }
+
+.fully-centered {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); }
+
+/*# sourceMappingURL=style.css.map */

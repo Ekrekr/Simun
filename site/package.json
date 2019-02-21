@@ -10,16 +10,22 @@
     "bootstrap": "^4.3.1",
     "css": "^2.2.4",
     "express": "^4.16.4",
+    "pug": "^2.0.3",
+    "pug-cli": "^1.0.0-alpha6",
     "request": "^2.88.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "concurrently": "^4.1.0",
     "mocha": "^5.2.0",
     "standard": "^12.0.1"
   },
   "scripts": {
-    "test": "mocha",
-    "start": "node server/server.js"
+    "start": "open public/index.html",
+    "start-server": "node server/server",
+    "compile-css": "sass -w models/public/style:public/style",
+    "compile-html": "pug -w models/public -o public",
+    "dev": "concurrently --kill-others \"npm run compile-css\" \"npm run compile-html\" \"npm run start-server\""
   },
   "repository": {
     "type": "git",
@@ -30,5 +36,5 @@
   "bugs": {
     "url": "https://github.com/Ekrekr/Simon/issues"
   },
-  "homepage": "https://github.com/Ekrekr/Simon#readme"
+  "homepage": "public/index.js"
 }
