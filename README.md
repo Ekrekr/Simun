@@ -43,6 +43,7 @@ All should be run inside the **site** directory
  * [Automated testing](https://hackernoon.com/a-crash-course-on-testing-with-node-js-6c7428d3da02)
  * [Markdown cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
  * [Readme template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+ * [xHTML Validator](https://validator.w3.org/check)
 
 ### Design
 * Follow this colour sheet in general
