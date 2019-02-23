@@ -83,6 +83,14 @@ input {
   z-index: 2; }
 
 /* Generic Classes ---------------------------------------------------------- */
+.footer {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  z-index: 4;
+  text-align: center; }
+
 .fully-centered {
   position: fixed;
   left: 50%;
@@ -91,7 +99,7 @@ input {
 
 .foreground-box {
   padding: 10px 10px 10px 10px;
-  z-index: 1; }
+  z-index: 4; }
 
 .top-left {
   position: fixed;
