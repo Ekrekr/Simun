@@ -71,7 +71,7 @@ input {
   position: absolute;
   top: 0;
   left: 0;
-  height: 50%;
+  height: 52%;
   z-index:1;
 }
 
@@ -83,11 +83,32 @@ input {
 
 .grass {
   content: url("../assets/images/grass_field.png");
-  width: 100%;
   position: absolute;
   bottom: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
   z-index:2;
+}
+
+.driveway {
+  content: url("../assets/images/driveway.png");
+  position: absolute;
+  bottom: 0;
+  left: 13%;
+  width: 76%;
+  height: 40%;
+  z-index:2;
+}
+
+.mailbox {
+  content: url("../assets/images/mailbox.png");
+  position: absolute;
+  bottom: 10%;
+  left: 13%;
+  width: 8%;
+  height: auto;
+  z-index:3;
 }
 
 /* Generic Classes ---------------------------------------------------------- */
