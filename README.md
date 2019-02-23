@@ -9,6 +9,7 @@ A website for experimenting with agent sharing. Client and server side built on 
 
 ## Running Tests
 All should be run inside the **site** directory
+ * Run all tests: `npm run tests`
  * Coding style: `standard --fix`, or to ignore fixing just `standard`
  * Function tests: `npm test tests`
  * End to end tests: *TODO*
@@ -42,7 +43,7 @@ All should be run inside the **site** directory
  * [Automated testing](https://hackernoon.com/a-crash-course-on-testing-with-node-js-6c7428d3da02)
  * [Markdown cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
  * [Readme template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
- * Pug website 
+ * [Pug website Github](https://github.com/pugjs/pug-www)
 
 ### Design
 * Follow this colour sheet in general

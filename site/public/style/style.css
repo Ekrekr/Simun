@@ -1,4 +1,22 @@
 /* Colours ------------------------------------------------------------------ */
+.color-central {
+  color: #054a91; }
+
+.color-harsh {
+  color: #161a15; }
+
+.color-plain {
+  color: #E9E5EA; }
+
+.color-highlight1 {
+  color: #ff521b; }
+
+.color-highlight2 {
+  color: #e6a065; }
+
+.color-highlight3 {
+  color: #f2f3ae; }
+
 /* Fonts -------------------------------------------------------------------- */
 @font-face {
   font-family: 'GlacialIndifference';
@@ -32,19 +50,23 @@ h1, h2, h3, h4 {
   font-family: GlacialIndifference; }
 
 p {
-  font-family: OpenSans; }
+  font-family: OpenSans;
+  color: #161a15; }
 
 input {
   text-align: center;
   margin-bottom: 10px; }
 
 /* Graphics ----------------------------------------------------------------- */
+.index-bg {
+  overflow: hidden; }
+
 .sky {
   content: url("../assets/images/sky_background.png");
   position: absolute;
   top: 0;
   left: 0;
-  size: auto 50%;
+  height: 50%;
   z-index: 1; }
 
 .house {
@@ -68,8 +90,12 @@ input {
   transform: translate(-50%, -50%); }
 
 .foreground-box {
-  background-color: #161a15;
   padding: 10px 10px 10px 10px;
   z-index: 1; }
+
+.top-left {
+  position: fixed;
+  left: 1%;
+  top: 1%; }
 
 /*# sourceMappingURL=style.css.map */

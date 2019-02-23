@@ -7,15 +7,25 @@ html(lang=lang)
     link(rel="shortcut icon", href="assets/favicon.ico")
     link(rel="stylesheet", href="style/style.css")
     title Index
-  body(class="index-bg")
-    div(class="sky")
-    div(class="house fully-centered")
-    div(class="grass")
-    
-    
+    meta(charset="unicode")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+  body.index-bg(scroll="no")
     header
       p My soon to be menu
-    section
-      a(href="/public/login.html")
+    
+    // Image construction
+    div.sky
+    div.house.fully-centered
+    div.grass
+    
+    // Temporary text
+    div.foreground-box.top-left
+      p.color-harsh Graphics temporary
+      p.color-harsh Will be replaced with stylised lightweight SVGs
+    
+    // aside.menu.outside
+    //  a.toggle: img(src='/images/menu-tab.svg')
+    //  +menu
+
     footer
       cool footer with lots of copyrights

@@ -1,4 +1,5 @@
 /* Colours ------------------------------------------------------------------ */
+
 $color-central:    #054a91;
 $color-harsh:      #161a15;
 $color-plain:      #E9E5EA;
@@ -6,7 +7,15 @@ $color-highlight1: #ff521b;
 $color-highlight2: #e6a065;
 $color-highlight3: #f2f3ae;
 
+.color-central    { color: $color-central; }
+.color-harsh      { color: $color-harsh; }
+.color-plain      { color: $color-plain; }
+.color-highlight1 { color: $color-highlight1; }
+.color-highlight2 { color: $color-highlight2; }
+.color-highlight3 { color: $color-highlight3; }
+
 /* Fonts -------------------------------------------------------------------- */
+
 @font-face {
   font-family: 'GlacialIndifference';
   src: url("fonts/glacial-indifference/GlacialIndifference-Regular.otf") format("opentype"); }
@@ -43,6 +52,7 @@ h1, h2, h3, h4 {
 
 p {
   font-family: OpenSans;
+  color: $color-harsh;
 }
 
 input {
@@ -53,7 +63,7 @@ input {
 /* Graphics ----------------------------------------------------------------- */
 
 .index-bg {
-  // background-color: $color-central;
+  overflow: hidden;
 }
 
 .sky {
@@ -61,7 +71,7 @@ input {
   position: absolute;
   top: 0;
   left: 0;
-  size: auto 50%;
+  height: 50%;
   z-index:1;
 }
 
@@ -90,7 +100,12 @@ input {
 }
 
 .foreground-box {
-  background-color: $color-harsh;
   padding: 10px 10px 10px 10px;
   z-index: 1;
+}
+
+.top-left {
+  position: fixed;
+  left: 1%;
+  top: 1%;
 }
