@@ -50,24 +50,47 @@ input {
   margin-bottom: 10px;
 }
 
-/* Custom classes ----------------------------------------------------------------- */
+/* Graphics ----------------------------------------------------------------- */
 
-.login-bg {
-  /* The image used */
-  background-image: url("../assets/images/simon_logo.svg");
-
-  /* Full height */
-  height: 100%;
-
-  /* Center and scale the image nicely */
-  background-position: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
+.index-bg {
+  // background-color: $color-central;
 }
+
+.sky {
+  content: url("../assets/images/sky_background.png");
+  position: absolute;
+  top: 0;
+  left: 0;
+  size: auto 50%;
+  z-index:1;
+}
+
+.house {
+  content: url("../assets/images/simon_house.png");
+  width: 55.20833333%; // Relative pixel amount for perfect 1080p alignment
+  z-index:3;
+}
+
+.grass {
+  content: url("../assets/images/grass_field.png");
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index:2;
+}
+
+/* Generic Classes ---------------------------------------------------------- */
 
 .fully-centered {
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.foreground-box {
+  background-color: $color-harsh;
+  padding: 10px 10px 10px 10px;
+  z-index: 1;
 }
