@@ -1,4 +1,5 @@
 /* Colours ------------------------------------------------------------------ */
+
 $color-central:    #054a91;
 $color-harsh:      #161a15;
 $color-plain:      #E9E5EA;
@@ -6,7 +7,15 @@ $color-highlight1: #ff521b;
 $color-highlight2: #e6a065;
 $color-highlight3: #f2f3ae;
 
+.color-central    { color: $color-central; }
+.color-harsh      { color: $color-harsh; }
+.color-plain      { color: $color-plain; }
+.color-highlight1 { color: $color-highlight1; }
+.color-highlight2 { color: $color-highlight2; }
+.color-highlight3 { color: $color-highlight3; }
+
 /* Fonts -------------------------------------------------------------------- */
+
 @font-face {
   font-family: 'GlacialIndifference';
   src: url("fonts/glacial-indifference/GlacialIndifference-Regular.otf") format("opentype"); }
@@ -43,6 +52,7 @@ h1, h2, h3, h4 {
 
 p {
   font-family: OpenSans;
+  color: $color-harsh;
 }
 
 input {
@@ -50,19 +60,71 @@ input {
   margin-bottom: 10px;
 }
 
-/* Custom classes ----------------------------------------------------------------- */
+/* Graphics ----------------------------------------------------------------- */
 
-.login-bg {
-  /* The image used */
-  background-image: url("../assets/images/simon_logo.svg");
+.index-bg {
+  overflow: hidden;
+}
 
-  /* Full height */
+.sky {
+  content: url("../assets/images/sky_background.png");
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 52%;
+  z-index:1;
+}
+
+.house {
+  content: url("../assets/images/simon_house.png");
+  width: 55.20833333%; // Relative pixel amount for perfect 1080p alignment
+  z-index:3;
+}
+
+.grass {
+  content: url("../assets/images/grass_field.png");
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
+  z-index:2;
+}
 
-  /* Center and scale the image nicely */
-  background-position: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
+.driveway {
+  content: url("../assets/images/driveway.png");
+  position: absolute;
+  bottom: 0;
+  left: 13%;
+  width: 76%;
+  height: 40%;
+  z-index:2;
+}
+
+.mailbox {
+  content: url("../assets/images/mailbox.png");
+  position: absolute;
+  bottom: 10%;
+  left: 13%;
+  width: 8%;
+  height: auto;
+  z-index:3;
+}
+
+.mailbox:hover {
+  animation: shake 0.2s;
+  animation-iteration-count: infinite;
+}
+
+/* Generic Classes ---------------------------------------------------------- */
+
+.footer {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  z-index: 4;
+  text-align: center;
 }
 
 .fully-centered {
@@ -70,4 +132,37 @@ input {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.foreground-box {
+  padding: 10px 10px 10px 10px;
+  z-index: 4;
+}
+
+.top-left {
+  position: fixed;
+  left: 1%;
+  top: 1%;
+}
+
+/* Menu Bar ----------------------------------------------------------------- */
+
+.simon_logo {
+  content: url("../assets/images/simon_logo.svg");
+  position: absolute;
+  top: 10%;
+  right: 0%;
+  width: 5%;
+  height: auto;
+  border-radius: 30px 0px 0px 30px;
+  z-index:3;
+}
+
+/* Animations --------------------------------------------------------------- */
+
+@keyframes shake {
+  0% { transform: translate(0%, 0%) rotate(0deg); }
+  25% { transform: translate(-2%, 0%) rotate(-1deg); }
+  75% { transform: translate(2%, 0%) rotate(1deg); }
+  100% { transform: translate(0%, 0%) rotate(0deg); }
 }
