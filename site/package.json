@@ -10,9 +10,13 @@
     "bootstrap": "^4.3.1",
     "css": "^2.2.4",
     "express": "^4.16.4",
+    "mssql": "^4.3.2",
+    "mysql": "^2.16.0",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "sql": "^0.78.0",
+    "sqlite3": "^4.0.6"
   },
   "devDependencies": {
     "chai": "^4.2.0",
