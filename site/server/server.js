@@ -84,12 +84,11 @@ function deliverXHTML(res, path, stat) {
 var sql = require("mssql");
 
 const config = {
-  user: '...',
-  password: '..',
-  server: 'localhost',
-  database: '..//databse//database.db',
-}
-
+  user: "",
+  password: "",
+  server: "localhost",
+  database: "..//databse//database.db"
+};
 
 sql.connect(config).then(() => {
   return sql.query`select * FROM Login`
@@ -130,3 +129,19 @@ async () => {
     console.log("couldn't connect" + err);
   }
 };
+
+/*const sqlite3 = require("sqlite3").verbose();
+const dbPath = path.resolve(__dirname, "../database/database.db");
+/*let db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error(err.message);
+  }
+  console.log('Connected to the chinook database.');
+});
+var conn = sql.connect(config,
+  err => {
+    if (err) {
+      console.error(err.message);
+    }
+  }
+);*/
