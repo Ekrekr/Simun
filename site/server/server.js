@@ -53,95 +53,140 @@ server.on("connection", (request, response) => {});
 // HTTP version).
 server.on("upgrade", (request, response) => {});
 
-server.listen(8008, () => {
-  console.log("Server listening at 8008");
-});
+/*****************************************/
+/*               SERVER                  */
+/*****************************************/
 
-// Express Server Integration
-var express = require("express");
+// server.listen(8008, () => {
+//   console.log("Server listening at 8008");
+// });
 
-var app = express();
+// // Express Server Integration
+// var express = require("express");
+// var router = express.Router();
+// var app = express();
+
+
+// // Gets the file from the selected root directory
+// router.get("/", function (req, res) {
+//   res.sendFile("login.html", {
+//     root: path.join(__dirname, "/../public")
+//   });
+// });
+
+// Gets the file from the selected root directory
+// router.get("/", function (req, res) {
+//   res.sendFile("login.pug", {
+//     root: path.join(__dirname, "/../models/public")
+//   });
+// });
+
+// // Gets the file from the selected root directory
+// router.get("/", function (req, res, next) {
+//   res.render('login.html')
+// });
+
+
+// Location that the express server has been started at
+// app.listen(8000, function () {
+//   console.log("Express server started");
+// });
+
+// Called by express.static.  Deliver response as XHTML.
+// function deliverXHTML(res, path, stat) {
+//   if (path.endsWith(".html")) {
+//     res.header("Content-Type", "application/xhtml+xml");
+//   }
+// }
 
 var path = require("path");
 
-// Gets the file from the selected root directory
-app.get("/", function(req, res) {
-  res.sendFile("login.html", { root: path.join(__dirname, "/../public") });
+const express = require('express');
+// const people = require('./people.json');
+
+const app = express();
+
+app.set('view engine', 'pug');
+// app.set("views", path.join(__dirname, "views"));
+
+// app.use(express.static(__dirname + '/public'));
+app.use("/public", express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+  res.render('index', {
+    title: 'Homepage',
+    // user: 'something'
+  });
 });
 
-// Location that the express server has been started at
-app.listen(8000, function() {
-  console.log("Express server started");
+const servers = app.listen(7000, () => {
+  console.log(`Express running → PORT ${server.address()}`);
 });
 
-// Called by express.static.  Deliver response as XHTML.
-function deliverXHTML(res, path, stat) {
-  if (path.endsWith(".html")) {
-    res.header("Content-Type", "application/xhtml+xml");
-  }
-}
+/*****************************************/
+/*              Database                */
+/*****************************************/
 
-var sql = require("mssql");
-
-const config = {
-  user: "",
-  password: "",
-  server: "localhost",
-  database: "..//databse//database.db"
-};
-
-sql.connect(config).then(() => {
-  return sql.query`select * FROM Login`
-}).then(result => {
-  console.log(result)
-}).catch(err => {
-  console.log(err)
-})
-
-sql.on('error', err => {
-  // ... error handler
-})
-
-async () => {
-  console.log("here")
-  try {
-    console.log("Works")
-    let conn = await sql.connect(config);
-    let result = await conn.query(
-      "SELECT id, username, password FROM Login"
-    );
-    console.log(result)
-    if (result.isValid == false) {
-      console.log("Result is not valid, maybe no entries in database?");
-    } else {
-      while (result.isValid) {
-        // do something with the result
-        var id = result.value(0);
-        var username = result.value(1);
-        var password = result.value(2);
-        console.log(id + forename + surname + email + phone);
-        //addEntry(forename, surname, email, phone)
-        result.toNext();
-      }
-      //test.log("added " + id + " entries in the addressbook application")
-    }
-  } catch (err) {
-    console.log("couldn't connect" + err);
-  }
-};
-
-/*const sqlite3 = require("sqlite3").verbose();
+const sqlite3 = require("sqlite3").verbose();
 const dbPath = path.resolve(__dirname, "../database/database.db");
-/*let db = new sqlite3.Database(dbPath, (err) => {
+let db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error(err.message);
   }
-  console.log('Connected to the chinook database.');
+  console.log('Connected to the Login database.');
 });
-var conn = sql.connect(config,
-  err => {
+//GET
+db.serialize(() => {
+  db.each(`SELECT id,
+                  forename as name
+                  FROM Login`, (err, row) => {
     if (err) {
       console.error(err.message);
     }
+    console.log(row.id + "\t" + row.name);
+  });
+});
+//PUT
+//PlaceHolder - Will Get This From Pug
+let placeholders = 'PLACEHOLDER';
+let sql = 'INSERT INTO Login VALUES ' + placeholders;
+
+// output the INSERT statement
+console.log(sql);
+
+db.run(sql, placeholders, function (err) {
+  if (err) {
+    return console.error(err.message);
   }
-);*/
+  console.log(`Rows inserted ${this.changes}`);
+});
+//UPDATE
+//PlaceHolder - Will Get This From Pug
+let data = ['PLACEHOLDER', 'PLACEHOLDER'];
+let sql_update = `UPDATE Login
+            SET forename = ?
+            WHERE forename = ?`;
+
+db.run(sql_update, data, function (err) {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log(`Row(s) updated: ${this.changes}`);
+
+});
+//DELETE
+//PlaceHolder - Will Get This From Pug
+id = 100
+db.run(`DELETE FROM Login WHERE rowid=?`, id, function (err) {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log(`Row(s) deleted ${this.changes}`);
+});
+
+// close the database connection
+db.close((err) => {
+  if (err) {
+    return console.error(err.message);
+  }
+});
