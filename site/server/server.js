@@ -57,48 +57,6 @@ server.on("upgrade", (request, response) => {});
 /*               SERVER                  */
 /*****************************************/
 
-// server.listen(8008, () => {
-//   console.log("Server listening at 8008");
-// });
-
-// // Express Server Integration
-// var express = require("express");
-// var router = express.Router();
-// var app = express();
-
-
-// // Gets the file from the selected root directory
-// router.get("/", function (req, res) {
-//   res.sendFile("login.html", {
-//     root: path.join(__dirname, "/../public")
-//   });
-// });
-
-// Gets the file from the selected root directory
-// router.get("/", function (req, res) {
-//   res.sendFile("login.pug", {
-//     root: path.join(__dirname, "/../models/public")
-//   });
-// });
-
-// // Gets the file from the selected root directory
-// router.get("/", function (req, res, next) {
-//   res.render('login.html')
-// });
-
-
-// Location that the express server has been started at
-// app.listen(8000, function () {
-//   console.log("Express server started");
-// });
-
-// Called by express.static.  Deliver response as XHTML.
-// function deliverXHTML(res, path, stat) {
-//   if (path.endsWith(".html")) {
-//     res.header("Content-Type", "application/xhtml+xml");
-//   }
-// }
-
 var path = require("path");
 
 const express = require('express');
@@ -176,6 +134,7 @@ db.run(sql_update, data, function (err) {
 });
 //DELETE
 //PlaceHolder - Will Get This From Pug
+//Will Give Error As ID Doesn't exist
 id = 100
 db.run(`DELETE FROM Login WHERE rowid=?`, id, function (err) {
   if (err) {
