@@ -94,28 +94,32 @@ let db = new sqlite3.Database(dbPath, (err) => {
   console.log('Connected to the Login database.');
 });
 //GET
-function get_data() {
-  db.serialize(() => {
-    db.each(`SELECT id,
-                  forename as name
-                  FROM Login`, (err, row) => {
-      if (err) {
-        console.error(err.message);
-      }
-      console.log(row.id + "\t" + row.name);
-    });
+get_data('Jadams');
+
+function get_data(forename) {
+
+  // db.serialize((id) => {
+  db.each(`SELECT *
+                  FROM Login
+                  WHERE forename = ?`, forename, (err, row) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log(row.id + "\t" + row.forename);
   });
+  // });
 }
 //PUT
-//PlaceHolder - Will Get This From Pug
-function put_data() {
-  let placeholders = 'PLACEHOLDER';
-  let sql = 'INSERT INTO Login VALUES ' + placeholders;
+//put_data('mr', 'jones', 'bla', 'hi');
+
+function put_data(forname, surname, username, password) {
+  data = [forname, surname, username, password];
+  var sql = 'INSERT INTO Login (forename, surname, username, password) VALUES (?,?,?,?)';
 
   // output the INSERT statement
   console.log(sql);
 
-  db.run(sql, placeholders, function (err) {
+  db.run(sql, data, function (err) {
     if (err) {
       return console.error(err.message);
     }
@@ -123,9 +127,9 @@ function put_data() {
   });
 }
 //UPDATE
-//PlaceHolder - Will Get This From Pug
-function update_data() {
-  let data = ['PLACEHOLDER', 'PLACEHOLDER'];
+//update_data('James', 'Jadams') - Example
+function update_data(original, change) {
+  data = [change, original]
   let sql_update = `UPDATE Login
             SET forename = ?
             WHERE forename = ?`;
@@ -139,11 +143,9 @@ function update_data() {
   });
 }
 //DELETE
-//PlaceHolder - Will Get This From Pug
-//Will Give Error As ID Doesn't exist
-function delete_row() {
-  id = 100
-  db.run(`DELETE FROM Login WHERE rowid=?`, id, function (err) {
+function delete_row(id) {
+  //id = 100
+  db.run(`DELETE FROM Login WHERE id=?`, id, function (err) {
     if (err) {
       return console.error(err.message);
     }
