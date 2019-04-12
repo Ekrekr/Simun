@@ -94,54 +94,62 @@ let db = new sqlite3.Database(dbPath, (err) => {
   console.log('Connected to the Login database.');
 });
 //GET
-db.serialize(() => {
-  db.each(`SELECT id,
+function get_data() {
+  db.serialize(() => {
+    db.each(`SELECT id,
                   forename as name
                   FROM Login`, (err, row) => {
-    if (err) {
-      console.error(err.message);
-    }
-    console.log(row.id + "\t" + row.name);
+      if (err) {
+        console.error(err.message);
+      }
+      console.log(row.id + "\t" + row.name);
+    });
   });
-});
+}
 //PUT
 //PlaceHolder - Will Get This From Pug
-let placeholders = 'PLACEHOLDER';
-let sql = 'INSERT INTO Login VALUES ' + placeholders;
+function put_data() {
+  let placeholders = 'PLACEHOLDER';
+  let sql = 'INSERT INTO Login VALUES ' + placeholders;
 
-// output the INSERT statement
-console.log(sql);
+  // output the INSERT statement
+  console.log(sql);
 
-db.run(sql, placeholders, function (err) {
-  if (err) {
-    return console.error(err.message);
-  }
-  console.log(`Rows inserted ${this.changes}`);
-});
+  db.run(sql, placeholders, function (err) {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log(`Rows inserted ${this.changes}`);
+  });
+}
 //UPDATE
 //PlaceHolder - Will Get This From Pug
-let data = ['PLACEHOLDER', 'PLACEHOLDER'];
-let sql_update = `UPDATE Login
+function update_data() {
+  let data = ['PLACEHOLDER', 'PLACEHOLDER'];
+  let sql_update = `UPDATE Login
             SET forename = ?
             WHERE forename = ?`;
 
-db.run(sql_update, data, function (err) {
-  if (err) {
-    return console.error(err.message);
-  }
-  console.log(`Row(s) updated: ${this.changes}`);
+  db.run(sql_update, data, function (err) {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log(`Row(s) updated: ${this.changes}`);
 
-});
+  });
+}
 //DELETE
 //PlaceHolder - Will Get This From Pug
 //Will Give Error As ID Doesn't exist
-id = 100
-db.run(`DELETE FROM Login WHERE rowid=?`, id, function (err) {
-  if (err) {
-    return console.error(err.message);
-  }
-  console.log(`Row(s) deleted ${this.changes}`);
-});
+function delete_row() {
+  id = 100
+  db.run(`DELETE FROM Login WHERE rowid=?`, id, function (err) {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log(`Row(s) deleted ${this.changes}`);
+  });
+}
 
 // close the database connection
 db.close((err) => {
