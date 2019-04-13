@@ -76,12 +76,12 @@ input {
 }
 
 .house {
-  content: url("../assets/images/simon_house.png");
+  content: url("../assets/images/simon_house.svg");
 
   // This is equal to 1080/1920, in order to provide the right ratio
   // Will need to be updated in alter pushes to fix scaling
   width: 0.5625%;
-  
+
   z-index:3;
 }
 

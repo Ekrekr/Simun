@@ -70,8 +70,8 @@ input {
   z-index: 1; }
 
 .house {
-  content: url("../assets/images/simon_house.png");
-  width: 55.20833333%;
+  content: url("../assets/images/simon_house.svg");
+  width: 0.5625%;
   z-index: 3; }
 
 .grass {
