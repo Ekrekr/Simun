@@ -103,8 +103,6 @@ let db = new sqlite3.Database(dbPath, (err) => {
   console.log('Connected to the Login database.')
 })
 // GET
-getData('Login', '1')
-
 function getData(Table, lookup) {
   db.each(`SELECT *
                   FROM ` + Table + `
