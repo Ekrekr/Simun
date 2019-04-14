@@ -8,20 +8,23 @@ var server = http.createServer()
 // Placeholder until real tests are needed. This is how to export functions for
 // testing.
 module.exports = {
-  exampleFunc: function exampleFunc(input) {
+  exampleFunc: function exampleFunc (input) {
     return !input
   },
-  putData: function putData(input) {
+  putData: function putData (input) {
     return input
   },
-  getData: function getData(input) {
+  getData: function getData (input) {
     return input
   },
-  updateData: function updateData(input) {
+  updateData: function updateData (input) {
     return input
   },
-  deleteData: function deleteData(input) {
+  deleteData: function deleteData (input) {
     return input
+  },
+  connectToServer: function connectToServer () {
+
   }
 }
 
@@ -85,10 +88,13 @@ app.get('/', (req, res) => {
     // user: 'something'
   })
 })
+connectToServer()
 
-const servers = app.listen(7000, () => {
-  console.log(`Express running → PORT ${server.address()}`)
-})
+function connectToServer () {
+  app.listen(7000, () => {
+    console.log(`Express running → PORT ${server.address()}`)
+  })
+}
 
 /*****************************************/
 /*              Database                */
@@ -103,7 +109,7 @@ let db = new sqlite3.Database(dbPath, (err) => {
   console.log('Connected to the Login database.')
 })
 // GET
-function getData(Table, lookup) {
+function getData (Table, lookup) {
   db.each(`SELECT *
                   FROM ` + Table + `
                   WHERE id = ?`, lookup, (err, row) => {
@@ -117,10 +123,10 @@ function getData(Table, lookup) {
   // });
 }
 // PUT
-function putData(Table, forname, surname, username, password) {
+function putData (Table, forname, surname, username, password) {
   data = [forname, surname, username, password]
   var sqlPut = `INSERT INTO ` + Table + ` (forename, surname, username, password) VALUES (?,?,?,?)`
-  console.log(sql)
+  console.log(sqlPut)
 
   db.run(sqlPut, data, function (err) {
     if (err) {
@@ -130,7 +136,7 @@ function putData(Table, forname, surname, username, password) {
   })
 }
 // UPDATE
-function updateData(Table, lookup, change) {
+function updateData (Table, lookup, change) {
   data = [change, lookup]
   let sqlUpdate = `UPDATE ` + Table +
     `SET forename = ?
@@ -144,7 +150,7 @@ function updateData(Table, lookup, change) {
   })
 }
 // DELETE
-function deleteRow(Table, lookup) {
+function deleteRow (Table, lookup) {
   db.run(`DELETE FROM ` + Table + ` WHERE id=?`, lookup, function (err) {
     if (err) {
       return console.error(err.message)

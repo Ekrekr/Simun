@@ -14,6 +14,8 @@ describe('server.exampleFunc()', function () { // eslint-disable-line
     var expectA = true
     var expectB = false
 
+    var resultA = server.exampleFunc(false)
+    var resultB = server.exampleFunc(true)
     // 3. ASSERT
     expect(resultA).to.be.equal(expectA)
     expect(resultB).to.be.equal(expectB)
@@ -49,5 +51,12 @@ describe('server.deleteData()', function () {
     var expectF = `Row(s) deleted: 1`
     var resultF = server.deleteData('Login', '2')
     expect(resultF).to.be.equal(expectF)
+  })
+})
+describe('server.connectToServer()', function () {
+  it('should return the output described', function () {
+    var expectG = `Express running → PORT NULL`
+    var resultG = server.connectToServer()
+    expect(resultG).to.be.equal(expectG)
   })
 })
