@@ -1,65 +1,82 @@
 /* Colours ------------------------------------------------------------------ */
 .color-central {
-  color: #054a91; }
+  color: #054a91;
+}
 
 .color-harsh {
-  color: #161a15; }
+  color: #161a15;
+}
 
 .color-plain {
-  color: #E9E5EA; }
+  color: #E9E5EA;
+}
 
 .color-highlight1 {
-  color: #ff521b; }
+  color: #ff521b;
+}
 
 .color-highlight2 {
-  color: #e6a065; }
+  color: #e6a065;
+}
 
 .color-highlight3 {
-  color: #f2f3ae; }
+  color: #f2f3ae;
+}
 
 /* Fonts -------------------------------------------------------------------- */
 @font-face {
-  font-family: 'GlacialIndifference';
-  src: url("fonts/glacial-indifference/GlacialIndifference-Regular.otf") format("opentype"); }
+  font-family: "GlacialIndifference";
+  src: url("fonts/glacial-indifference/GlacialIndifference-Regular.otf") format("opentype");
+}
 @font-face {
-  font-family: 'GlacialIndifference';
+  font-family: "GlacialIndifference";
   src: url("fonts/glacial-indifference/GlacialIndifference-Bold.otf") format("opentype");
-  font-weight: bold; }
+  font-weight: bold;
+}
 @font-face {
-  font-family: 'GlacialIndifference';
+  font-family: "GlacialIndifference";
   src: url("fonts/glacial-indifference/GlacialIndifference-Italic.otf") format("opentype");
-  font-weight: italic; }
+  font-weight: italic;
+}
 @font-face {
-  font-family: 'OpenSans';
-  src: url("fonts/open-sans/OpenSans-Regular.ttf") format("truetype"); }
+  font-family: "OpenSans";
+  src: url("fonts/open-sans/OpenSans-Regular.ttf") format("truetype");
+}
 @font-face {
-  font-family: 'OpenSans';
+  font-family: "OpenSans";
   src: url("fonts/open-sans/OpenSans-Bold.ttf") format("truetype");
-  font-weight: bold; }
+  font-weight: bold;
+}
 @font-face {
-  font-family: 'OpenSans';
+  font-family: "OpenSans";
   src: url("fonts/open-sans/OpenSans-Italic.ttf") format("truetype");
-  font-weight: italic; }
+  font-weight: italic;
+}
 /* Text styles -------------------------------------------------------------- */
 body {
   font-family: GlacialIndifference;
   text-align: center;
-  width: 100%; }
+  width: 100%;
+}
 
 h1, h2, h3, h4 {
-  font-family: GlacialIndifference; }
+  font-family: GlacialIndifference;
+}
 
 p {
   font-family: OpenSans;
-  color: #161a15; }
+  color: #161a15;
+}
 
 input {
   text-align: center;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+}
 
 /* Graphics ----------------------------------------------------------------- */
 .index-bg {
-  overflow: hidden; }
+  overflow: hidden;
+}
 
 .sky {
   content: url("../assets/images/sky_background.png");
@@ -67,12 +84,14 @@ input {
   top: 0;
   left: 0;
   height: 52%;
-  z-index: 1; }
+  z-index: 1;
+}
 
 .house {
   content: url("../assets/images/simon_house.png");
   width: 55.20833333%;
-  z-index: 3; }
+  z-index: 3;
+}
 
 .grass {
   content: url("../assets/images/grass_field.png");
@@ -81,7 +100,8 @@ input {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 2; }
+  z-index: 2;
+}
 
 .driveway {
   content: url("../assets/images/driveway.png");
@@ -90,7 +110,8 @@ input {
   left: 13%;
   width: 76%;
   height: 40%;
-  z-index: 2; }
+  z-index: 2;
+}
 
 .mailbox {
   content: url("../assets/images/mailbox.png");
@@ -99,11 +120,13 @@ input {
   left: 13%;
   width: 8%;
   height: auto;
-  z-index: 3; }
+  z-index: 3;
+}
 
 .mailbox:hover {
   animation: shake 0.2s;
-  animation-iteration-count: infinite; }
+  animation-iteration-count: infinite;
+}
 
 /* Generic Classes ---------------------------------------------------------- */
 .footer {
@@ -112,22 +135,26 @@ input {
   left: 0;
   bottom: 0;
   z-index: 4;
-  text-align: center; }
+  text-align: center;
+}
 
 .fully-centered {
   position: fixed;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%); }
+  transform: translate(-50%, -50%);
+}
 
 .foreground-box {
   padding: 10px 10px 10px 10px;
-  z-index: 4; }
+  z-index: 4;
+}
 
 .top-left {
   position: fixed;
   left: 1%;
-  top: 1%; }
+  top: 1%;
+}
 
 /* Menu Bar ----------------------------------------------------------------- */
 .simon_logo {
@@ -138,17 +165,23 @@ input {
   width: 5%;
   height: auto;
   border-radius: 30px 0px 0px 30px;
-  z-index: 3; }
+  z-index: 3;
+}
 
 /* Animations --------------------------------------------------------------- */
 @keyframes shake {
   0% {
-    transform: translate(0%, 0%) rotate(0deg); }
+    transform: translate(0%, 0%) rotate(0deg);
+  }
   25% {
-    transform: translate(-2%, 0%) rotate(-1deg); }
+    transform: translate(-2%, 0%) rotate(-1deg);
+  }
   75% {
-    transform: translate(2%, 0%) rotate(1deg); }
+    transform: translate(2%, 0%) rotate(1deg);
+  }
   100% {
-    transform: translate(0%, 0%) rotate(0deg); } }
+    transform: translate(0%, 0%) rotate(0deg);
+  }
+}
 
 /*# sourceMappingURL=style.css.map */
