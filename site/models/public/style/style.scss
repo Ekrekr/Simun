@@ -1,18 +1,18 @@
 /* Colours ------------------------------------------------------------------ */
 
-$color-central:    #054a91;
-$color-harsh:      #161a15;
-$color-plain:      #E9E5EA;
-$color-highlight1: #ff521b;
-$color-highlight2: #e6a065;
-$color-highlight3: #f2f3ae;
+$color-black:         #000000;
+$color-dark:  #2f4550;
+$color-primary:       #586f7c;
+$color-light: #b8dbd9;
+$color-white:         #f4f4f9;
+$color-shadow:        #00000080;
 
-.color-central    { color: $color-central; }
-.color-harsh      { color: $color-harsh; }
-.color-plain      { color: $color-plain; }
-.color-highlight1 { color: $color-highlight1; }
-.color-highlight2 { color: $color-highlight2; }
-.color-highlight3 { color: $color-highlight3; }
+.color-black    { color: $color-black; }
+.color-dark     { color: $color-dark; }
+.color-primary  { color: $color-primary; }
+.color-light    { color: $color-light; }
+.color-white    { color: $color-white; }
+.color-shadow   { color: $color-shadow; }
 
 /* Fonts -------------------------------------------------------------------- */
 
@@ -20,11 +20,11 @@ $color-highlight3: #f2f3ae;
   font-family: 'GlacialIndifference';
   src: url("fonts/glacial-indifference/GlacialIndifference-Regular.otf") format("opentype"); }
 @font-face {
-  font-family: 'GlacialIndifference';
+  font-family: 'GlacialIndifferenceBold';
   src: url("fonts/glacial-indifference/GlacialIndifference-Bold.otf") format("opentype");
   font-weight: bold; }
 @font-face {
-  font-family: 'GlacialIndifference';
+  font-family: 'GlacialIndifferenceItalic';
   src: url("fonts/glacial-indifference/GlacialIndifference-Italic.otf") format("opentype");
   font-weight: italic; }
 @font-face {
@@ -40,8 +40,10 @@ $color-highlight3: #f2f3ae;
   font-weight: italic; }
 
 /* Text styles -------------------------------------------------------------- */
+
 body {
   font-family: GlacialIndifference;
+  -webkit-font-smoothing: antialiased;
   text-align: center;
   width: 100%;
 }
@@ -52,7 +54,7 @@ h1, h2, h3, h4 {
 
 p {
   font-family: OpenSans;
-  color: $color-harsh;
+  color: $color-black;
 }
 
 input {
@@ -60,67 +62,82 @@ input {
   margin-bottom: 10px;
 }
 
-/* Graphics ----------------------------------------------------------------- */
+/* Generic Classes -------------------------------------------------- */
 
-.index-bg {
-  overflow: hidden;
+.simon-logo {
+  content: url("../assets/images/simon-logo.png");
+  display: block;
+  height: 48px;
+  margin: 12px;
+  width: 48px;
+  box-sizing: border-box;
+  z-index: 3;
 }
 
-.sky {
-  content: url("../assets/images/sky_background.png");
-  position: absolute;
+.simon-postbox {
+  content: url("../assets/images/mailbox.png");
+  display: block;
+  height: 64px;
+  margin: 8px;
+  width: 64px;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+/* Header bar -------------------------------------------------- */
+
+header {
+  position: fixed;
   top: 0;
   left: 0;
-  height: 52%;
-  z-index:1;
-}
-
-.house {
-  content: url("../assets/images/simon_house.svg");
-
-  // This is equal to 1080/1920, in order to provide the right ratio
-  // Will need to be updated in alter pushes to fix scaling
-  width: 0.5625%;
-
-  z-index:3;
-}
-
-.grass {
-  content: url("../assets/images/grass_field.png");
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  z-index:2;
+  background-color: $color-dark;
+  box-shadow: 0 2px 4px $color-shadow;
+  display: flex;
+  justify-content: space-between;
+  z-index: 4;
+
+  ul {
+    list-style: none;
+    margin-right: 32px;
+  }
+
+  li {
+    font-family: GlacialIndifferenceBold;
+    text-align: center;
+    float: left;
+    margin-left: 24px;
+    margin-right: 24px;
+
+    a {
+      font-size: 22px;
+      color: $color-primary;
+      display: inline-block;
+      line-height: 36px;
+      position: relative;
+      text-decoration: none;
+
+      .light {
+        color: $color-light;
+      }
+    }
+  }
+
 }
 
-.driveway {
-  content: url("../assets/images/driveway.png");
-  position: absolute;
+// For holding all the different snippets that one can choose to view.
+.snippet-select-bar {
+  position: fixed;
+  width: 33%;
+  left: 0;
   bottom: 0;
-  left: 13%;
-  width: 76%;
-  height: 40%;
-  z-index:2;
 }
 
-.mailbox {
-  content: url("../assets/images/mailbox.png");
-  position: absolute;
-  bottom: 10%;
-  left: 13%;
-  width: 8%;
-  height: auto;
-  z-index:3;
+// Snippet that fits in the snippet-select-bar
+.snippet-item {
+  width: 90%;
+  height: 90%;
 }
-
-.mailbox:hover {
-  animation: shake 0.2s;
-  animation-iteration-count: infinite;
-}
-
-/* Generic Classes ---------------------------------------------------------- */
 
 .footer {
   position: fixed;
@@ -131,36 +148,6 @@ input {
   text-align: center;
 }
 
-.fully-centered {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.foreground-box {
-  padding: 10px 10px 10px 10px;
-  z-index: 4;
-}
-
-.top-left {
-  position: fixed;
-  left: 1%;
-  top: 1%;
-}
-
-/* Menu Bar ----------------------------------------------------------------- */
-
-.simon_logo {
-  content: url("../assets/images/simon_logo.svg");
-  position: absolute;
-  top: 10%;
-  right: 0%;
-  width: 5%;
-  height: auto;
-  border-radius: 30px 0px 0px 30px;
-  z-index:3;
-}
 
 /* Animations --------------------------------------------------------------- */
 

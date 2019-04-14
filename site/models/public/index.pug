@@ -1,35 +1,22 @@
 doctype html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
 
-include menu.pug
+include tools.pug
 
 html(lang=lang)
-  head
-    link(rel="shortcut icon", href="assets/favicon.ico")
-    link(rel="stylesheet", href="style/style.css")
-    title Index
-    meta(charset="unicode")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
-  body.index-bg(scroll="no")
-    header
-      p My soon to be menu
-    
-    // Image construction
-    div.sky
-    div.grass
-    div.house.fully-centered
-    div.driveway
-    div.mailbox
-    
-    // Menu bar
-    
-    // Temporary text
-    div.foreground-box.top-left
-      p.color-harsh Graphics temporary
-      p.color-harsh Will be replaced with stylised lightweight SVGs
-    
-    // aside.menu.outside
-    //  a.toggle: img(src='/images/menu-tab.svg')
-    //  +menu
+  +create-head
 
-    p.footer.color-highlight3 Copyright © - All Rights Reserved - Elias Kassell Raymond. 
-      a.color-highlight3(href='https://www.gnu.org/licenses/gpl-3.0.en.html') Licensed under Gnu GPLv3
+  body.index-bg(scroll="no")
+
+    // Big bar on top with navigation utilities.
+    header
+      a.simon-logo(href="index.html")
+      //- div.simon-postbox
+      ul
+        li
+          a.color-light(href="receive.html") Receive
+        li
+          a.color-light(href="send.html") Send
+        li.nav-item
+          a.color-light(href="stats.html") Stats
+  
+  +create-footer
