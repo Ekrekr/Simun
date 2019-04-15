@@ -9,8 +9,8 @@ html(lang=lang)
 
     // Big bar on top with navigation utilities.
     header
-      a.simon-logo(href="index.html")
-      //- div.simon-postbox
+      a(href="index.html")
+        logo
       ul
         li
           a.color-light(href="receive.html") Receive
@@ -23,19 +23,26 @@ html(lang=lang)
 
       snippet-list
         row 
-          snippet-small(href="index.html")
+          snippet.active(href="index.html")
             info
               description Example Snippet
               br
               from jhon
             img(src="assets/images/snippet-example-1.png")
         row
-          snippet-small(href="index.html")
+          snippet(href="index.html")
             info
               description Example snippet with a long description of length 64 characters.
               br
               from jhon
             img(src="assets/images/snippet-example-2.png")
+      
+      snippet-selected
+        info
+          description Example Snippet
+          br
+          from jhon
+        img(src="assets/images/snippet-example-1.png")
     
   
   +create-footer

@@ -60,7 +60,7 @@ p {
 }
 
 small {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 input {
@@ -68,26 +68,10 @@ input {
   margin-bottom: 10px;
 }
 
-/* Generic Classes -------------------------------------------------- */
+/* Generic Classes -------------------------------------------------- */  
 
-.simon-logo {
-  content: url("../assets/images/simon-logo.png");
-  display: block;
-  height: 48px;
-  margin: 12px;
-  width: 48px;
-  box-sizing: border-box;
-  z-index: 3;
-}
-
-.simon-postbox {
-  content: url("../assets/images/mailbox.png");
-  display: block;
-  height: 64px;
-  margin: 8px;
-  width: 64px;
-  box-sizing: border-box;
-  z-index: 3;
+.active {
+  background-color: $color-light;
 }
 
 /* Animations --------------------------------------------------------------- */
@@ -112,6 +96,16 @@ header {
   display: flex;
   justify-content: space-between;
   z-index: 3;
+
+  logo {
+    content: url("../assets/images/simon-logo.png");
+    display: block;
+    height: 48px;
+    margin: 12px;
+    width: 48px;
+    box-sizing: border-box;
+    z-index: 3;
+  }
 
   ul {
     list-style: none;
@@ -148,6 +142,43 @@ footer {
 
 /* Page Specifics -------------------------------------------------- */
 
+home {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 80px 5px 5px 5px;
+  background-color: $color-white;
+  border-radius: 6px;
+  padding: 10px;
+
+  house {
+    content: url("../assets/images/simon-logo.png");
+    display: block;
+    position: absolute;
+    left: 42.5%;
+    top: 32.5%;
+    height: 15%;
+    width: auto;
+    box-sizing: border-box;
+    z-index: 5;
+  }
+
+  postbox {
+    content: url("../assets/images/postbox.png");
+    display: block;
+    position: absolute;
+    left: 40%;
+    top: 40%;
+    height: 7.5%;
+    width: auto;
+    box-sizing: border-box;
+    z-index: 5;
+  }
+}
+
 receive {
   background-color: $color-dark;
 
@@ -155,7 +186,7 @@ receive {
     margin: 75px 4px 0px 0px;
     display: table;
     border-collapse: collapse;
-    width: 390px; 
+    width: 28%; 
     background-color: $color-dark;
 
     row {
@@ -163,16 +194,16 @@ receive {
       column-span: 2;
     }
 
-    snippet-small {
+    snippet {
       display: table-cell;
-      width: 350px;
-      background-color: $color-light;
+      width: 26%;
+      background-color: $color-primary;
       border: 5px solid $color-dark;
       border-radius: 15px;
       padding: 10px;
 
       info {
-        width: 240px;
+        width: 55%;
         float: left;
         text-align: left;
         display: block;
@@ -190,12 +221,33 @@ receive {
       }
 
       img {
-        width: 100px;
+        width: 40%;
         height: auto;
         max-height: 200px;
         float: right;
         display: block;
       }
+    }
+  }
+
+  snippet-selected {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 28%;
+    right: 0;
+    bottom: 0;
+    margin: 80px 5px 5px 5px;
+    background-color: $color-white;
+    border-radius: 6px;
+    padding: 10px;
+
+    img {
+      width: 100px;
+      height: auto;
+      max-height: 200px;
+      float: right;
+      display: block;
     }
   }
 }
