@@ -68,7 +68,7 @@ h1, h2, h3, h4 {
 }
 
 p {
-  color: #000000;
+  color: #2f4550;
 }
 
 a {
@@ -86,7 +86,6 @@ input {
 
 img {
   image-rendering: auto;
-  image-rendering: pixelated;
 }
 
 /* Generic Classes -------------------------------------------------- */
@@ -188,7 +187,7 @@ home {
   left: 0;
   right: 0;
   bottom: 0;
-  margin: 80px 5px 5px 5px;
+  margin: 80px 3px 3px 3px;
   background-color: #b8dbd9;
   border-radius: 6px;
   padding: 10px;
@@ -251,8 +250,8 @@ home text-box arrow-right {
   position: absolute;
   display: block;
   top: 70%;
-  left: 88%;
-  width: 12%;
+  left: 56%;
+  width: 10%;
   height: auto;
   z-index: 6;
   margin: 2%;
@@ -264,7 +263,7 @@ home text-box arrow-left {
   position: absolute;
   display: block;
   top: 70%;
-  left: 7%;
+  left: 41%;
   width: 10%;
   height: auto;
   z-index: 6;
@@ -278,21 +277,22 @@ receive {
 receive snippet-list {
   margin: 78px 4px 0px 0px;
   display: table;
-  border-collapse: collapse;
   width: 28%;
   background-color: #2f4550;
+  border-collapse: separate;
+  border-spacing: 1.5px 1.5px;
 }
 receive snippet-list row {
   display: table-row;
   column-span: 2;
+  margin-bottom: 10x;
 }
 receive snippet-list snippet {
   display: table-cell;
   width: 26%;
   background-color: #586f7c;
-  border: 3px solid #2f4550;
-  border-radius: 15px;
   padding: 10px;
+  border-radius: 6px;
 }
 receive snippet-list snippet info {
   width: 55%;
@@ -328,12 +328,75 @@ receive snippet-selected {
   border-radius: 6px;
   padding: 10px;
 }
-receive snippet-selected img {
-  width: 100px;
-  height: auto;
-  max-height: 200px;
-  float: right;
+receive snippet-selected info description {
   display: block;
+  position: absolute;
+  text-align: center;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  font-family: GlacialIndifferenceBold;
+}
+receive snippet-selected info from {
+  display: block;
+  position: absolute;
+  text-align: center;
+  left: 50%;
+  top: 79%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  font-family: GlacialIndifferenceItalic;
+}
+receive snippet-selected img {
+  display: block;
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 60%;
+  width: auto;
+  max-width: 95%;
+}
+receive snippet-selected report {
+  content: url("../assets/images/report.png");
+  display: block;
+  position: absolute;
+  height: 5%;
+  width: auto;
+  right: 6px;
+  top: 6px;
+}
+receive snippet-selected control-box {
+  display: block;
+  position: absolute;
+  background-color: #586f7c;
+  height: 8%;
+  width: 20%;
+  top: 88%;
+  left: 50%;
+  border-radius: 12px;
+  transform: translate(-50%, -50%);
+}
+receive snippet-selected control-box trash-it {
+  content: url("../assets/images/bin.png");
+  display: block;
+  position: absolute;
+  height: 70%;
+  width: auto;
+  top: 50%;
+  left: 10%;
+  transform: translate(0%, -50%);
+}
+receive snippet-selected control-box forward-it {
+  content: url("../assets/images/plane-mail.png");
+  display: block;
+  height: 70%;
+  width: auto;
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translate(0%, -50%);
 }
 
 /*# sourceMappingURL=style.css.map */
