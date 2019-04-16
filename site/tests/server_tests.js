@@ -4,16 +4,9 @@
 // * All tests should follow the arrange, act then assert structure.
 // * npm standard reports `describe` and `it` to not be defined so have warnings
 //      disabled for those specific lines.
-// import getData from '../server/server'
 var expect = require('chai').expect
 var server = require('../server/server.js')
-// const sqlite3 = require('sqlite3').verbose()
-// const dbPath = path.resolve(__dirname, '../database/database.db')
-// let db = server.connectDatabase()
-// server.getData('Login', '1').then(function (err, result) {
-//   if (err) console.log(err)
-//   else console.log(result)
-// })
+
 describe('server.exampleFunc()', function () { // eslint-disable-line
   it('should return the opposite belief of the input', function () { // eslint-disable-line
     // 1. ARRANGE

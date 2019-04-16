@@ -1,11 +1,7 @@
 var http = require('http')
-
-// Called every time a request is received by the server. Receives and emits
-// actions as a consequence. Event interfaces are:
-// 'connect', 'connection', 'request', and 'upgrade'.
 var server = http.createServer()
-// Placeholder until real tests are needed. This is how to export functions for
-// testing.
+
+// Export functions
 module.exports = {
   connectDatabase: function connectDatabase () {},
   exampleFunc: function exampleFunc (input) {
@@ -14,8 +10,7 @@ module.exports = {
   putData: putData,
   getData: getData,
   updateData: updateData,
-  deleteRow: deleteRow,
-  connectToServer: function connectToServer () {}
+  deleteRow: deleteRow
 }
 
 // request - Emitted for Each request from the client (We would listen here).
@@ -65,7 +60,6 @@ server.on('upgrade', (request, response) => {})
 var path = require('path')
 
 const express = require('express')
-// const people = require('./people.json');
 
 const app = express()
 
@@ -88,7 +82,7 @@ function connectToServer () {
 }
 
 /*****************************************/
-/*              Database                */
+/*              DATABASE                 */
 /*****************************************/
 const sqlite3 = require('sqlite3').verbose()
 const dbPath = path.resolve(__dirname, '../database/database.db')
@@ -102,9 +96,9 @@ function connectDatabase () {
   })
 }
 let db = connectDatabase()
+
 // GET
 function getData (Table, lookup) {
-  // console.log('Gets Here')
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
       db.all(`SELECT *
@@ -119,6 +113,7 @@ function getData (Table, lookup) {
     })
   })
 }
+
 // PUT
 function putData (Table, forname, surname, username, password) {
   var data = [forname, surname, username, password]
@@ -130,10 +125,10 @@ function putData (Table, forname, surname, username, password) {
       } else {
         resolve(`Rows inserted ${this.changes}`)
       }
-      // console.log(putResult)
     })
   })
 }
+
 // UPDATE
 function updateData (Table, lookup, change) {
   let data = [change, lookup]
@@ -152,7 +147,6 @@ function updateData (Table, lookup, change) {
 }
 
 // DELETE
-// Lookup all tables
 function deleteRow (Table, lookup) {
   return new Promise(function (resolve, reject) {
     db.run(`DELETE FROM ` + Table + ` WHERE forename=?`, lookup, function (err) {
@@ -171,5 +165,3 @@ function deleteRow (Table, lookup) {
 //     return console.error(err.message)
 //   }
 // })
-
-// module.exports = getData
