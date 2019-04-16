@@ -1,16 +1,16 @@
 var http = require('http')
-
-// Called every time a request is received by the server. Receives and emits
-// actions as a consequence. Event interfaces are:
-// 'connect', 'connection', 'request', and 'upgrade'.
 var server = http.createServer()
 
-// Placeholder until real tests are needed. This is how to export functions for
-// testing.
+// Export functions
 module.exports = {
+  connectDatabase: function connectDatabase () {},
   exampleFunc: function exampleFunc (input) {
     return !input
-  }
+  },
+  putData: putData,
+  getData: getData,
+  updateData: updateData,
+  deleteRow: deleteRow
 }
 
 // request - Emitted for Each request from the client (We would listen here).
@@ -43,43 +43,125 @@ server.on('request', (request, response) => {
 server.on('error', console.error)
 
 // connect - Raised for all the ‘connect’ request by the HTTP client.
-server.on('connect', (request, response) => {
-})
+server.on('connect', (request, response) => {})
 
 // connection - Emitted when a new TCP stream is established. Provide access to
 // the socket established.
-server.on('connection', (request, response) => {
-})
+server.on('connection', (request, response) => {})
 
 // upgrade -  each time a client requests an upgrade of the protocol (can be
 // HTTP version).
-server.on('upgrade', (request, response) => {
-})
+server.on('upgrade', (request, response) => {})
 
-server.listen(8008, () => {
-  console.log('Server listening at 8008')
-})
-
-// Express Server Integration
-var express = require('express')
-
-var app = express()
+/*****************************************/
+/*               SERVER                  */
+/*****************************************/
 
 var path = require('path')
 
-// Gets the file from the selected root directory
-app.get('/', function (req, res) {
-  res.sendFile('login.html', { root: path.join(__dirname, '/../public') })
+const express = require('express')
+
+const app = express()
+
+app.set('views', path.join(__dirname, '../models/public/views'))
+app.set('view engine', 'pug')
+
+app.get('/', (req, res) => {
+  res.render('index', {
+    title: 'Homepage'
+    // user: 'something'
+  })
 })
 
-// Location that the express server has been started at
-app.listen(8000, function () {
-  console.log('Express server started')
-})
+connectToServer()
 
-// Called by express.static.  Deliver response as XHTML.
-function deliverXHTML (res, path, stat) {
-  if (path.endsWith('.html')) {
-    res.header('Content-Type', 'application/xhtml+xml')
-  }
+function connectToServer () {
+  app.listen(7000, () => {
+    console.log(`Express running → PORT ${server.address()}`)
+  })
 }
+
+/*****************************************/
+/*              DATABASE                 */
+/*****************************************/
+const sqlite3 = require('sqlite3').verbose()
+const dbPath = path.resolve(__dirname, '../database/database.db')
+
+function connectDatabase () {
+  return new sqlite3.Database(dbPath, (err) => {
+    if (err) {
+      console.error(err.message)
+    }
+    console.log('Connected to the Login database.')
+  })
+}
+let db = connectDatabase()
+
+// GET
+function getData (Table, lookup) {
+  return new Promise(function (resolve, reject) {
+    db.serialize(function () {
+      db.all(`SELECT *
+                  FROM ` + Table + `
+                  WHERE id = ?`, lookup, function (err, rows) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(rows)
+        }
+      })
+    })
+  })
+}
+
+// PUT
+function putData (Table, forname, surname, username, password) {
+  var data = [forname, surname, username, password]
+  var sqlPut = `INSERT INTO ` + Table + ` (forename, surname, username, password) VALUES (?,?,?,?)`
+  return new Promise(function (resolve, reject) {
+    db.run(sqlPut, data, function (err, result) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(`Rows inserted ${this.changes}`)
+      }
+    })
+  })
+}
+
+// UPDATE
+function updateData (Table, lookup, change) {
+  let data = [change, lookup]
+  let sqlUpdate = `UPDATE Login
+    SET forename = ?
+    WHERE forename = ?`
+  return new Promise(function (resolve, reject) {
+    db.run(sqlUpdate, data, function (err) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(`Row(s) updated: ${this.changes}`)
+      }
+    })
+  })
+}
+
+// DELETE
+function deleteRow (Table, lookup) {
+  return new Promise(function (resolve, reject) {
+    db.run(`DELETE FROM ` + Table + ` WHERE forename=?`, lookup, function (err) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(`Row(s) deleted ${this.changes}`)
+      }
+    })
+  })
+}
+
+// close the database connection
+// db.close((err) => {
+//   if (err) {
+//     return console.error(err.message)
+//   }
+// })
