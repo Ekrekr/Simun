@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 // server_test.js
 // Runs all server tests.
 // Note:
@@ -13,8 +14,8 @@ describe('server.exampleFunc()', function () { // eslint-disable-line
     var resultA = server.exampleFunc(false)
     var resultB = server.exampleFunc(true)
     // 3. ASSERT
-    expect(resultA).to.be.true
-    expect(resultB).to.be.false
+    expect(resultA).to.be.equal(true)
+    expect(resultB).to.be.equal(false)
   })
 })
 describe('server.getData()', function () {
@@ -37,7 +38,7 @@ describe('server.getData()', function () {
 describe('server.putData()', function () {
   it('should return the output described', function () {
     var expectD = `Row(s) inserted: 1`
-    let resultD = server.putData('Login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (err, result) {
+    server.putData('Login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectD)
       }
@@ -57,7 +58,7 @@ describe('server.updateData()', function () {
 describe('server.deleteRow()', function () {
   it('should return the output described', function () {
     var expectF = `Row(s) deleted: 1`
-    let resultF = server.deleteRow('Login', 'TestForename').then(function (err, result) {
+    server.deleteRow('Login', 'TestForename').then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectF)
       }
