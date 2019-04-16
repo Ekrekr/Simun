@@ -71,6 +71,10 @@ p {
   color: #000000;
 }
 
+a {
+  color: #000000;
+}
+
 small {
   font-size: 10px;
 }
@@ -91,13 +95,18 @@ input {
     transform: translate(0%, 0%) rotate(0deg);
   }
   25% {
-    transform: translate(-2%, 0%) rotate(-1deg);
+    transform: translate(-4%, 0%) rotate(-2deg);
   }
   75% {
-    transform: translate(2%, 0%) rotate(1deg);
+    transform: translate(4%, 0%) rotate(2deg);
   }
   100% {
     transform: translate(0%, 0%) rotate(0deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
   }
 }
 /* Header and Footer Bars -------------------------------------------------- */
@@ -158,7 +167,7 @@ home {
   right: 0;
   bottom: 0;
   margin: 80px 5px 5px 5px;
-  background-color: #f4f4f9;
+  background-color: #b8dbd9;
   border-radius: 6px;
   padding: 10px;
 }
@@ -166,9 +175,10 @@ home house {
   content: url("../assets/images/simon-logo.png");
   display: block;
   position: absolute;
-  left: 42.5%;
-  top: 32.5%;
-  height: 15%;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  height: 20%;
   width: auto;
   box-sizing: border-box;
   z-index: 5;
@@ -177,19 +187,45 @@ home postbox {
   content: url("../assets/images/postbox.png");
   display: block;
   position: absolute;
-  left: 40%;
-  top: 40%;
+  left: 39%;
+  top: 44.5%;
   height: 7.5%;
   width: auto;
   box-sizing: border-box;
   z-index: 5;
+}
+home postbox:hover {
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+}
+home mail {
+  content: url("../assets/images/simon-mail.png");
+  display: block;
+  position: absolute;
+  left: 59%;
+  top: 45%;
+  height: 3%;
+  width: auto;
+  z-index: 5;
+  animation: spin 10s linear infinite;
+}
+home info-text {
+  display: block;
+  position: absolute;
+  top: 60%;
+  left: 30%;
+  right: 30%;
+  bottom: 20%;
+  background-color: #2f4550;
+  border-radius: 6px;
+  padding: 10px;
 }
 
 receive {
   background-color: #2f4550;
 }
 receive snippet-list {
-  margin: 75px 4px 0px 0px;
+  margin: 78px 4px 0px 0px;
   display: table;
   border-collapse: collapse;
   width: 28%;
@@ -203,7 +239,7 @@ receive snippet-list snippet {
   display: table-cell;
   width: 26%;
   background-color: #586f7c;
-  border: 5px solid #2f4550;
+  border: 3px solid #2f4550;
   border-radius: 15px;
   padding: 10px;
 }
@@ -236,8 +272,8 @@ receive snippet-selected {
   left: 28%;
   right: 0;
   bottom: 0;
-  margin: 80px 5px 5px 5px;
-  background-color: #f4f4f9;
+  margin: 80px 3px 3px 3px;
+  background-color: #b8dbd9;
   border-radius: 6px;
   padding: 10px;
 }
