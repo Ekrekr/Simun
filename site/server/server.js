@@ -7,15 +7,15 @@ var server = http.createServer()
 // Placeholder until real tests are needed. This is how to export functions for
 // testing.
 module.exports = {
-  connectDatabase: function connectDatabase() {},
-  exampleFunc: function exampleFunc(input) {
+  connectDatabase: function connectDatabase () {},
+  exampleFunc: function exampleFunc (input) {
     return !input
   },
   putData: putData,
   getData: getData,
   updateData: updateData,
   deleteRow: deleteRow,
-  connectToServer: function connectToServer() {}
+  connectToServer: function connectToServer () {}
 }
 
 // request - Emitted for Each request from the client (We would listen here).
@@ -81,7 +81,7 @@ app.get('/', (req, res) => {
 
 connectToServer()
 
-function connectToServer() {
+function connectToServer () {
   app.listen(7000, () => {
     console.log(`Express running → PORT ${server.address()}`)
   })
@@ -93,7 +93,7 @@ function connectToServer() {
 const sqlite3 = require('sqlite3').verbose()
 const dbPath = path.resolve(__dirname, '../database/database.db')
 
-function connectDatabase() {
+function connectDatabase () {
   return new sqlite3.Database(dbPath, (err) => {
     if (err) {
       console.error(err.message)
@@ -103,10 +103,7 @@ function connectDatabase() {
 }
 let db = connectDatabase()
 // GET
-
-var getResult = []
-
-function getData(Table, lookup) {
+function getData (Table, lookup) {
   // console.log('Gets Here')
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
@@ -123,8 +120,8 @@ function getData(Table, lookup) {
   })
 }
 // PUT
-function putData(Table, forname, surname, username, password) {
-  data = [forname, surname, username, password]
+function putData (Table, forname, surname, username, password) {
+  var data = [forname, surname, username, password]
   var sqlPut = `INSERT INTO ` + Table + ` (forename, surname, username, password) VALUES (?,?,?,?)`
   return new Promise(function (resolve, reject) {
     db.run(sqlPut, data, function (err, result) {
@@ -138,9 +135,7 @@ function putData(Table, forname, surname, username, password) {
   })
 }
 // UPDATE
-var updateResult = ''
-
-function updateData(Table, lookup, change) {
+function updateData (Table, lookup, change) {
   let data = [change, lookup]
   let sqlUpdate = `UPDATE Login
     SET forename = ?
@@ -156,12 +151,9 @@ function updateData(Table, lookup, change) {
   })
 }
 
-
 // DELETE
 // Lookup all tables
-var deleteResult = ''
-
-function deleteRow(Table, lookup) {
+function deleteRow (Table, lookup) {
   return new Promise(function (resolve, reject) {
     db.run(`DELETE FROM ` + Table + ` WHERE forename=?`, lookup, function (err) {
       if (err) {
@@ -174,10 +166,10 @@ function deleteRow(Table, lookup) {
 }
 
 // close the database connection
-db.close((err) => {
-  if (err) {
-    return console.error(err.message)
-  }
-})
+// db.close((err) => {
+//   if (err) {
+//     return console.error(err.message)
+//   }
+// })
 
 // module.exports = getData

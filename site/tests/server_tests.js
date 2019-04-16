@@ -6,8 +6,6 @@
 //      disabled for those specific lines.
 // import getData from '../server/server'
 var expect = require('chai').expect
-var path = require('path')
-var assert = require('assert')
 var server = require('../server/server.js')
 // const sqlite3 = require('sqlite3').verbose()
 // const dbPath = path.resolve(__dirname, '../database/database.db')
@@ -19,9 +17,6 @@ var server = require('../server/server.js')
 describe('server.exampleFunc()', function () { // eslint-disable-line
   it('should return the opposite belief of the input', function () { // eslint-disable-line
     // 1. ARRANGE
-    var expectA = true
-    var expectB = false
-
     var resultA = server.exampleFunc(false)
     var resultB = server.exampleFunc(true)
     // 3. ASSERT
@@ -59,7 +54,7 @@ describe('server.putData()', function () {
 describe('server.updateData()', function () {
   it('should return the output described', function () {
     var expectE = `Row(s) updated: 1`
-    server.updateData('Login', 'Test1', 'Jadams').then(function (err, result) {
+    server.updateData('Login', 'Test1', 'TestForename').then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectE)
       }
@@ -69,7 +64,7 @@ describe('server.updateData()', function () {
 describe('server.deleteRow()', function () {
   it('should return the output described', function () {
     var expectF = `Row(s) deleted: 1`
-    let resultF = server.deleteRow('Login', 'Test1').then(function (err, result) {
+    let resultF = server.deleteRow('Login', 'TestForename').then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectF)
       }
