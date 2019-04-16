@@ -72,6 +72,11 @@ input {
   margin-bottom: 10px;
 }
 
+img {
+  image-rendering: auto;
+  image-rendering: pixelated;
+}
+
 /* Generic Classes -------------------------------------------------- */  
 
 .active {
@@ -88,7 +93,15 @@ input {
 }
 
 @keyframes spin { 
-  100% { -webkit-transform: rotate(360deg); } 
+  100% { transform: rotate(360deg); } 
+}
+
+@keyframes opacity-oscillate { 
+  0%   { opacity: 0.5; }
+  25%  { opacity: 0.9; }
+  50%  { opacity: 1; }
+  75%  { opacity: 0.9; }
+  100%  { opacity: 0.5; }
 }
 
 /* Header and Footer Bars -------------------------------------------------- */
@@ -205,7 +218,7 @@ home {
     animation: spin 10s linear infinite;
   }
 
-  info-text {
+  text-box {
     display: block;
     position: absolute;
     top: 60%;
@@ -215,6 +228,38 @@ home {
     background-color: $color-dark;
     border-radius: 6px;
     padding: 10px;
+
+    h1 {
+      color: $color-light;
+      font-size: 24px;
+    }
+
+    arrow-right {
+      content: url("../assets/images/arrow-right.png");
+      position: absolute;
+      display: block;
+      top: 70%;
+      left: 88%;
+      width: 12%;
+      height: auto;
+      z-index: 6;
+      margin: 2%;
+      transform: translate(-50%, -50%);
+      animation: opacity-oscillate 1s linear infinite;
+    }
+
+    arrow-left {
+      content: url("../assets/images/arrow-left.png");
+      position: absolute;
+      display: block;
+      top: 70%;
+      left: 7%;
+      width: 10%;
+      height: auto;
+      z-index: 6;
+      margin: 2%;
+      transform: translate(-50%, -50%);
+    }
   }
 }
 

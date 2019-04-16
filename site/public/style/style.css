@@ -84,6 +84,11 @@ input {
   margin-bottom: 10px;
 }
 
+img {
+  image-rendering: auto;
+  image-rendering: pixelated;
+}
+
 /* Generic Classes -------------------------------------------------- */
 .active {
   background-color: #b8dbd9;
@@ -106,7 +111,24 @@ input {
 }
 @keyframes spin {
   100% {
-    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes opacity-oscillate {
+  0% {
+    opacity: 0.5;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.5;
   }
 }
 /* Header and Footer Bars -------------------------------------------------- */
@@ -209,7 +231,7 @@ home mail {
   z-index: 5;
   animation: spin 10s linear infinite;
 }
-home info-text {
+home text-box {
   display: block;
   position: absolute;
   top: 60%;
@@ -219,6 +241,35 @@ home info-text {
   background-color: #2f4550;
   border-radius: 6px;
   padding: 10px;
+}
+home text-box h1 {
+  color: #b8dbd9;
+  font-size: 24px;
+}
+home text-box arrow-right {
+  content: url("../assets/images/arrow-right.png");
+  position: absolute;
+  display: block;
+  top: 70%;
+  left: 88%;
+  width: 12%;
+  height: auto;
+  z-index: 6;
+  margin: 2%;
+  transform: translate(-50%, -50%);
+  animation: opacity-oscillate 1s linear infinite;
+}
+home text-box arrow-left {
+  content: url("../assets/images/arrow-left.png");
+  position: absolute;
+  display: block;
+  top: 70%;
+  left: 7%;
+  width: 10%;
+  height: auto;
+  z-index: 6;
+  margin: 2%;
+  transform: translate(-50%, -50%);
 }
 
 receive {
