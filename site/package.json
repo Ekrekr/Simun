@@ -35,7 +35,7 @@
     "start-server": "node server/server",
     "compile-css": "sass --watch models/public/style:public/style",
     "compile-html": "pug --watch models/public -o public",
-    "dev": "open public/index.html; concurrently --kill-others \"npm run compile-css\" \"npm run compile-html\" \"npm run start-server\""
+    "dev": "concurrently --kill-others \"npm run compile-css\" \"npm run compile-html\" \"npm run start-server\""
   },
   "repository": {
     "type": "git",

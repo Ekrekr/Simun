@@ -44,7 +44,7 @@ All should be run inside the **site** directory
 
 ### Useful commands
 
-- Start dev mode: `npm run dev`. Then just open public/index.html
+- Start dev mode: `npm run dev`. Then search "localhost:7000" in search bar on chosen search engine (Google Recommended)
 
 ### Useful Links
 
