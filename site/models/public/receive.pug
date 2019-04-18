@@ -1,0 +1,57 @@
+doctype html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
+
+include tools.pug
+
+html(lang=lang)
+  +create-head
+
+  body.index-bg(scroll="no")
+
+    // Big bar on top with navigation utilities.
+    header
+      a(href="index.html")
+        logo
+      ul
+        li
+          a.color-light(href="receive.html") Receive
+        li
+          a(href="send.html") Send
+        li.nav-item
+          a(href="stats.html") Stats
+
+    receive
+
+      snippet-list
+        row 
+          a(href="")
+            snippet.active(href="index.html")
+              info
+                description Example Snippet
+                br
+                from jhon
+              img(src="assets/images/snippet-example-1.png")
+        row
+          a(href="")
+            snippet(href="index.html")
+              info
+                description Example snippet with a long description of length 64 characters.
+                br
+                from jhon
+              img(src="assets/images/snippet-example-2.png")
+      
+      snippet-selected
+        info
+          description Example Snippet
+          br
+          from jhon
+        img(src="assets/images/snippet-example-1.png")
+        a(href="" title="Report")
+          report
+        control-box
+          a(href="" title="Trash it")
+            trash-it
+          a(href="" title="Forward it")
+            forward-it
+    
+  
+  +create-footer
