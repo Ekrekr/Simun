@@ -61,14 +61,48 @@ var path = require('path')
 const express = require('express')
 
 const app = express()
+var router = express.Router();
 
 app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, '../public')))
 
-app.get('/', (req, res) => {
-  res.render('index', {})
+router.use(function (req, res, next) {
+  console.log(req.method, req.url)
+  console.log("Gets Here")
+  next()
 })
+
+router.get('/', (req, res) => {
+  res.send('I am the Home page!')
+})
+
+router.get('/login.html', (req, res) => {
+  console.log("Login")
+  res.send('I am the Login page!')
+})
+
+
+router.get('/receive', (req, res) => {
+  console.log("Login")
+  res.render('/public/receive.html')
+  res.send('I am the Receive page!')
+})
+
+router.get('/send', (req, res) => {
+  console.log("Login")
+  res.send('I am the Send page!')
+})
+
+router.get('/stats', (req, res) => {
+  res.send('I am the Stats page!')
+})
+
+router.get('/menu', (req, res) => {
+  res.send('I am the Menu page!')
+})
+
+// app.use('/', router)
 
 connectToServer()
 
