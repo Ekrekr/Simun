@@ -6,18 +6,8 @@
 // * npm standard reports `describe` and `it` to not be defined so have warnings
 //      disabled for those specific lines.
 var expect = require('chai').expect
-var server = require('../server/server.js')
+var server = require('../server/database.js')
 
-describe('server.exampleFunc()', function () { // eslint-disable-line
-  it('should return the opposite belief of the input', function () { // eslint-disable-line
-    // 1. ARRANGE
-    var resultA = server.exampleFunc(false)
-    var resultB = server.exampleFunc(true)
-    // 3. ASSERT
-    expect(resultA).to.be.equal(true)
-    expect(resultB).to.be.equal(false)
-  })
-})
 describe('server.getData()', function () {
   it('should return the output described', function () {
     var expectC = `[{
@@ -35,6 +25,7 @@ describe('server.getData()', function () {
     })
   })
 })
+
 describe('server.putData()', function () {
   it('should return the output described', function () {
     var expectD = `Row(s) inserted: 1`
@@ -45,6 +36,7 @@ describe('server.putData()', function () {
     })
   })
 })
+
 describe('server.updateData()', function () {
   it('should return the output described', function () {
     var expectE = `Row(s) updated: 1`
@@ -55,6 +47,7 @@ describe('server.updateData()', function () {
     })
   })
 })
+
 describe('server.deleteRow()', function () {
   it('should return the output described', function () {
     var expectF = `Row(s) deleted: 1`

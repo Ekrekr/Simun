@@ -63,3 +63,5 @@ typings/
 # Mac folder file
 .DS_Store
  
+# Css map files
+*.css.map

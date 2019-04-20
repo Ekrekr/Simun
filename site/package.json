@@ -38,7 +38,7 @@
     }
   },
   "scripts": {
-    "tests": "standard --fix; mocha tests",
+    "tests": "standard --fix 'models/**/*.js' 'server/**/*.js' 'tests/**/*.js'; mocha './{,!(node_modules),!(public)/**}/*.test.js'",
     "open-website": "open http://localhost:7000",
     "start-server": "node server/server",
     "compile-css": "sass --watch models/public/style:public/style",

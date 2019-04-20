@@ -2,7 +2,7 @@ var path = require('path')
 const express = require('express')
 var database = require('./database.js')
 
-let db = database.connectDatabase();
+let db = database.connectDatabase()
 
 const app = express()
 
@@ -38,10 +38,9 @@ app.get('/snippet-list', (req, res) => {
   // console.log('Snippets for for user', req.params.userID, ':', snippetList);
   // obj = "TEST123";
   // response.write(JSON.stringify(obj));
-  res.send("TEST123")
+  res.send('TEST123')
 })
 
 app.listen(7000, () => {
-  console.log("Server started on port 7000")
+  console.log('Server started on port 7000')
 })
-
