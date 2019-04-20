@@ -27,8 +27,7 @@ describe('server.getData()', function () {
       username: 'Jadams',
       password: 'Maybe'
     }]`
-    let resultC = server.getData('Login', '1')
-    resultC.then(function (err, result) {
+    server.getData('Login', '1').then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectC)
       }
@@ -45,6 +44,7 @@ describe('server.putData()', function () {
     })
   })
 })
+
 describe('server.updateData()', function () {
   it('should return the output described', function () {
     var expectE = `Row(s) updated: 1`

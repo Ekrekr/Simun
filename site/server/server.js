@@ -61,7 +61,7 @@ var path = require('path')
 const express = require('express')
 
 const app = express()
-var router = express.Router();
+var router = express.Router()
 
 app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
@@ -78,7 +78,6 @@ router.get('/', (req, res) => {
 router.get('/login.html', (req, res) => {
   res.send('I am the Login page!')
 })
-
 
 router.get('/receive', (req, res) => {
   res.send('I am the Receive page!')
@@ -111,14 +110,12 @@ function connectToServer() {
 /*****************************************/
 const sqlite3 = require('sqlite3').verbose()
 const dbPath = path.resolve(__dirname, '../database/database.db')
-let sqlAll = db.prepare(`SELECT *
-                  FROM ?
-                  WHERE id = ?`)
-let sqlPut = db.prepare(`INSERT INTO ? (forename, surname, username, password) VALUES (?,?,?,?)`)
-let sqlUpdate = db.prepare(`UPDATE ?
-    SET forename = ?
-    WHERE forename = ?`)
-let sqlDelete = db.prepare(`DELETE FROM ? WHERE forename=?`)
+let sqlGet = `SELECT *
+                  FROM Login
+                  WHERE id = ?`
+let sqlPut = `INSERT INTO Login (forename, surname, username, password) VALUES (?,?,?,?)`
+let sqlUpdate = `UPDATE Login SET forename = ? WHERE forename = ?`
+let sqlDelete = `DELETE FROM Login WHERE forename=?`
 
 function connectDatabase() {
   return new sqlite3.Database(dbPath, (err) => {
@@ -131,7 +128,6 @@ function connectDatabase() {
 // let db = connectDatabase()
 // close the database connection
 function closeDatabase(db) {
-  db.finalize()
   db.close((err) => {
     if (err) {
       return console.error(err.message)
@@ -141,25 +137,24 @@ function closeDatabase(db) {
 // GET
 function getData(Table, lookup) {
   let db = connectDatabase()
-  let data = [Table, lookup]
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
-      db.all(sqlAll, data, function (err, rows) {
+      db.all(sqlGet, lookup, function (err, rows) {
         if (err) {
           reject(err)
         } else {
           resolve(rows)
         }
+        closeDatabase(db)
       })
     })
   })
-  closeDatabase(db)
 }
 
 // PUT
 function putData(Table, forname, surname, username, password) {
   let db = connectDatabase()
-  var data = [Table, forname, surname, username, password]
+  var data = [forname, surname, username, password]
   return new Promise(function (resolve, reject) {
     db.run(sqlPut, data, function (err, result) {
       if (err) {
@@ -167,15 +162,15 @@ function putData(Table, forname, surname, username, password) {
       } else {
         resolve(`Rows inserted ${this.changes}`)
       }
+      closeDatabase(db)
     })
   })
-  closeDatabase(db)
 }
 
 // UPDATE
 function updateData(Table, lookup, change) {
   let db = connectDatabase()
-  let data = [Table, change, lookup]
+  let data = [change, lookup]
   return new Promise(function (resolve, reject) {
     db.run(sqlUpdate, data, function (err) {
       if (err) {
@@ -183,9 +178,9 @@ function updateData(Table, lookup, change) {
       } else {
         resolve(`Row(s) updated: ${this.changes}`)
       }
+      closeDatabase(db)
     })
   })
-  closeDatabase(db)
 }
 
 // DELETE
@@ -198,7 +193,7 @@ function deleteRow(Table, lookup) {
       } else {
         resolve(`Row(s) deleted ${this.changes}`)
       }
+      closeDatabase(db)
     })
   })
-  closeDatabase(db)
 }
