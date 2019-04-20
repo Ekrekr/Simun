@@ -32,7 +32,7 @@ app.get('/stats', (req, res) => {
 
 // Snippet handling
 app.get('/data/:table/:id', (req, res) => {
-  console.log('Retrieving snippet list for user:', req.params.id)
+  console.log('Retrieving data from table "' + req.params.table + '" and id', req.params.id)
 
   database.getData(req.params.table, req.params.id).then( response => {
     res.send(JSON.stringify(response[0]))

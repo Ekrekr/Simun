@@ -8,18 +8,28 @@ var $ = function (id) { return document.getElementById(id) }
 
 var userID = 0
 
-function retrieveData (table, id) {
-  console.log('Retrieving data from table', table, 'and id', id)
+function retrieveData (table, id, _callback) {
   request('http://localhost:7000/data/' + table + "/" + id, { json: true }, (err, res, body) => {
-    if (err) { return console.log(err) }
-    return JSON.parse(JSON.stringify(body))
+    if (err) { return _callback(err) }
+    return _callback(null, JSON.parse(JSON.stringify(body)));
   })
 }
 
-// Connect to server to retrieve snippets.
-// var snippetList = retrieveTest();
-var redirect = retrieveData('redirect', '0')
-console.log("Redirect:", redirect)
+// First retrieve the redirect on which snippets the user currently has
+retrieveData('redirect', 0, function(err, redirect) {
+  var snippets = JSON.parse(redirect.snippetids)
+
+  // For each snippet, retrieve the snippet ID
+  snippets.forEach(function(entry) {
+    retrieveData('snippets', entry, function(err, snippet) {
+
+      // Retrieve the snippet content ID
+      retrieveData('snippetcontent', snippet.contentid, function(err, snippetcontent) {
+        console.log("snippet content:", snippetcontent.content)
+      })
+    })
+  })
+})
 
 // Assign snippet data.
 var element = $('selected-description').innerHTML = 'New Heading'
