@@ -17,7 +17,7 @@ describe('database.getData()', function () {
       username: 'Jadams',
       password: 'Maybe'
     }]`
-    let resultC = database.getData('Login', '1')
+    let resultC = database.getData('login', '1')
     resultC.then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectC)
@@ -29,7 +29,7 @@ describe('database.getData()', function () {
 describe('database.putData()', function () {
   it('should return the output described', function () {
     var expectD = `Row(s) inserted: 1`
-    database.putData('Login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (err, result) {
+    database.putData('login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectD)
       }
@@ -40,7 +40,7 @@ describe('database.putData()', function () {
 describe('database.updateData()', function () {
   it('should return the output described', function () {
     var expectE = `Row(s) updated: 1`
-    database.updateData('Login', 'Test1', 'TestForename').then(function (err, result) {
+    database.updateData('login', 'Test1', 'TestForename').then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectE)
       }
@@ -51,7 +51,7 @@ describe('database.updateData()', function () {
 describe('database.deleteRow()', function () {
   it('should return the output described', function () {
     var expectF = `Row(s) deleted: 1`
-    database.deleteRow('Login', 'TestForename').then(function (err, result) {
+    database.deleteRow('login', 'TestForename').then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectF)
       }

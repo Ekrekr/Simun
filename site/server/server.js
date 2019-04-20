@@ -1,6 +1,7 @@
 var path = require('path')
 const express = require('express')
 var database = require('./database.js')
+const fetch = require('node-fetch')
 
 const app = express()
 
@@ -30,15 +31,32 @@ app.get('/stats', (req, res) => {
 })
 
 // Snippet handling
-app.get('/snippet-list/:userID', (req, res) => {
-  console.log('Retrieving snippet list for user:', req.params.userID);
-  // var snippetList = getData('Redirect', req.params.userID);
-  // console.log('Snippets for for user', req.params.userID, ':', snippetList);
-  // obj = "TEST123";
-  // response.write(JSON.stringify(obj));
-  res.send('TEST123')
+app.get('/data/:table/:id', (req, res) => {
+  console.log('Retrieving snippet list for user:', req.params.id)
+
+  database.getData(req.params.table, req.params.id).then( response => {
+    res.send(JSON.stringify(response[0]))
+  });
 })
 
+app.get('/snippets/:id', (req, res) => {
+  console.log('Retrieving snippet content for snippet id:', req.params.id)
+
+  database.getData('redirect', req.params.id).then( response => {
+    var snippetids = JSON.parse(JSON.stringify(response[0])).snippetids
+    var str = JSON.stringify(snippetids)
+    res.send(str)
+  });
+
+
+  var snippetInfo = database.getData('snippets', req.params.snippetID)
+  snippetList.then( () => {
+    console.log('Snippets info:', snippetInfo)
+    // var snippetID = 
+  })
+})
+
+// Start the server.
 app.listen(7000, () => {
   console.log('Server started on port 7000')
 })
