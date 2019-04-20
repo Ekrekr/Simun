@@ -96,6 +96,18 @@ img {
   background-color: #b8dbd9;
 }
 
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.shadow {
+  box-shadow: 0 2px 4px #00000080;
+}
+
 /* Animations --------------------------------------------------------------- */
 @keyframes shake {
   0% {
@@ -400,6 +412,50 @@ receive snippet-selected control-box forward-it {
   top: 50%;
   right: 10%;
   transform: translate(0%, -50%);
+}
+
+login {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-top: 80px;
+  background-color: #2f4550;
+}
+login h1 {
+  color: #b8dbd9;
+  font-size: 100px;
+  margin-bottom: 10px;
+}
+login holder {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  height: 20%;
+  width: auto;
+  z-index: 5;
+}
+login input {
+  width: 200px;
+  height: 14px;
+  margin-bottom: 10px;
+  background-color: #f4f4f9;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 22px;
+  color: #2f4550;
+}
+login button {
+  margin-top: 10px;
+  background-color: #b8dbd9;
+  border-radius: 6px;
+}
+login .button:hover {
+  background-color: #2f4550;
 }
 
 /*# sourceMappingURL=style.css.map */
