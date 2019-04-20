@@ -11,23 +11,27 @@ app.use(express.static(path.join(__dirname, '../public')))
 
 // Page retrieval
 app.get('/', (req, res) => {
-  res.sendfile('index.html')
+  res.render('index.html')
 })
 
 app.get('/login', (req, res) => {
-  res.sendfile('login.html')
+  res.render('login.html')
 })
 
 app.get('/receive', (req, res) => {
-  res.sendfile('receive.html')
+  res.render('receive', {
+    snippets: 
+    [{'description': 'example 1', 'content': 'assets/images/snippet-example-1.png'},
+    {'description': 'example 2', 'content': 'assets/images/snippet-example-2.png'}]
+  });
 })
 
 app.get('/send', (req, res) => {
-  res.sendfile('send.html')
+  res.render('send.html')
 })
 
 app.get('/stats', (req, res) => {
-  res.sendfile('stats.html')
+  res.render('stats.html')
 })
 
 // Snippet handling

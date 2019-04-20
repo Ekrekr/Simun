@@ -16,6 +16,8 @@ function retrieveData (table, id, _callback) {
   })
 }
 
+usersnippets = []
+
 // First retrieve the redirect on which snippets the user currently has.
 retrieveData('redirect', 0, function(err, redirect) {
   var snippets = JSON.parse(redirect.snippetids)
@@ -26,12 +28,15 @@ retrieveData('redirect', 0, function(err, redirect) {
 
       // Retrieve the snippet content
       retrieveData('snippetcontent', snippet.contentid, function(err, snippetcontent) {
-        
+
         // Want to populate the main content with the first snippet by default.
         if (index == 0) {
           $('selected-description').innerHTML = snippetcontent.description
           $('selected-content').src = snippetcontent.content
         }
+
+        // Push all snippets to an array 
+        usersnippets.push({})
       })
     })
   })

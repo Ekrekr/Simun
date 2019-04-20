@@ -96,6 +96,10 @@ img {
   background-color: #b8dbd9;
 }
 
+.inactive {
+  background-color: #586f7c;
+}
+
 .left {
   float: left;
 }
