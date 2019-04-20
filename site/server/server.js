@@ -53,49 +53,56 @@ server.on('connection', (request, response) => {})
 // HTTP version).
 server.on('upgrade', (request, response) => {})
 
+
 /*****************************************/
 /*               SERVER                  */
 /*****************************************/
 
 var path = require('path')
 const express = require('express')
-
 const app = express()
 var router = express.Router()
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 
 app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, '../public')))
 
-router.use(function (req, res, next) {
-  next()
-})
-
-router.get('/', (req, res) => {
+router.get('/', function (req, res) {
   res.send('I am the Home page!')
 })
 
-router.get('/login.html', (req, res) => {
-  res.send('I am the Login page!')
+router.get('/hello/:name', function (req, res) {
+  res.send('hello ' + req.params.name + '!');
+});
+
+router.get('/logins', function (req, res) {
+  res.redirect('login.html')
+  // res.send('I am the Login page!')
 })
 
-router.get('/receive', (req, res) => {
+router.get('/receive', function (req, res) {
   res.send('I am the Receive page!')
 })
 
-router.get('/send', (req, res) => {
+router.get('/send', function (req, res) {
   res.send('I am the Send page!')
 })
 
-router.get('/stats', (req, res) => {
+router.get('/stats', function (req, res) {
   res.send('I am the Stats page!')
 })
 
-router.get('/menu', (req, res) => {
+router.get('/menu', function (req, res) {
   res.send('I am the Menu page!')
 })
+router.post('/index', function (req, res) {
+  res.send('Post')
+})
 
-// app.use('/', router)
+app.use('/', router)
 
 connectToServer()
 
@@ -112,7 +119,7 @@ const sqlite3 = require('sqlite3').verbose()
 const dbPath = path.resolve(__dirname, '../database/database.db')
 let sqlGet = `SELECT *
                   FROM Login
-                  WHERE id = ?`
+                  WHERE username = ?`
 let sqlPut = `INSERT INTO Login (forename, surname, username, password) VALUES (?,?,?,?)`
 let sqlUpdate = `UPDATE Login SET forename = ? WHERE forename = ?`
 let sqlDelete = `DELETE FROM Login WHERE forename=?`
@@ -125,6 +132,40 @@ function connectDatabase() {
     console.log('Connected to the Login database.')
   })
 }
+// bcrypt.hash(myPlaintextPassword, saltRounds, function (err, hash) {
+//   // Store hash in your password DB.
+// });
+// // Load hash from your password DB.
+// bcrypt.compare(myPlaintextPassword, hash, function (err, res) {
+//   // res == true
+// });
+
+// passport.use(new LocalStrategy(
+//   (username, password, done) => {
+//     findUser(username, (err, user) => {
+//       if (err) {
+//         return done(err)
+//       }
+
+//       // User not found
+//       if (!user) {
+//         return done(null, false)
+//       }
+
+//       // Always use hashed passwords and fixed time comparison
+//       bcrypt.compare(password, user.passwordHash, (err, isValid) => {
+//         if (err) {
+//           return done(err)
+//         }
+//         if (!isValid) {
+//           return done(null, false)
+//         }
+//         return done(null, user)
+//       })
+//     })
+//   }
+// ))
+
 // let db = connectDatabase()
 // close the database connection
 function closeDatabase(db) {

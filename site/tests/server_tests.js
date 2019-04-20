@@ -27,7 +27,7 @@ describe('server.getData()', function () {
       username: 'Jadams',
       password: 'Maybe'
     }]`
-    server.getData('Login', '1').then(function (err, result) {
+    server.getData('Login', 'Jadams').then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectC)
       }
