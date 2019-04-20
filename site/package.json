@@ -7,13 +7,16 @@
     "test": "test"
   },
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "acorn": "^6.1.1",
+    "acorn-dynamic-import": "^4.0.0",
     "bootstrap": "^4.3.1",
-    "connect-redis": "^3.4.1",
+    "browserify": "^16.2.3",
+    "browserify-directory": "^1.0.2",
     "css": "^2.2.4",
     "express": "^4.16.4",
     "express-session": "^1.16.1",
     "jquery": "^3.3.1",
+    "minimatch": "^3.0.4",
     "mssql": "^4.3.2",
     "mysql": "^2.16.0",
     "passport": "^0.4.0",
@@ -38,12 +41,13 @@
     }
   },
   "scripts": {
-    "tests": "standard --fix; mocha tests",
+    "tests": "standard --fix 'models/**/*.js' 'server/**/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.test.js'",
     "open-website": "open http://localhost:7000",
     "start-server": "node server/server",
     "compile-css": "sass --watch models/public/style:public/style",
     "compile-html": "pug --watch models/public -o public",
-    "dev": "npm run open-website; concurrently --kill-others \"npm run compile-css\" \"npm run compile-html\" \"npm run start-server\""
+    "compile-scripts": "watchify models/public/scripts/receive.js -o public/scripts/receive.js",
+    "dev": "npm run open-website; concurrently --kill-others \"npm run compile-css\" \"npm run compile-html\" \"npm run compile-scripts\" \"npm run start-server\""
   },
   "repository": {
     "type": "git",

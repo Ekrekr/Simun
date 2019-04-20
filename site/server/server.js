@@ -1,239 +1,49 @@
-var http = require('http')
-var server = http.createServer()
-
-// Export functions
-module.exports = {
-  connectDatabase: function connectDatabase() {},
-  exampleFunc: function exampleFunc(input) {
-    return !input
-  },
-  putData: putData,
-  getData: getData,
-  updateData: updateData,
-  deleteRow: deleteRow
-}
-
-// request - Emitted for Each request from the client (We would listen here).
-server.on('request', (request, response) => {
-  var body = []
-  request
-    .on('data', chunk => {
-      body.push(chunk)
-    })
-    .on('end', () => {
-      body = body.concat.toString()
-      console.log('Server received ', body.toString())
-    })
-    .on('error', err => {
-      console.error(err)
-      response.statusCode = 400
-      response.end()
-    })
-
-  response.on('error', err => {
-    console.error(err)
-  })
-
-  response.statusCode = 200
-  response.setHeader('Content-Type', 'application/json')
-  response.write('Hello World!')
-  response.end()
-})
-
-server.on('error', console.error)
-
-// connect - Raised for all the ‘connect’ request by the HTTP client.
-server.on('connect', (request, response) => {})
-
-// connection - Emitted when a new TCP stream is established. Provide access to
-// the socket established.
-server.on('connection', (request, response) => {})
-
-// upgrade -  each time a client requests an upgrade of the protocol (can be
-// HTTP version).
-server.on('upgrade', (request, response) => {})
-
-
-/*****************************************/
-/*               SERVER                  */
-/*****************************************/
-
 var path = require('path')
 const express = require('express')
+var database = require('./database.js')
+
 const app = express()
-var router = express.Router()
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
 
 
 app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, '../public')))
 
-router.get('/', function (req, res) {
-  res.send('I am the Home page!')
+// Page retrieval
+app.get('/', (req, res) => {
+  res.sendfile('index.html')
 })
 
-router.get('/login', function (req, res) {
-  res.redirect('login.html')
-  // res.send('I am the Login page!')
+app.get('/login', (req, res) => {
+  res.sendfile('login.html')
 })
 
-router.get('/receive', function (req, res) {
-  res.redirect('receive.html')
-  res.send('I am the Receive page!')
+app.get('/receive', (req, res) => {
+  res.sendfile('receive.html')
 })
 
-router.get('/send', function (req, res) {
-  res.redirect('send.html')
-  res.send('I am the Send page!')
+app.get('/send', (req, res) => {
+  res.sendfile('send.html')
 })
 
-router.get('/stats', function (req, res) {
-  res.redirect('stats.html')
-  res.send('I am the Stats page!')
+app.get('/stats', (req, res) => {
+  res.sendfile('stats.html')
 })
 
-router.get('/menu', function (req, res) {
-  res.send('I am the Menu page!')
+// Snippet handling
+app.get('/snippet-list', (req, res) => {
+  // console.log('Retrieving snippet list for user', req.params.userID);
+  // var snippetList = getData('Redirect', req.params.userID);
+  // console.log('Snippets for for user', req.params.userID, ':', snippetList);
+  // obj = "TEST123";
+  // response.write(JSON.stringify(obj));
+  res.send('TEST123')
+})
+
+app.listen(7000, () => {
+  console.log('Server started on port 7000')
 })
 router.get('/index', function (req, res) {
   res.redirect('index.html')
   res.send('get')
 })
-
-app.use('/', router)
-
-connectToServer()
-
-function connectToServer() {
-  app.listen(7000, () => {
-    console.log(`Express running → PORT ${server.address()}`)
-  })
-}
-
-/*****************************************/
-/*              DATABASE                 */
-/*****************************************/
-const sqlite3 = require('sqlite3').verbose()
-const dbPath = path.resolve(__dirname, '../database/database.db')
-let sqlGet = `SELECT *
-                  FROM Login
-                  WHERE username = ?`
-let sqlPut = `INSERT INTO Login (forename, surname, username, password) VALUES (?,?,?,?)`
-let sqlUpdate = `UPDATE Login SET forename = ? WHERE forename = ?`
-let sqlDelete = `DELETE FROM Login WHERE forename=?`
-
-function connectDatabase() {
-  return new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-      console.error(err.message)
-    }
-    console.log('Connected to the Login database.')
-  })
-}
-// bcrypt.hash(myPlaintextPassword, saltRounds, function (err, hash) {
-//   // Store hash in your password DB.
-// });
-// // Load hash from your password DB.
-// bcrypt.compare(myPlaintextPassword, hash, function (err, res) {
-//   // res == true
-// });
-
-// passport.use(new LocalStrategy(
-//   (username, password, done) => {
-//     findUser(username, (err, user) => {
-//       if (err) {
-//         return done(err)
-//       }
-
-//       // User not found
-//       if (!user) {
-//         return done(null, false)
-//       }
-
-//       // Always use hashed passwords and fixed time comparison
-//       bcrypt.compare(password, user.passwordHash, (err, isValid) => {
-//         if (err) {
-//           return done(err)
-//         }
-//         if (!isValid) {
-//           return done(null, false)
-//         }
-//         return done(null, user)
-//       })
-//     })
-//   }
-// ))
-
-// close the database connection
-function closeDatabase(db) {
-  db.close((err) => {
-    if (err) {
-      return console.error(err.message)
-    }
-  })
-}
-// GET
-function getData(Table, lookup) {
-  let db = connectDatabase()
-  return new Promise(function (resolve, reject) {
-    db.serialize(function () {
-      db.all(sqlGet, lookup, function (err, rows) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(rows)
-        }
-        closeDatabase(db)
-      })
-    })
-  })
-}
-
-// PUT
-function putData(Table, forname, surname, username, password) {
-  let db = connectDatabase()
-  var data = [forname, surname, username, password]
-  return new Promise(function (resolve, reject) {
-    db.run(sqlPut, data, function (err, result) {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(`Rows inserted ${this.changes}`)
-      }
-      closeDatabase(db)
-    })
-  })
-}
-
-// UPDATE
-function updateData(Table, lookup, change) {
-  let db = connectDatabase()
-  let data = [change, lookup]
-  return new Promise(function (resolve, reject) {
-    db.run(sqlUpdate, data, function (err) {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(`Row(s) updated: ${this.changes}`)
-      }
-      closeDatabase(db)
-    })
-  })
-}
-
-// DELETE
-function deleteRow(Table, lookup) {
-  let db = connectDatabase()
-  return new Promise(function (resolve, reject) {
-    db.run(sqlDelete, lookup, function (err) {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(`Row(s) deleted ${this.changes}`)
-      }
-      closeDatabase(db)
-    })
-  })
-}
