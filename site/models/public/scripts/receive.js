@@ -7,6 +7,7 @@ var $ = function (id) { return document.getElementById(id) }
 
 var userID = 0
 
+// Retrieves data by asking the server for it.
 function retrieveData (table, id, _callback) {
   request('http://localhost:7000/data/' + table + "/" + id, { json: true }, (err, res, body) => {
     if (err) { return _callback(err) }
@@ -14,21 +15,25 @@ function retrieveData (table, id, _callback) {
   })
 }
 
-// First retrieve the redirect on which snippets the user currently has
+// First retrieve the redirect on which snippets the user currently has.
 retrieveData('redirect', 0, function(err, redirect) {
   var snippets = JSON.parse(redirect.snippetids)
 
-  // For each snippet, retrieve the snippet ID
-  snippets.forEach(function(entry) {
+  // For each snippet, retrieve the snippet content ID.
+  snippets.forEach(function(entry, index) {
     retrieveData('snippets', entry, function(err, snippet) {
 
-      // Retrieve the snippet content ID
+      // Retrieve the snippet content
       retrieveData('snippetcontent', snippet.contentid, function(err, snippetcontent) {
-        console.log("snippet content:", snippetcontent.content)
+        
+        // Want to populate the main content with the first snippet by default.
+        if (index == 0) {
+          $('selected-description').innerHTML = snippetcontent.description
+          $('selected-content').src = snippetcontent.content
+        }
       })
     })
   })
 })
 
 // Assign snippet data.
-var element = $('selected-description').innerHTML = 'New Heading'

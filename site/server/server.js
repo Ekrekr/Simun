@@ -39,23 +39,6 @@ app.get('/data/:table/:id', (req, res) => {
   });
 })
 
-app.get('/snippets/:id', (req, res) => {
-  console.log('Retrieving snippet content for snippet id:', req.params.id)
-
-  database.getData('redirect', req.params.id).then( response => {
-    var snippetids = JSON.parse(JSON.stringify(response[0])).snippetids
-    var str = JSON.stringify(snippetids)
-    res.send(str)
-  });
-
-
-  var snippetInfo = database.getData('snippets', req.params.snippetID)
-  snippetList.then( () => {
-    console.log('Snippets info:', snippetInfo)
-    // var snippetID = 
-  })
-})
-
 // Start the server.
 app.listen(7000, () => {
   console.log('Server started on port 7000')
