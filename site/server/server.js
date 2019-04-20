@@ -3,8 +3,8 @@ var server = http.createServer()
 
 // Export functions
 module.exports = {
-  connectDatabase: function connectDatabase () {},
-  exampleFunc: function exampleFunc (input) {
+  connectDatabase: function connectDatabase() {},
+  exampleFunc: function exampleFunc(input) {
     return !input
   },
   putData: putData,
@@ -58,24 +58,55 @@ server.on('upgrade', (request, response) => {})
 /*****************************************/
 
 var path = require('path')
-
 const express = require('express')
 
 const app = express()
+var router = express.Router();
 
-app.set('views', path.join(__dirname, '../models/public/views'))
+app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
+app.use(express.static(path.join(__dirname, '../public')))
 
-app.get('/', (req, res) => {
-  res.render('index', {
-    title: 'Homepage'
-    // user: 'something'
-  })
+router.use(function (req, res, next) {
+  console.log(req.method, req.url)
+  console.log("Gets Here")
+  next()
 })
+
+router.get('/', (req, res) => {
+  res.send('I am the Home page!')
+})
+
+router.get('/login.html', (req, res) => {
+  console.log("Login")
+  res.send('I am the Login page!')
+})
+
+
+router.get('/receive', (req, res) => {
+  console.log("Login")
+  res.render('/public/receive.html')
+  res.send('I am the Receive page!')
+})
+
+router.get('/send', (req, res) => {
+  console.log("Login")
+  res.send('I am the Send page!')
+})
+
+router.get('/stats', (req, res) => {
+  res.send('I am the Stats page!')
+})
+
+router.get('/menu', (req, res) => {
+  res.send('I am the Menu page!')
+})
+
+// app.use('/', router)
 
 connectToServer()
 
-function connectToServer () {
+function connectToServer() {
   app.listen(7000, () => {
     console.log(`Express running → PORT ${server.address()}`)
   })
@@ -87,7 +118,7 @@ function connectToServer () {
 const sqlite3 = require('sqlite3').verbose()
 const dbPath = path.resolve(__dirname, '../database/database.db')
 
-function connectDatabase () {
+function connectDatabase() {
   return new sqlite3.Database(dbPath, (err) => {
     if (err) {
       console.error(err.message)
@@ -98,7 +129,7 @@ function connectDatabase () {
 let db = connectDatabase()
 
 // GET
-function getData (Table, lookup) {
+function getData(Table, lookup) {
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
       db.all(`SELECT *
@@ -115,7 +146,7 @@ function getData (Table, lookup) {
 }
 
 // PUT
-function putData (Table, forname, surname, username, password) {
+function putData(Table, forname, surname, username, password) {
   var data = [forname, surname, username, password]
   var sqlPut = `INSERT INTO ` + Table + ` (forename, surname, username, password) VALUES (?,?,?,?)`
   return new Promise(function (resolve, reject) {
@@ -130,7 +161,7 @@ function putData (Table, forname, surname, username, password) {
 }
 
 // UPDATE
-function updateData (Table, lookup, change) {
+function updateData(Table, lookup, change) {
   let data = [change, lookup]
   let sqlUpdate = `UPDATE Login
     SET forename = ?
@@ -147,7 +178,7 @@ function updateData (Table, lookup, change) {
 }
 
 // DELETE
-function deleteRow (Table, lookup) {
+function deleteRow(Table, lookup) {
   return new Promise(function (resolve, reject) {
     db.run(`DELETE FROM ` + Table + ` WHERE forename=?`, lookup, function (err) {
       if (err) {
