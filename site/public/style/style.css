@@ -63,7 +63,10 @@ body {
   background-color: #2f4550;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: GlacialIndifferenceBold;
 }
 
@@ -143,7 +146,7 @@ header {
   z-index: 3;
 }
 header logo {
-  content: url("../assets/images/simon-logo.png");
+  content: url("/assets/images/simon-logo.png");
   display: block;
   height: 48px;
   margin: 12px;
@@ -193,7 +196,7 @@ home {
   padding: 10px;
 }
 home house {
-  content: url("../assets/images/simon-logo.png");
+  content: url("/assets/images/simon-logo.png");
   display: block;
   position: absolute;
   left: 50%;
@@ -205,7 +208,7 @@ home house {
   z-index: 5;
 }
 home postbox {
-  content: url("../assets/images/postbox.png");
+  content: url("/assets/images/postbox.png");
   display: block;
   position: absolute;
   left: 39%;
@@ -220,7 +223,7 @@ home postbox:hover {
   animation-iteration-count: infinite;
 }
 home mail {
-  content: url("../assets/images/simon-mail.png");
+  content: url("/assets/images/simon-mail.png");
   display: block;
   position: absolute;
   left: 59%;
@@ -246,7 +249,7 @@ home text-box h1 {
   font-size: 24px;
 }
 home text-box arrow-right {
-  content: url("../assets/images/arrow-right.png");
+  content: url("/assets/images/arrow-right.png");
   position: absolute;
   display: block;
   top: 70%;
@@ -259,7 +262,7 @@ home text-box arrow-right {
   animation: opacity-oscillate 1s linear infinite;
 }
 home text-box arrow-left {
-  content: url("../assets/images/arrow-left.png");
+  content: url("/assets/images/arrow-left.png");
   position: absolute;
   display: block;
   top: 70%;
@@ -359,7 +362,7 @@ receive snippet-selected img {
   max-width: 95%;
 }
 receive snippet-selected report {
-  content: url("../assets/images/report.png");
+  content: url("/assets/images/report.png");
   display: block;
   position: absolute;
   height: 5%;
@@ -379,7 +382,7 @@ receive snippet-selected control-box {
   transform: translate(-50%, -50%);
 }
 receive snippet-selected control-box trash-it {
-  content: url("../assets/images/bin.png");
+  content: url("/assets/images/bin.png");
   display: block;
   position: absolute;
   height: 70%;
@@ -389,7 +392,7 @@ receive snippet-selected control-box trash-it {
   transform: translate(0%, -50%);
 }
 receive snippet-selected control-box forward-it {
-  content: url("../assets/images/plane-mail.png");
+  content: url("/assets/images/plane-mail.png");
   display: block;
   height: 70%;
   width: auto;
