@@ -74,32 +74,32 @@ router.get('/', function (req, res) {
   res.send('I am the Home page!')
 })
 
-router.get('/hello/:name', function (req, res) {
-  res.send('hello ' + req.params.name + '!');
-});
-
-router.get('/logins', function (req, res) {
+router.get('/login', function (req, res) {
   res.redirect('login.html')
   // res.send('I am the Login page!')
 })
 
 router.get('/receive', function (req, res) {
+  res.redirect('receive.html')
   res.send('I am the Receive page!')
 })
 
 router.get('/send', function (req, res) {
+  res.redirect('send.html')
   res.send('I am the Send page!')
 })
 
 router.get('/stats', function (req, res) {
+  res.redirect('stats.html')
   res.send('I am the Stats page!')
 })
 
 router.get('/menu', function (req, res) {
   res.send('I am the Menu page!')
 })
-router.post('/index', function (req, res) {
-  res.send('Post')
+router.get('/index', function (req, res) {
+  res.redirect('index.html')
+  res.send('get')
 })
 
 app.use('/', router)
@@ -166,7 +166,6 @@ function connectDatabase() {
 //   }
 // ))
 
-// let db = connectDatabase()
 // close the database connection
 function closeDatabase(db) {
   db.close((err) => {
