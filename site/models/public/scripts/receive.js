@@ -8,7 +8,7 @@ var $ = function (id) { return document.getElementById(id) }
 function retrieveSnippetsList (userID) {
   var snippetList = ''
   console.log('Retrieving snippets')
-  request('http://localhost:7000/snippet-list', { json: false }, (err, res, body) => {
+  request('http://localhost:7000/snippet-list/0', { json: true }, (err, res, body) => {
     if (err) { return console.log(err) }
     console.log('Error:', err)
     console.log('Result:', res)

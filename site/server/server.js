@@ -30,8 +30,8 @@ app.get('/stats', (req, res) => {
 })
 
 // Snippet handling
-app.get('/snippet-list', (req, res) => {
-  // console.log('Retrieving snippet list for user', req.params.userID);
+app.get('/snippet-list/:userID', (req, res) => {
+  console.log('Retrieving snippet list for user:', req.params.userID);
   // var snippetList = getData('Redirect', req.params.userID);
   // console.log('Snippets for for user', req.params.userID, ':', snippetList);
   // obj = "TEST123";

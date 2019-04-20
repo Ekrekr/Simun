@@ -40,7 +40,7 @@
   "scripts": {
     "tests": "standard --fix 'models/**/*.js' 'server/**/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.test.js'",
     "open-website": "open http://localhost:7000",
-    "start-server": "node server/server",
+    "start-server": "nodemon server/server",
     "compile-css": "sass --watch models/public/style:public/style",
     "compile-html": "pug --watch models/public -o public",
     "compile-scripts": "watchify models/public/scripts/receive.js -o public/scripts/receive.js",
