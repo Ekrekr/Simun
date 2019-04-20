@@ -93,6 +93,18 @@ img {
   background-color: #b8dbd9;
 }
 
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.shadow {
+  box-shadow: 0 2px 4px #00000080;
+}
+
 /* Animations --------------------------------------------------------------- */
 @keyframes shake {
   0% {
@@ -428,11 +440,19 @@ login input {
   width: 200px;
   height: 14px;
   margin-bottom: 10px;
-  background-color: #b8dbd9;
+  background-color: #f4f4f9;
   border-radius: 6px;
   padding: 10px;
   font-size: 22px;
   color: #2f4550;
+}
+login button {
+  margin-top: 10px;
+  background-color: #b8dbd9;
+  border-radius: 6px;
+}
+login .button:hover {
+  background-color: #2f4550;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -13,7 +13,7 @@ html(lang=lang)
         logo
       ul
         li
-          a.color-light(href="login.html") Login/Register
+          a.color-light(href="login.html") Login
         li
           a(href="receive.html") Receive
         li
@@ -25,12 +25,13 @@ html(lang=lang)
     login
       holder
         h1 Simon  
-        input(type="text" name="uname" placeholder="Username")
+        input.shadow(type="text" name="uname" placeholder="Username")
         br
-        input(type="password" name="psw" placeholder="Password")
+        input.shadow(type="password" name="psw" placeholder="Password")
         br
         //- TODO: Replace link to index here with account details verification
         button(type="submit" href="index.html") Login
+        br
         button(type="register" href="index.html") Register
   
   +create-footer
