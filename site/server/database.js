@@ -19,9 +19,10 @@ function connectDatabase () {
     console.log('Connected to the Login database.')
   })
 }
+let db = connectDatabase()
 
 // GET
-function getData (db, table, lookup) {
+function getData (table, lookup) {
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
       db.all(`SELECT *
@@ -38,7 +39,7 @@ function getData (db, table, lookup) {
 }
 
 // PUT
-function putData (db, table, forname, surname, username, password) {
+function putData (table, forname, surname, username, password) {
   var data = [forname, surname, username, password]
   var sqlPut = `INSERT INTO ` + table + ` (forename, surname, username, password) VALUES (?,?,?,?)`
   return new Promise(function (resolve, reject) {
@@ -53,7 +54,7 @@ function putData (db, table, forname, surname, username, password) {
 }
 
 // UPDATE
-function updateData (db, table, lookup, change) {
+function updateData (table, lookup, change) {
   let data = [change, lookup]
   let sqlUpdate = `UPDATE Login
     SET forename = ?
@@ -70,7 +71,7 @@ function updateData (db, table, lookup, change) {
 }
 
 // DELETE
-function deleteRow (db, table, lookup) {
+function deleteRow (table, lookup) {
   return new Promise(function (resolve, reject) {
     db.run(`DELETE FROM ` + table + ` WHERE forename=?`, lookup, function (err) {
       if (err) {

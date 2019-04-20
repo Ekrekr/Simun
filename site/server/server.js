@@ -2,8 +2,6 @@ var path = require('path')
 const express = require('express')
 var database = require('./database.js')
 
-let db = database.connectDatabase()
-
 const app = express()
 
 app.set('views', path.join(__dirname, '../models/public'))
