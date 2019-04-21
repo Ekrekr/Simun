@@ -42,23 +42,17 @@ app.get('/receive', (req, res) => {
   variables.snippets = []
 
   // Need to load snippet data from the database to display on the page.
-  retrieveData('redirect', 0, function(err, redirect) {
+  retrieveData('redirect', 0, (err, redirect) => {
     var snippets = JSON.parse(redirect.snippetids)
 
     // For each snippet, retrieve the snippet content ID.
-    snippets.forEach(function(entry, index) {
-      retrieveData('snippets', entry, function(err, snippet) {
+    snippets.forEach((entry, index) => {
+      retrieveData('snippets', entry, (err, snippet) => {
 
         // Retrieve the snippet content.
-        retrieveData('snippetcontent', snippet.contentid, function(err, snippetcontent) {
+        retrieveData('snippetcontent', snippet.contentid, (err, snippetcontent) => {
           variables.snippets.push({'description': snippetcontent.description, 
           'content': snippetcontent.content, 'id': snippetcontent.id})
-
-          // Want to populate the main content with the first snippet by default.
-          if (index == 0) {
-            // variables.selected.description = snippetcontent.description
-            // variables.selected.content = snippetcontent.content
-          }
 
           // Only return final source if final iteration.
           if (index == snippets.length - 1) {
