@@ -1,5 +1,5 @@
 {
-  "name": "Simon",
+  "name": "simun",
   "version": "1.0.0",
   "description": "A website for experimenting with agent sharing, client and server side.",
   "main": "server.js",
@@ -32,11 +32,7 @@
     "chai": "^4.2.0",
     "concurrently": "^4.1.0",
     "mocha": "^5.2.0",
-    "standard": {
-      "env": [
-        "mocha"
-      ]
-    }
+    "standard": "{ 'env': [ 'mocha' ] }"
   },
   "scripts": {
     "tests": "standard --fix 'models/**/*.js' 'server/**/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.test.js'",
@@ -56,5 +52,5 @@
   "bugs": {
     "url": "https://github.com/Ekrekr/Simon/issues"
   },
-  "homepage": "public/index.js"
+  "homepage": "http://localhost:7000/"
 }
