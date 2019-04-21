@@ -1,6 +1,6 @@
-const http = require('http')
-const https = require('https')
 const request = require('request')
+
+var currentlyActive = 0
 
 // Shorthand for getting elements by ID.
 var $ = function (id) { return document.getElementById(id) }
@@ -15,42 +15,46 @@ function retrieveData (table, id, _callback) {
 
 // Make a snippet highlighted and fill the selected snippet content with.
 function setActive(rowID) {
-  console.log("setting", rowID.id, "active")
+  console.log("setting", rowID, "active")
+  var rowItem = $(rowID)
 
   // Need to find the child of the current row as its child snippet contains the actual id.
-  var contentID = rowID.children[0].id
+  var contentID = rowItem.children[0].id
   console.log("requesting server for", contentID)
 
   // Need to retrieve the content from the server to populate the selected box.
-  retrieveData('snippetcontent', contentID, function(err, content) {
-    console.log(content)
-    console.log(err)
+  retrieveData('snippetcontent', contentID, function(err, snippet) {
+    console.log(snippet)
+    $("selected-content").src = snippet.content
+    $("selected-description").innerHTML = snippet.description
   })
 }
 
-var currentlyActive = 0
-var viable = true
-counter = 0
-
 // Find all row items and add their onclick listener.
-while (viable) {
-  var rowID = "select-" + counter
-  var rowItem = $(rowID)
+function assignButtons() {
+  var viable = true
+  counter = 0
+  while (viable) {
+    var rowID = "select-" + counter
+    var rowItem = $(rowID)
 
-  if (rowItem != null) {
-    console.log("setting", rowID)
+    if (rowItem != null) {
+      console.log("setting", rowID)
 
-    // Complexity here required to prevent rowItem from always being the final value of the loop.
-    rowItem.onclick = ((item) => {
-      return () => {
-        console.log("hello")
-        setActive(item)
-      }
-    })(rowItem)
+      // Complexity here required to prevent rowItem from always being the final value of the loop.
+      rowItem.onclick = ((item) => {
+        return () => {
+          console.log("hello")
+          setActive(item)
+        }
+      })(rowID)
 
-    counter += 1
-  }
-  else {
-    viable = false
+      counter += 1
+    }
+    else {
+      viable = false
+    }
   }
 }
+
+assignButtons()

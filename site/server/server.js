@@ -56,8 +56,8 @@ app.get('/receive', (req, res) => {
 
           // Want to populate the main content with the first snippet by default.
           if (index == 0) {
-            variables.selected.description = snippetcontent.description
-            variables.selected.content = snippetcontent.content
+            // variables.selected.description = snippetcontent.description
+            // variables.selected.content = snippetcontent.content
           }
 
           // Only return final source if final iteration.
