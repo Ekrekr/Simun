@@ -15,7 +15,7 @@ app.get('/data/:table/:id', (req, res) => {
 
   database.getData(req.params.table, req.params.id).then( response => {
     res.send(JSON.stringify(response[0]))
-  });
+  })
 })
 
 // Retrieves data by asking the server for it.
@@ -78,6 +78,10 @@ app.get('/send', (req, res) => {
 
 app.get('/stats', (req, res) => {
   res.render('stats')
+})
+
+app.get('/receive.js', (req, res) => {
+  res.sendfile('scripts/receive.js')
 })
 
 // Start the server.

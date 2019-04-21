@@ -9,7 +9,7 @@ html(lang=lang)
 
     // Big bar on top with navigation utilities.
     header
-      a(href="index.html")
+      a(href="index")
         logo
       ul
         li
@@ -26,8 +26,8 @@ html(lang=lang)
       snippet-list
         for snippet, index in snippets
           row 
-            a(id="#{index}")
-              snippet(href="index.html")
+            a(id="select-"+index)
+              snippet(href="index" id=snippet.id)
                 info
                   description #{snippet.description}
                   br
@@ -48,6 +48,9 @@ html(lang=lang)
           a(href="" title="Forward it")
             forward-it
 
-      script(type="text/javascript" src="../scripts/receive.js")
+
+      //- script function testfunc(position) {console.log("setting", position, "active")}
 
   +create-footer
+  
+  script(type="text/javascript" src="../scripts/receive.js")

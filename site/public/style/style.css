@@ -302,6 +302,7 @@ receive snippet-list {
   border-spacing: 1.5px 1.5px;
 }
 receive snippet-list row {
+  cursor: pointer;
   display: table-row;
   column-span: 2;
   margin-bottom: 10x;

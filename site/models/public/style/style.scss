@@ -349,6 +349,7 @@ receive {
     border-spacing: 1.5px 1.5px;
 
     row {
+      cursor: pointer;
       display: table-row;
       column-span: 2;
       margin-bottom: 10x;
