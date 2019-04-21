@@ -2,7 +2,6 @@ const sqlite3 = require('sqlite3').verbose()
 var path = require('path')
 const dbPath = path.resolve(__dirname, '../database/database.db')
 
-// Export functions
 module.exports = {
   connectDatabase: connectDatabase,
   putData: putData,
