@@ -28,11 +28,11 @@ function retrieveData (table, id, _callback) {
 
 // Page retrieval
 app.get('/', (req, res) => {
-  res.render('index.html')
+  res.render('index')
 })
 
 app.get('/login', (req, res) => {
-  res.render('login.html')
+  res.render('login')
 })
 
 app.get('/receive', (req, res) => {
@@ -52,7 +52,7 @@ app.get('/receive', (req, res) => {
         // Retrieve the snippet content.
         retrieveData('snippetcontent', snippet.contentid, function(err, snippetcontent) {
           variables.snippets.push({'description': snippetcontent.description, 
-          'content': snippetcontent.content})
+          'content': snippetcontent.content, 'id': snippetcontent.id})
 
           // Want to populate the main content with the first snippet by default.
           if (index == 0) {
@@ -73,11 +73,11 @@ app.get('/receive', (req, res) => {
 })
 
 app.get('/send', (req, res) => {
-  res.render('send.html')
+  res.render('send')
 })
 
 app.get('/stats', (req, res) => {
-  res.render('stats.html')
+  res.render('stats')
 })
 
 // Start the server.

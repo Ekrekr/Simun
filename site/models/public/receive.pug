@@ -26,8 +26,8 @@ html(lang=lang)
       snippet-list
         for snippet, index in snippets
           row 
-            a(href="")
-              snippet(href="index.html" id="#{snippet.description}")
+            a(id="#{index}")
+              snippet(href="index.html")
                 info
                   description #{snippet.description}
                   br
@@ -36,10 +36,10 @@ html(lang=lang)
       
       snippet-selected
         info
-          description #{selected.description}
+          description(id="selected-description") #{selected.description}
           br
           from(id="selected-author")
-        img(src=selected.content)
+        img(id="selected.content" src=selected.content)
         a(href="" title="Report")
           report
         control-box
@@ -47,6 +47,7 @@ html(lang=lang)
             trash-it
           a(href="" title="Forward it")
             forward-it
-    script(src="scripts/receive.js")
-  
+
+      script(type="text/javascript" src="../scripts/receive.js")
+
   +create-footer
