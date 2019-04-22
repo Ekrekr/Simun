@@ -13,7 +13,7 @@ All accounts will be anonymous and discourage the sharing of personal informatio
 
 ## Deployment
 
-In order to fully deploy the development set up:
+In order to deploy the development set up:
 
 - Navigate to the site directory
 - Run `npm install` to install required modules. For other modules see prerequisites section above
@@ -38,7 +38,7 @@ See the [package-lock file](package-lock.json) for all packages.
 - Follow this colour sheet in general
   ![colour sheet](design/colour_scheme.png)
 - Title font is [Glacial-indifference](http://scripts.sil.org/). Main font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
-- Scheme for the database can be found at [here](database/database.png)
+- Scheme for the database can be found at [here](docs/database-structure.png)
 
 ## License
 
