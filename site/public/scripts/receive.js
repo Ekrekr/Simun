@@ -1,28 +1,28 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const http = require('http');
-const https = require('https');
-const request = require('request');
+const http = require('http')
+const https = require('https')
+const request = require('request')
 
 // Shorthand for getting elements by ID.
-var $ = function(id) { return document.getElementById(id); };
+var $ = function (id) { return document.getElementById(id) }
 
-function retrieveSnippetsList(userID) {
-    var snippetList = '';
-    console.log('Retrieving snippets');
-    request('http://localhost:7000/snippet-list', { json: false }, (err, res, body) => {
-        if (err) { return console.log(err); }
-        console.log("Error:", err);
-        console.log("Result:", res);
-        console.log("Body:", body);
-      });
+function retrieveSnippetsList (userID) {
+  var snippetList = ''
+  console.log('Retrieving snippets')
+  request('http://localhost:7000/snippet-list', { json: false }, (err, res, body) => {
+    if (err) { return console.log(err) }
+    console.log('Error:', err)
+    console.log('Result:', res)
+    console.log('Body:', body)
+  })
 }
 
 // Connect to server to retrieve snippets.
 // var snippetList = retrieveTest();
-var snippetList = retrieveSnippetsList(0);
+var snippetList = retrieveSnippetsList(0)
 
 // Assign snippet data.
-var element = $('selected-description').innerHTML = "New Heading";
+var element = $('selected-description').innerHTML = 'New Heading'
 
 },{"http":343,"https":273,"request":114}],2:[function(require,module,exports){
 'use strict';
@@ -6644,8 +6644,8 @@ function _setExports(ndebug) {
 
 module.exports = _setExports(process.env.NODE_NDEBUG);
 
-}).call(this,{"isBuffer":require("../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")},require('_process'))
-},{"../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":276,"_process":305,"assert":182,"stream":342,"util":354}],51:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")},require('_process'))
+},{"../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":276,"_process":305,"assert":182,"stream":342,"util":354}],51:[function(require,module,exports){
 
 /*!
  *  Copyright 2010 LearnBoost <dev@learnboost.com>
@@ -8112,8 +8112,8 @@ CombinedStream.prototype._emitError = function(err) {
   this.emit('error', err);
 };
 
-}).call(this,{"isBuffer":require("../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
-},{"../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":276,"./defer.js":57,"delayed-stream":59,"stream":342,"util":354}],57:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":276,"./defer.js":57,"delayed-stream":59,"stream":342,"util":354}],57:[function(require,module,exports){
 (function (process,setImmediate){
 module.exports = defer;
 
@@ -8253,8 +8253,8 @@ function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
 
-}).call(this,{"isBuffer":require("../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
-},{"../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":276}],59:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":276}],59:[function(require,module,exports){
 var Stream = require('stream').Stream;
 var util = require('util');
 
@@ -11235,8 +11235,8 @@ module.exports = {
 
 };
 
-}).call(this,{"isBuffer":require("../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
-},{"../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":276,"./utils":93,"assert-plus":50,"crypto":230,"http":343,"jsprim":101,"sshpk":148,"util":354}],93:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":276,"./utils":93,"assert-plus":50,"crypto":230,"http":343,"jsprim":101,"sshpk":148,"util":354}],93:[function(require,module,exports){
 // Copyright 2012 Joyent, Inc.  All rights reserved.
 
 var assert = require('assert-plus');
@@ -31820,8 +31820,8 @@ Key._oldVersionDetect = function (obj) {
 	return ([1, 0]);
 };
 
-}).call(this,{"isBuffer":require("../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
-},{"../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":276,"./algs":129,"./dhe":131,"./ed-compat":132,"./errors":133,"./fingerprint":134,"./formats/auto":135,"./formats/dnssec":136,"./formats/pem":138,"./formats/pkcs1":139,"./formats/pkcs8":140,"./formats/putty":141,"./formats/rfc4253":142,"./formats/ssh":144,"./formats/ssh-private":143,"./private-key":150,"./signature":151,"./utils":153,"assert-plus":50,"crypto":230}],150:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":276,"./algs":129,"./dhe":131,"./ed-compat":132,"./errors":133,"./fingerprint":134,"./formats/auto":135,"./formats/dnssec":136,"./formats/pem":138,"./formats/pkcs1":139,"./formats/pkcs8":140,"./formats/putty":141,"./formats/rfc4253":142,"./formats/ssh":144,"./formats/ssh-private":143,"./private-key":150,"./signature":151,"./utils":153,"assert-plus":50,"crypto":230}],150:[function(require,module,exports){
 // Copyright 2017 Joyent, Inc.
 
 module.exports = PrivateKey;
@@ -34792,7 +34792,7 @@ module.exports={
   "_args": [
     [
       "tough-cookie@2.4.3",
-      "/Users/eliaskassellraymond/Documents/GitHub/Simon/site"
+      "/mnt/d/ComputerScience/Year 3/WebTechnology/Simon/site"
     ]
   ],
   "_from": "tough-cookie@2.4.3",
@@ -34816,7 +34816,7 @@ module.exports={
   ],
   "_resolved": "https://registry.npmjs.org/tough-cookie/-/tough-cookie-2.4.3.tgz",
   "_spec": "2.4.3",
-  "_where": "/Users/eliaskassellraymond/Documents/GitHub/Simon/site",
+  "_where": "/mnt/d/ComputerScience/Year 3/WebTechnology/Simon/site",
   "author": {
     "name": "Jeremy Stashewsky",
     "email": "jstash@gmail.com"

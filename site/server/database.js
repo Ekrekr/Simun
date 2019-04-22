@@ -10,21 +10,32 @@ module.exports = {
   putData: putData,
   getData: getData,
   updateData: updateData,
-  deleteRow: deleteRow
+  deleteRow: deleteRow,
+  hashingEntry: hashingEntry,
+  compareHash: compareHash
 }
 
 var path = require('path')
 const sqlite3 = require('sqlite3').verbose()
 const dbPath = path.resolve(__dirname, '../database/database.db')
+const bcrypt = require("bcrypt")
+const saltRounds = 10
 let sqlGet = `SELECT *
                   FROM Login
-                  WHERE username = ?`
+                  WHERE username='Jadams'`
 let sqlPut = `INSERT INTO Login (forename, surname, username, password) VALUES (?,?,?,?)`
 let sqlUpdate = `UPDATE Login SET forename = ? WHERE forename = ?`
 let sqlDelete = `DELETE FROM Login WHERE forename=?`
 
+async function hashingEntry(entry) {
+  return await bcrypt.hashSync(entry, saltRounds);
+}
+async function compareHash(plaintext, hash) {
+  return await bcrypt.compareSync(plaintext, hash);
+}
+
 function connectDatabase() {
-  return new sqlite3.Database(dbPath, (err) => {
+  return new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.error(err.message)
     }
@@ -44,14 +55,14 @@ function getData(Table, lookup) {
   let db = connectDatabase()
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
-      db.all(sqlGet, lookup, function (err, rows) {
+      db.all(sqlGet, function (err, rows) {
         if (err) {
           reject(err)
         } else {
           resolve(rows)
         }
-        closeDatabase(db)
       })
+      closeDatabase(db)
     })
   })
 }

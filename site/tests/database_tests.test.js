@@ -8,7 +8,7 @@
 var expect = require('chai').expect
 var database = require('../server/database.js')
 
-describe('database.getData()', function () {
+describe('database.getData()', async function () {
   it('should return the output described', function () {
     var expectC = `[{
       id: 1,
@@ -17,8 +17,7 @@ describe('database.getData()', function () {
       username: 'Jadams',
       password: 'Maybe'
     }]`
-    let resultC = database.getData('Login', '1')
-    resultC.then(function (err, result) {
+    database.getData('Login', 'Jadams').then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectC)
       }
@@ -26,7 +25,7 @@ describe('database.getData()', function () {
   })
 })
 
-describe('database.putData()', function () {
+describe('database.putData()', async function () {
   it('should return the output described', function () {
     var expectD = `Row(s) inserted: 1`
     database.putData('Login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (err, result) {
@@ -37,7 +36,7 @@ describe('database.putData()', function () {
   })
 })
 
-describe('database.updateData()', function () {
+describe('database.updateData()', async function () {
   it('should return the output described', function () {
     var expectE = `Row(s) updated: 1`
     database.updateData('Login', 'Test1', 'TestForename').then(function (err, result) {
@@ -48,15 +47,13 @@ describe('database.updateData()', function () {
   })
 })
 
-describe('database.deleteRow()', function () {
+describe('database.deleteRow()', async function () {
   it('should return the output described', function () {
     var expectF = `Row(s) deleted: 1`
     database.deleteRow('Login', 'TestForename').then(function (err, result) {
       if (err) {} else {
         expect(result).to.equal(expectF)
       }
-    }).catch((err) => {
-      return err
     })
   })
 })
