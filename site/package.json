@@ -32,10 +32,14 @@
     "chai": "^4.2.0",
     "concurrently": "^4.1.0",
     "mocha": "^5.2.0",
-    "standard": "{ 'env': [ 'mocha' ] }"
+    "standard": {
+      "env": [
+        "mocha"
+      ]
+    }
   },
   "scripts": {
-    "tests": "standard --fix 'models/**/*.js' 'server/**/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.test.js'",
+    "tests": "standard --fix 'models/**/*.js' 'server/**/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.tests.js'",
     "open-website": "open http://localhost:7000",
     "start-server": "nodemon server/server",
     "compile-css": "sass --watch models/public/style:public/style",

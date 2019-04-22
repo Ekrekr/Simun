@@ -13,7 +13,7 @@ function setActive (counter) {
   var contentID = rowItem.children[0].id
 
   // Need to retrieve the content from the server to populate the selected box.
-  tools.retrieveData('snippetcontent', contentID, function (err, snippet) {
+  tools.retrieveData('snippetcontent', contentID, (err, snippet) => {
     if (err) {
       console.log('Error retrieving snippetcontent from server:', err)
       return

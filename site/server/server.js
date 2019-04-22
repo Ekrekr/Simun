@@ -12,10 +12,13 @@ app.use(express.static(path.join(__dirname, '../public')))
 // Retrieve data from the database
 app.get('/data/:table/:id', (req, res) => {
   console.log('Retrieving data from table "' + req.params.table + '" and id', req.params.id)
-
+  // if (req.params.table === 'snippetcontent') {
   database.getData(req.params.table, req.params.id).then(response => {
     res.send(JSON.stringify(response[0]))
   })
+  // } else {
+  //   res.send(null)
+  // }
 })
 
 // Retrieves data by asking the server for it.
