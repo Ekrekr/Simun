@@ -1,22 +1,22 @@
-var path = require("path");
-const express = require("express");
-const app = express();
-var router = express.Router();
-var bodyParser = require("body-parser");
+var path = require('path')
+const express = require('express')
+const app = express()
+var router = express.Router()
+var bodyParser = require('body-parser')
 var database = require('./database.js')
 const request = require('request')
 
-//parse requests
+// parse requests
 app.use(
   bodyParser.urlencoded({
     extended: true
   })
-);
+)
 
-app.set("views", path.join(__dirname, "../models/public"));
-app.set("view engine", "pug");
-app.use(express.static(path.join(__dirname, "../public")));
-app.use(bodyParser.json());
+app.set('views', path.join(__dirname, '../models/public'))
+app.set('view engine', 'pug')
+app.use(express.static(path.join(__dirname, '../public')))
+app.use(bodyParser.json())
 
 router.get('/receive.js', (req, res) => {
   res.sendfile('scripts/receive.js')
@@ -34,10 +34,8 @@ router.get('/data/:table/:id', (req, res) => {
   // }
 })
 
-
-
 // Retrieves data by asking the server for it.
-function retrieveData(table, id, _callback) {
+function retrieveData (table, id, _callback) {
   request('http://localhost:7000/data/' + table + '/' + id, {
     json: true
   }, (err, res, body) => {
@@ -102,60 +100,63 @@ router.get('/send', (req, res) => {
   res.render('send')
 })
 
-router.get("/", function (req, res) {
-  res.render("login")
-});
+router.get('/', function (req, res) {
+  res.render('login')
+})
 
-//Login authentication 
-//Gets the username and password of input and calls authentication function
-router.post("/login", async function (req, res) {
+// Login authentication
+// Gets the username and password of input and calls authentication function
+router.post('/login', async function (req, res) {
   var username = req.body.username
   var password = req.body.password
   await authenticate(res, username, password)
-});
+})
 
-//Authenticates username and password for login
-async function authenticate(res, username, password) {
-  var authentication = database.getUserData("Login", username);
+// Authenticates username and password for login
+async function authenticate (res, username, password) {
+  var authentication = database.getUserData('Login', username)
   authentication.then(async function (result) {
     if (result.length > 0) {
       if (
-        result[0].username == username &&
-        result[0].password == password
+        result[0].username === username &&
+        result[0].password === password
       ) {
-        res.render("index")
+        res.render('index')
       } else {
-        res.render("login")
+        res.render('login')
       }
-
     } else {
-      res.render("login")
+      res.render('login')
     }
-  });
+  })
 }
 
-router.get("/login", function (req, res) {
-  res.render("login")
-});
+router.get('/login', function (req, res) {
+  res.render('login')
+})
 
-router.get("/send", function (req, res) {
-  res.render("send")
-});
+router.get('/send', function (req, res) {
+  res.render('send')
+})
 
-router.get("/stats", function (req, res) {
-  res.render("stats")
-});
+router.get('/stats', function (req, res) {
+  res.render('stats')
+})
 
-router.get("/index", function (req, res) {
-  res.render("index")
-});
+router.get('/index', function (req, res) {
+  res.render('index')
+})
 
-app.use("/", router)
+app.use('/', router)
 
 connectToServer()
 
-function connectToServer() {
+async function connectToServer () {
   app.listen(7000, () => {
     console.log(`Express running → PORT 7000`)
-  });
+  })
+}
+
+module.exports = {
+  connectToServer: connectToServer
 }

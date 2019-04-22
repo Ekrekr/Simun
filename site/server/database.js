@@ -1,11 +1,11 @@
 var path = require('path')
 const sqlite3 = require('sqlite3').verbose()
 const dbPath = path.resolve(__dirname, '../database/database.db')
-const bcrypt = require("bcrypt")
+const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 module.exports = {
-  connectDatabase: function connectDatabase() {},
+  connectDatabase: function connectDatabase () {},
   putData: putData,
   getData: getData,
   getUserData: getUserData,
@@ -15,18 +15,18 @@ module.exports = {
   compareHash: compareHash
 }
 
-//Hashes input
-async function hashingEntry(entry) {
-  return await bcrypt.hashSync(entry, saltRounds);
+// Hashes input
+async function hashingEntry (entry) {
+  return bcrypt.hashSync(entry, saltRounds)
 }
 
-//Compares the hash and plaintext of inputs
-async function compareHash(plaintext, hash) {
-  return await bcrypt.compareSync(plaintext, hash);
+// Compares the hash and plaintext of inputs
+async function compareHash (plaintext, hash) {
+  return bcrypt.compareSync(plaintext, hash)
 }
 
-//Connect to the database
-function connectDatabase() {
+// Connect to the database
+function connectDatabase () {
   return new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.error(err.message)
@@ -35,8 +35,8 @@ function connectDatabase() {
   })
 }
 
-//Close the database connection
-function closeDatabase(db) {
+// Close the database connection
+function closeDatabase (db) {
   db.close((err) => {
     if (err) {
       return console.error(err.message)
@@ -45,7 +45,7 @@ function closeDatabase(db) {
 }
 
 // GET data from database
-function getData(table, lookup) {
+function getData (table, lookup) {
   let db = connectDatabase()
   let sqlGet = `SELECT *
                   FROM ` + table + `
@@ -64,8 +64,8 @@ function getData(table, lookup) {
   })
 }
 
-//GET function for login functionality 
-function getUserData(table, lookup) {
+// GET function for login functionality
+function getUserData (table, lookup) {
   let db = connectDatabase()
   let sqlGet = `SELECT *
                   FROM Login
@@ -85,7 +85,7 @@ function getUserData(table, lookup) {
 }
 
 // PUT data from database
-function putData(table, forname, surname, username, password) {
+function putData (table, forname, surname, username, password) {
   var data = [forname, surname, username, password]
   var sqlPut = `INSERT INTO login (forename, surname, username, password) VALUES (?,?,?,?)`
 
@@ -105,7 +105,7 @@ function putData(table, forname, surname, username, password) {
 }
 
 // UPDATE data from database
-function updateData(table, lookup, change) {
+function updateData (table, lookup, change) {
   let data = [change, lookup]
   let db = connectDatabase()
   let sqlUpdate = `UPDATE login
@@ -126,7 +126,7 @@ function updateData(table, lookup, change) {
 }
 
 // DELETE data from database
-function deleteRow(table, lookup) {
+function deleteRow (table, lookup) {
   let db = connectDatabase()
   let sqlDelete = `DELETE FROM ` + table + ` WHERE forename=?`
   return new Promise(function (resolve, reject) {
