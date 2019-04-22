@@ -1,57 +1,92 @@
 /* eslint-env mocha */
-
+// server_test.js
+// Runs all server tests.
+// Note:
+// * All tests should follow the arrange, act then assert structure.
+// * npm standard reports `describe` and `it` to not be defined so have warnings
+//      disabled for those specific lines.
 var expect = require('chai').expect
 var database = require('../server/database.js')
 
-describe('database.getData()', function () {
-  it('checks that login data can be retrieved from the database', function () {
-    var expectC = `[{
+// Function to check if 2 objects are equivalent
+function isEqual (a, b) {
+  if (a[0].length !== b[0].length) {
+    return false
+  }
+
+  const aValues = Object.values(a[0])
+  const bValues = Object.values(b[0])
+
+  for (var i = 0; i < aValues.length; i++) {
+    if (aValues[i] !== bValues[i]) {
+      return false
+    }
+  }
+  return true
+}
+
+// Get Data function test
+describe('database.getData()', async function () {
+  it('checks that login data can be retrieved from the database', async function () {
+    var expectC = [{
       id: 1,
-      forename: 'Jadams',
+      forename: 'James',
       surname: 'Adams',
       username: 'Jadams',
       password: 'Maybe'
-    }]`
-    let resultC = database.getData('login', '1')
-    resultC.then(function (err, result) {
-      if (err) {} else {
-        expect(result).to.equal(expectC)
+    }]
+    let value = await database.getData('Login', '1').then(function (result) {
+      if (isEqual(expectC, result)) {
+        return true
+      } else {
+        return false
       }
     })
+    expect(value).to.equal(true)
   })
 })
 
-describe('database.putData()', function () {
-  it('checks that data can be written to the database login table', function () {
-    var expectD = `Row(s) inserted: 1`
-    database.putData('login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (err, result) {
-      if (err) {} else {
-        expect(result).to.equal(expectD)
+// Put Data function test
+describe('database.putData()', async function () {
+  it('checks that data can be written to the database login table', async function () {
+    var expectD = `Rows inserted 1`
+    let value = await database.putData('Login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (result) {
+      if (result === expectD) {
+        return true
+      } else {
+        return false
       }
     })
+    expect(value).to.equal(true)
   })
 })
 
-describe('database.updateData()', function () {
-  it('checks that data can be updated in the database login table', function () {
+// Update Data function test
+describe('database.updateData()', async function () {
+  it('checks that data can be updated in the database login table', async function () {
     var expectE = `Row(s) updated: 1`
-    database.updateData('login', 'Test1', 'TestForename').then(function (err, result) {
-      if (err) {} else {
-        expect(result).to.equal(expectE)
+    let value = await database.updateData('Login', 'Test1', 'TestForename').then(function (result) {
+      if (result === expectE) {
+        return true
+      } else {
+        return false
       }
     })
+    expect(value).to.equal(true)
   })
 })
 
-describe('database.deleteRow()', function () {
-  it('checks that rows can be deleted from login table of the database', function () {
-    var expectF = `Row(s) deleted: 1`
-    database.deleteRow('login', 'TestForename').then(function (err, result) {
-      if (err) {} else {
-        expect(result).to.equal(expectF)
+// Delete Data function test
+describe('database.deleteRow()', async function () {
+  it('checks that data can be deleted from the database login table', async function () {
+    var expectF = `Row(s) deleted 1`
+    let value = await database.deleteRow('Login', 'TestForename').then(function (result) {
+      if (result === expectF) {
+        return true
+      } else {
+        return false
       }
-    }).catch((err) => {
-      return err
     })
+    expect(value).to.equal(true)
   })
 })

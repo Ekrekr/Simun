@@ -1,16 +1,29 @@
 var path = require('path')
 const express = require('express')
+const app = express()
+var router = express.Router()
+var bodyParser = require('body-parser')
 var database = require('./database.js')
 const request = require('request')
 
-const app = express()
+// parse requests
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+)
 
 app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, '../public')))
+app.use(bodyParser.json())
+
+router.get('/receive.js', (req, res) => {
+  res.sendfile('scripts/receive.js')
+})
 
 // Retrieve data from the database
-app.get('/data/:table/:id', (req, res) => {
+router.get('/data/:table/:id', (req, res) => {
   console.log('Retrieving data from table "' + req.params.table + '" and id', req.params.id)
   // if (req.params.table === 'snippetcontent') {
   database.getData(req.params.table, req.params.id).then(response => {
@@ -23,22 +36,17 @@ app.get('/data/:table/:id', (req, res) => {
 
 // Retrieves data by asking the server for it.
 function retrieveData (table, id, _callback) {
-  request('http://localhost:7000/data/' + table + '/' + id, { json: true }, (err, res, body) => {
-    if (err) { return _callback(err) }
+  request('http://localhost:7000/data/' + table + '/' + id, {
+    json: true
+  }, (err, res, body) => {
+    if (err) {
+      return _callback(err)
+    }
     return _callback(null, JSON.parse(JSON.stringify(body)))
   })
 }
 
-// Page retrieval
-app.get('/', (req, res) => {
-  res.render('index')
-})
-
-app.get('/login', (req, res) => {
-  res.render('login')
-})
-
-app.get('/receive', (req, res) => {
+router.get('/receive', (req, res) => {
   // File to pass to pug to tell it what value to give variables.
   var variables = {}
   variables.selected = {}
@@ -68,15 +76,19 @@ app.get('/receive', (req, res) => {
             return
           }
 
-          variables.snippets.push({ 'description': snippetcontent.description,
+          variables.snippets.push({
+            'description': snippetcontent.description,
             'content': snippetcontent.content,
-            'id': snippetcontent.id })
+            'id': snippetcontent.id
+          })
 
           // Only return final source if final iteration.
           if (index === snippets.length - 1) {
             // Send the created page back to user after loading all the variables,
             // with a slight delay to prevent further problems.
-            setTimeout(function () { res.render('receive', variables) }, 100)
+            setTimeout(function () {
+              res.render('receive', variables)
+            }, 100)
           }
         })
       })
@@ -84,19 +96,67 @@ app.get('/receive', (req, res) => {
   })
 })
 
-app.get('/send', (req, res) => {
+router.get('/send', (req, res) => {
   res.render('send')
 })
 
-app.get('/stats', (req, res) => {
+router.get('/', function (req, res) {
+  res.render('login')
+})
+
+// Login authentication
+// Gets the username and password of input and calls authentication function
+router.post('/login', async function (req, res) {
+  var username = req.body.username
+  var password = req.body.password
+  await authenticate(res, username, password)
+})
+
+// Authenticates username and password for login
+async function authenticate (res, username, password) {
+  var authentication = database.getUserData('Login', username)
+  authentication.then(async function (result) {
+    if (result.length > 0) {
+      if (
+        result[0].username === username &&
+        result[0].password === password
+      ) {
+        res.render('index')
+      } else {
+        res.render('login')
+      }
+    } else {
+      res.render('login')
+    }
+  })
+}
+
+router.get('/login', function (req, res) {
+  res.render('login')
+})
+
+router.get('/send', function (req, res) {
+  res.render('send')
+})
+
+router.get('/stats', function (req, res) {
   res.render('stats')
 })
 
-app.get('/receive.js', (req, res) => {
-  res.sendfile('scripts/receive.js')
+router.get('/index', function (req, res) {
+  res.render('index')
 })
 
-// Start the server.
-app.listen(7000, () => {
-  console.log('Server started on port 7000')
-})
+app.use('/', router)
+
+connectToServer()
+
+async function connectToServer () {
+  app.listen(7000, () => {
+    console.log(`Express running → PORT 7000`)
+  })
+}
+
+module.exports = {
+  connectToServer: connectToServer
+}
