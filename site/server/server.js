@@ -1,31 +1,30 @@
-var path = require('path')
-const express = require('express')
+var path = require("path");
+const express = require("express");
+const app = express();
+var router = express.Router();
+var bodyParser = require("body-parser");
 var database = require('./database.js')
 const request = require('request')
 
-// request - Emitted for Each request from the client (We would listen here).
-server.on("request", (request, response) => {
-  var body = [];
-  request
-    .on("data", chunk => {
-      body.push(chunk);
-    })
-    .on("end", () => {
-      body = body.concat.toString();
-      console.log("Server received ", body.toString());
-    })
-    .on("error", err => {
-      console.error(err);
-      response.statusCode = 400;
-      response.end();
-    });
 
-  response.on("error", err => {
-    console.error(err);
-  });
+//parse requests
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
+
+app.set("views", path.join(__dirname, "../models/public"));
+app.set("view engine", "pug");
+app.use(express.static(path.join(__dirname, "../public")));
+app.use(bodyParser.json());
+
+router.get('/receive.js', (req, res) => {
+  res.sendfile('scripts/receive.js')
+})
 // Retrieve data from the database
-app.get('/data/:table/:id', (req, res) => {
+router.get('/data/:table/:id', (req, res) => {
   console.log('Retrieving data from table "' + req.params.table + '" and id', req.params.id)
   // if (req.params.table === 'snippetcontent') {
   database.getData(req.params.table, req.params.id).then(response => {
@@ -36,24 +35,21 @@ app.get('/data/:table/:id', (req, res) => {
   // }
 })
 
+
+
 // Retrieves data by asking the server for it.
-function retrieveData (table, id, _callback) {
-  request('http://localhost:7000/data/' + table + '/' + id, { json: true }, (err, res, body) => {
-    if (err) { return _callback(err) }
+function retrieveData(table, id, _callback) {
+  request('http://localhost:7000/data/' + table + '/' + id, {
+    json: true
+  }, (err, res, body) => {
+    if (err) {
+      return _callback(err)
+    }
     return _callback(null, JSON.parse(JSON.stringify(body)))
   })
 }
 
-// Page retrieval
-app.get('/', (req, res) => {
-  res.render('index')
-})
-
-app.get('/login', (req, res) => {
-  res.sendfile('login.html')
-})
-
-app.get('/receive', (req, res) => {
+router.get('/receive', (req, res) => {
   // File to pass to pug to tell it what value to give variables.
   var variables = {}
   variables.selected = {}
@@ -83,15 +79,19 @@ app.get('/receive', (req, res) => {
             return
           }
 
-          variables.snippets.push({ 'description': snippetcontent.description,
+          variables.snippets.push({
+            'description': snippetcontent.description,
             'content': snippetcontent.content,
-            'id': snippetcontent.id })
+            'id': snippetcontent.id
+          })
 
           // Only return final source if final iteration.
           if (index === snippets.length - 1) {
             // Send the created page back to user after loading all the variables,
             // with a slight delay to prevent further problems.
-            setTimeout(function () { res.render('receive', variables) }, 100)
+            setTimeout(function () {
+              res.render('receive', variables)
+            }, 100)
           }
         })
       })
@@ -99,41 +99,12 @@ app.get('/receive', (req, res) => {
   })
 })
 
-app.get('/send', (req, res) => {
-  res.sendfile('send.html')
+router.get('/send', (req, res) => {
+  res.render('send')
 })
-
-app.get('/stats', (req, res) => {
-  res.sendfile('stats.html')
-})
-
-/*****************************************/
-/*               SERVER                  */
-/*****************************************/
-var path = require("path");
-const express = require("express");
-const app = express();
-var router = express.Router();
-var bodyParser = require("body-parser");
-app.get('/receive.js', (req, res) => {
-  res.sendfile('scripts/receive.js')
-})
-
-//parse requests
-app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
-);
-
-
-app.set("views", path.join(__dirname, "../models/public"));
-app.set("view engine", "pug");
-app.use(express.static(path.join(__dirname, "../public")));
-app.use(bodyParser.json());
 
 router.get("/", function (req, res) {
-  res.redirect("index.html");
+  res.render("login");
 });
 
 router.post("/login", async function (req, res) {
@@ -152,31 +123,28 @@ async function authenticate(res, username, password) {
       database.compareHash(result[0].username, newUsername) &&
       database.compareHash(result[0].password, newPassword)
     ) {
-      res.redirect("index.html");
+      res.render("index");
     } else {
-      res.redirect("login.html");
+      res.render("login");
     }
   });
 }
 
 router.get("/login", function (req, res) {
-  res.redirect("login.html");
-});
-
-router.get("/receive", function (req, res) {
-  res.redirect("receive.html");
+  console.log("Login")
+  res.render("login");
 });
 
 router.get("/send", function (req, res) {
-  res.redirect("send.html");
+  res.render("send");
 });
 
 router.get("/stats", function (req, res) {
-  res.redirect("stats.html");
+  res.render("stats");
 });
 
 router.get("/index", function (req, res) {
-  res.redirect("index.html");
+  res.render("index");
 });
 
 app.use("/", router);
@@ -185,6 +153,6 @@ connectToServer();
 
 function connectToServer() {
   app.listen(7000, () => {
-    console.log(`Express running → PORT ${server.address()}`);
+    console.log(`Express running → PORT 7000`);
   });
 }

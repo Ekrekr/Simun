@@ -1,6 +1,14 @@
-const sqlite3 = require('sqlite3').verbose()
 var path = require('path')
+const sqlite3 = require('sqlite3').verbose()
 const dbPath = path.resolve(__dirname, '../database/database.db')
+const bcrypt = require("bcrypt")
+const saltRounds = 10
+let sqlGet = `SELECT *
+                  FROM Login
+                  WHERE username='Jadams'`
+let sqlPut = `INSERT INTO Login (forename, surname, username, password) VALUES (?,?,?,?)`
+let sqlUpdate = `UPDATE Login SET forename = ? WHERE forename = ?`
+let sqlDelete = `DELETE FROM Login WHERE forename=?`
 
 module.exports = {
   connectDatabase: function connectDatabase() {},
@@ -14,18 +22,6 @@ module.exports = {
   hashingEntry: hashingEntry,
   compareHash: compareHash
 }
-
-var path = require('path')
-const sqlite3 = require('sqlite3').verbose()
-const dbPath = path.resolve(__dirname, '../database/database.db')
-const bcrypt = require("bcrypt")
-const saltRounds = 10
-let sqlGet = `SELECT *
-                  FROM Login
-                  WHERE username='Jadams'`
-let sqlPut = `INSERT INTO Login (forename, surname, username, password) VALUES (?,?,?,?)`
-let sqlUpdate = `UPDATE Login SET forename = ? WHERE forename = ?`
-let sqlDelete = `DELETE FROM Login WHERE forename=?`
 
 async function hashingEntry(entry) {
   return await bcrypt.hashSync(entry, saltRounds);
@@ -51,26 +47,28 @@ function closeDatabase(db) {
   })
 }
 // GET
-function getData(Table, lookup) {
+function getData(table, lookup) {
   let db = connectDatabase()
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
-      db.all(sqlGet, function (err, rows) {
+      db.all(`SELECT *
+                  FROM ` + table + `
+                  WHERE id = ?`, lookup, function (err, rows) {
         if (err) {
           reject(err)
         } else {
           resolve(rows)
         }
       })
-      closeDatabase(db)
     })
   })
 }
 
 // PUT
-function putData(Table, forname, surname, username, password) {
-  let db = connectDatabase()
+function putData(table, forname, surname, username, password) {
   var data = [forname, surname, username, password]
+  var sqlPut = `INSERT INTO ` + table + ` (forename, surname, username, password) VALUES (?,?,?,?)`
+  let db = connectDatabase()
   return new Promise(function (resolve, reject) {
     db.run(sqlPut, data, function (err, result) {
       if (err) {
@@ -78,15 +76,17 @@ function putData(Table, forname, surname, username, password) {
       } else {
         resolve(`Rows inserted ${this.changes}`)
       }
-      closeDatabase(db)
     })
   })
 }
 
 // UPDATE
-function updateData(Table, lookup, change) {
-  let db = connectDatabase()
+function updateData(table, lookup, change) {
   let data = [change, lookup]
+  let db = connectDatabase()
+  let sqlUpdate = `UPDATE Login
+    SET forename = ?
+    WHERE forename = ?`
   return new Promise(function (resolve, reject) {
     db.run(sqlUpdate, data, function (err) {
       if (err) {
@@ -94,22 +94,20 @@ function updateData(Table, lookup, change) {
       } else {
         resolve(`Row(s) updated: ${this.changes}`)
       }
-      closeDatabase(db)
     })
   })
 }
 
 // DELETE
-function deleteRow(Table, lookup) {
+function deleteRow(table, lookup) {
   let db = connectDatabase()
   return new Promise(function (resolve, reject) {
-    db.run(sqlDelete, lookup, function (err) {
+    db.run(`DELETE FROM ` + table + ` WHERE forename=?`, lookup, function (err) {
       if (err) {
         reject(err)
       } else {
         resolve(`Row(s) deleted ${this.changes}`)
       }
-      closeDatabase(db)
     })
   })
 }
