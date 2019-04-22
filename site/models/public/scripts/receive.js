@@ -1,24 +1,57 @@
-const http = require('http')
-const https = require('https')
-const request = require('request')
+var tools = require('./tools.js')
+
+var currentlyActive = 0
 
 // Shorthand for getting elements by ID.
 var $ = function (id) { return document.getElementById(id) }
 
-function retrieveSnippetsList (userID) {
-  var snippetList = ''
-  console.log('Retrieving snippets')
-  request('http://localhost:7000/snippet-list', { json: false }, (err, res, body) => {
-    if (err) { return console.log(err) }
-    console.log('Error:', err)
-    console.log('Result:', res)
-    console.log('Body:', body)
+// Make a snippet highlighted and fill the selected snippet content with.
+function setActive (counter) {
+  var rowItem = $('select-' + counter)
+
+  // Need to find the child of the current row as its child snippet contains the actual id.
+  var contentID = rowItem.children[0].id
+
+  // Need to retrieve the content from the server to populate the selected box.
+  tools.retrieveData('snippetcontent', contentID, (err, snippet) => {
+    if (err) {
+      console.log('Error retrieving snippetcontent from server:', err)
+      return
+    }
+    $('selected-content').src = snippet.content
+    $('selected-description').innerHTML = snippet.description
   })
+
+  // Finally unhighlight the current selector and highlight the selected
+  var prevRowItem = $('select-' + currentlyActive)
+  prevRowItem.children[0].style.backgroundColor = tools.colorprimary
+  currentlyActive = counter
+  rowItem.children[0].style.backgroundColor = tools.colorlight
 }
 
-// Connect to server to retrieve snippets.
-// var snippetList = retrieveTest();
-var snippetList = retrieveSnippetsList(0)
+// Finds all row items and adds their onclick listener.
+function assignButtons () {
+  var viable = true
+  var counter = 0
+  while (viable) {
+    var rowID = 'select-' + counter
+    var rowItem = $(rowID)
 
-// Assign snippet data.
-var element = $('selected-description').innerHTML = 'New Heading'
+    if (rowItem != null) {
+      // Complexity here required to prevent rowItem from always being the final value of the loop.
+      rowItem.onclick = ((item) => {
+        return () => {
+          setActive(item)
+        }
+      })(counter)
+
+      counter += 1
+    } else {
+      viable = false
+    }
+  }
+}
+
+assignButtons()
+
+setActive(0)

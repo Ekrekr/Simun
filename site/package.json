@@ -1,5 +1,5 @@
 {
-  "name": "Simon",
+  "name": "simun",
   "version": "1.0.0",
   "description": "A website for experimenting with agent sharing, client and server side.",
   "main": "server.js",
@@ -18,6 +18,7 @@
     "minimatch": "^3.0.4",
     "mssql": "^4.3.2",
     "mysql": "^2.16.0",
+    "node-fetch": "^2.3.0",
     "popper.js": "^1.15.0",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
@@ -38,13 +39,13 @@
     }
   },
   "scripts": {
-    "tests": "standard --fix 'models/**/*.js' 'server/**/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.test.js'",
+    "tests": "standard --fix 'models/**/*.js' 'server/**/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.tests.js'",
     "open-website": "open http://localhost:7000",
-    "start-server": "node server/server",
+    "start-server": "nodemon server/server",
     "compile-css": "sass --watch models/public/style:public/style",
     "compile-html": "pug --watch models/public -o public",
     "compile-scripts": "watchify models/public/scripts/receive.js -o public/scripts/receive.js",
-    "dev": "npm run open-website; concurrently --kill-others \"npm run compile-css\" \"npm run compile-html\" \"npm run compile-scripts\" \"npm run start-server\""
+    "dev": "npm run open-website; concurrently --kill-others \"npm run compile-css\" \"npm run compile-scripts\" \"npm run start-server\""
   },
   "repository": {
     "type": "git",
@@ -55,5 +56,5 @@
   "bugs": {
     "url": "https://github.com/Ekrekr/Simon/issues"
   },
-  "homepage": "public/index.js"
+  "homepage": "http://localhost:7000/"
 }

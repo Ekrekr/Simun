@@ -9,44 +9,37 @@ html(lang=lang)
 
     // Big bar on top with navigation utilities.
     header
-      a(href="index.html")
+      a(href="/")
         logo
       ul
         li
-          a(href="login.html") Login
+          a(href="login") Login
         li
-          a.color-light(href="receive.html") Receive
+          a.color-light(href="receive") Receive
         li
-          a(href="send.html") Send
+          a(href="send") Send
         li.nav-item
-          a(href="stats.html") Stats
+          a(href="stats") Stats
 
     receive
 
       snippet-list
-        row 
-          a(href="")
-            snippet.active(href="index.html")
-              info
-                description Example Snippet
-                br
-                from jhon
-              img(src="assets/images/snippet-example-1.png")
-        row
-          a(href="")
-            snippet(href="index.html")
-              info
-                description Example snippet with a long description of length 64 characters.
-                br
-                from jhon
-              img(src="assets/images/snippet-example-2.png")
+        for snippet, index in snippets
+          row 
+            a(id="select-"+index)
+              snippet(href="index" id=snippet.id)
+                info
+                  description #{snippet.description}
+                  br
+                  from jhon
+                img(src=snippet.content)
       
       snippet-selected
         info
-          description(id="selected-description") Example Snippet
+          description(id="selected-description")
           br
-          from jhon
-        img(src="assets/images/snippet-example-1.png")
+          from(id="selected-author")
+        img(id="selected-content")
         a(href="" title="Report")
           report
         control-box
@@ -54,6 +47,7 @@ html(lang=lang)
             trash-it
           a(href="" title="Forward it")
             forward-it
-    script(src="scripts/receive.js")
-  
+
   +create-footer
+  
+  script(type="text/javascript" src="../scripts/receive.js")
