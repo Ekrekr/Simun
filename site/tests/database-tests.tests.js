@@ -8,6 +8,7 @@
 var expect = require('chai').expect
 var database = require('../server/database.js')
 
+//Function to check if 2 objects are equivalent
 function isEquivalent(a, b) {
   // If number of properties is different,
   // objects are not equivalent
@@ -30,6 +31,7 @@ function isEquivalent(a, b) {
   return true;
 }
 
+//Get Data function test
 describe('database.getData()', async function () {
   it('should return the output described', async function () {
     var expectC = [{
@@ -50,6 +52,7 @@ describe('database.getData()', async function () {
   })
 })
 
+//Put Data function test
 describe('database.putData()', async function () {
   it('should return the output described', async function () {
     var expectD = `Rows inserted 1`
@@ -64,6 +67,7 @@ describe('database.putData()', async function () {
   })
 })
 
+//Update Data function test
 describe('database.updateData()', async function () {
   it('should return the output described', async function () {
     var expectE = `Row(s) updated: 1`
@@ -78,6 +82,7 @@ describe('database.updateData()', async function () {
   })
 })
 
+//Delete Data function test
 describe('database.deleteRow()', async function () {
   it('should return the output described', async function () {
     var expectF = `Row(s) deleted 1`

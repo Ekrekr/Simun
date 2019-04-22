@@ -6,14 +6,12 @@ var bodyParser = require("body-parser");
 var database = require('./database.js')
 const request = require('request')
 
-
 //parse requests
 app.use(
   bodyParser.urlencoded({
     extended: true
   })
 );
-
 
 app.set("views", path.join(__dirname, "../models/public"));
 app.set("view engine", "pug");
@@ -23,6 +21,7 @@ app.use(bodyParser.json());
 router.get('/receive.js', (req, res) => {
   res.sendfile('scripts/receive.js')
 })
+
 // Retrieve data from the database
 router.get('/data/:table/:id', (req, res) => {
   console.log('Retrieving data from table "' + req.params.table + '" and id', req.params.id)
@@ -104,55 +103,61 @@ router.get('/send', (req, res) => {
 })
 
 router.get("/", function (req, res) {
-  res.render("login");
+  res.render("login")
 });
 
+//Login authentication 
+//Gets the username and password of input and calls authentication function
 router.post("/login", async function (req, res) {
-  var username = req.body.username;
-  var password = req.body.password;
-  await authenticate(res, username, password);
+  var username = req.body.username
+  var password = req.body.password
+  await authenticate(res, username, password)
 });
 
+//Authenticates username and password for login
 async function authenticate(res, username, password) {
-  var authentication = database.getData("Login", username);
+  var authentication = database.getUserData("Login", username);
   authentication.then(async function (result) {
-    let newUsername = await database.hashingEntry(username);
-    let newPassword = await database.hashingEntry(password);
-    console.log(newUsername)
-    if (
-      database.compareHash(result[0].username, newUsername) &&
-      database.compareHash(result[0].password, newPassword)
-    ) {
-      res.render("index");
+    // let newUsername = await database.hashingEntry(username);
+    // let newPassword = await database.hashingEntry(password);
+    if (result.length > 1) {
+      if (
+        result[0].username == username &&
+        result[0].password == password
+      ) {
+        res.render("index")
+      } else {
+        res.render("login")
+      }
+
     } else {
-      res.render("login");
+      res.render("login")
     }
   });
 }
 
 router.get("/login", function (req, res) {
-  console.log("Login")
-  res.render("login");
+  res.render("login")
 });
 
 router.get("/send", function (req, res) {
-  res.render("send");
+  res.render("send")
 });
 
 router.get("/stats", function (req, res) {
-  res.render("stats");
+  res.render("stats")
 });
 
 router.get("/index", function (req, res) {
-  res.render("index");
+  res.render("index")
 });
 
-app.use("/", router);
+app.use("/", router)
 
-connectToServer();
+connectToServer()
 
 function connectToServer() {
   app.listen(7000, () => {
-    console.log(`Express running → PORT 7000`);
+    console.log(`Express running → PORT 7000`)
   });
 }
