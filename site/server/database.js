@@ -3,12 +3,6 @@ const sqlite3 = require('sqlite3').verbose()
 const dbPath = path.resolve(__dirname, '../database/database.db')
 const bcrypt = require("bcrypt")
 const saltRounds = 10
-let sqlGet = `SELECT *
-                  FROM Login
-                  WHERE username='Jadams'`
-let sqlPut = `INSERT INTO Login (forename, surname, username, password) VALUES (?,?,?,?)`
-let sqlUpdate = `UPDATE Login SET forename = ? WHERE forename = ?`
-let sqlDelete = `DELETE FROM Login WHERE forename=?`
 
 module.exports = {
   connectDatabase: function connectDatabase() {},
@@ -49,17 +43,19 @@ function closeDatabase(db) {
 // GET
 function getData(table, lookup) {
   let db = connectDatabase()
+  let sqlGet = `SELECT *
+                  FROM ` + table + `
+                  WHERE id = ?`
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
-      db.all(`SELECT *
-                  FROM ` + table + `
-                  WHERE id = ?`, lookup, function (err, rows) {
+      db.all(sqlGet, lookup, function (err, rows) {
         if (err) {
           reject(err)
         } else {
           resolve(rows)
         }
       })
+      db.close()
     })
   })
 }
@@ -70,12 +66,15 @@ function putData(table, forname, surname, username, password) {
   var sqlPut = `INSERT INTO ` + table + ` (forename, surname, username, password) VALUES (?,?,?,?)`
   let db = connectDatabase()
   return new Promise(function (resolve, reject) {
-    db.run(sqlPut, data, function (err, result) {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(`Rows inserted ${this.changes}`)
-      }
+    db.serialize(function () {
+      db.run(sqlPut, data, function (err, result) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(`Rows inserted ${this.changes}`)
+        }
+      })
+      db.close()
     })
   })
 }
@@ -88,12 +87,15 @@ function updateData(table, lookup, change) {
     SET forename = ?
     WHERE forename = ?`
   return new Promise(function (resolve, reject) {
-    db.run(sqlUpdate, data, function (err) {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(`Row(s) updated: ${this.changes}`)
-      }
+    db.serialize(function () {
+      db.run(sqlUpdate, data, function (err) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(`Row(s) updated: ${this.changes}`)
+        }
+      })
+      db.close()
     })
   })
 }
@@ -101,13 +103,17 @@ function updateData(table, lookup, change) {
 // DELETE
 function deleteRow(table, lookup) {
   let db = connectDatabase()
+  let sqlDelete = `DELETE FROM ` + table + ` WHERE forename=?`
   return new Promise(function (resolve, reject) {
-    db.run(`DELETE FROM ` + table + ` WHERE forename=?`, lookup, function (err) {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(`Row(s) deleted ${this.changes}`)
-      }
+    db.serialize(function () {
+      db.run(sqlDelete, lookup, function (err) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(`Row(s) deleted ${this.changes}`)
+        }
+      })
+      db.close()
     })
   })
 }
