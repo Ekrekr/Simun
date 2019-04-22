@@ -3,11 +3,26 @@ const express = require('express')
 var database = require('./database.js')
 const request = require('request')
 
-const app = express()
+// request - Emitted for Each request from the client (We would listen here).
+server.on("request", (request, response) => {
+  var body = [];
+  request
+    .on("data", chunk => {
+      body.push(chunk);
+    })
+    .on("end", () => {
+      body = body.concat.toString();
+      console.log("Server received ", body.toString());
+    })
+    .on("error", err => {
+      console.error(err);
+      response.statusCode = 400;
+      response.end();
+    });
 
-app.set('views', path.join(__dirname, '../models/public'))
-app.set('view engine', 'pug')
-app.use(express.static(path.join(__dirname, '../public')))
+  response.on("error", err => {
+    console.error(err);
+  });
 
 // Retrieve data from the database
 app.get('/data/:table/:id', (req, res) => {
@@ -35,7 +50,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  res.render('login')
+  res.sendfile('login.html')
 })
 
 app.get('/receive', (req, res) => {
@@ -85,18 +100,91 @@ app.get('/receive', (req, res) => {
 })
 
 app.get('/send', (req, res) => {
-  res.render('send')
+  res.sendfile('send.html')
 })
 
 app.get('/stats', (req, res) => {
-  res.render('stats')
+  res.sendfile('stats.html')
 })
 
+/*****************************************/
+/*               SERVER                  */
+/*****************************************/
+var path = require("path");
+const express = require("express");
+const app = express();
+var router = express.Router();
+var bodyParser = require("body-parser");
 app.get('/receive.js', (req, res) => {
   res.sendfile('scripts/receive.js')
 })
 
-// Start the server.
-app.listen(7000, () => {
-  console.log('Server started on port 7000')
-})
+//parse requests
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
+
+
+app.set("views", path.join(__dirname, "../models/public"));
+app.set("view engine", "pug");
+app.use(express.static(path.join(__dirname, "../public")));
+app.use(bodyParser.json());
+
+router.get("/", function (req, res) {
+  res.redirect("index.html");
+});
+
+router.post("/login", async function (req, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+  await authenticate(res, username, password);
+});
+
+async function authenticate(res, username, password) {
+  var authentication = database.getData("Login", username);
+  authentication.then(async function (result) {
+    let newUsername = await database.hashingEntry(username);
+    let newPassword = await database.hashingEntry(password);
+    console.log(newUsername)
+    if (
+      database.compareHash(result[0].username, newUsername) &&
+      database.compareHash(result[0].password, newPassword)
+    ) {
+      res.redirect("index.html");
+    } else {
+      res.redirect("login.html");
+    }
+  });
+}
+
+router.get("/login", function (req, res) {
+  res.redirect("login.html");
+});
+
+router.get("/receive", function (req, res) {
+  res.redirect("receive.html");
+});
+
+router.get("/send", function (req, res) {
+  res.redirect("send.html");
+});
+
+router.get("/stats", function (req, res) {
+  res.redirect("stats.html");
+});
+
+router.get("/index", function (req, res) {
+  res.redirect("index.html");
+});
+
+app.use("/", router);
+
+connectToServer();
+
+function connectToServer() {
+  app.listen(7000, () => {
+    console.log(`Express running → PORT ${server.address()}`);
+  });
+}
