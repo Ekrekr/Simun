@@ -1,50 +1,28 @@
-# Simon
+# Simun
 
-A website for experimenting with agent sharing. Client and server side built on Node JS.
+Simun, name based on the childhood game “Simon say”’, is a de-personalised social network. Users receive content (images, video or text) at random from other users (provided it is amiable) and can then either remove their copy from the network or forward it on to two other users at random. These content items are called snippets. Users can also view interesting metric or facts about what has been shared. This includes current most popular posts, type of posts that are most popular.
+
+All accounts will be anonymous and discourage the sharing of personal information. Signing in will however be required for posting, in order to prevent spamming, bots, and potentially to moderate content. This will also provide the opportunity for interpreting trends in related amiability of posts to a viewer.
 
 ## Prerequisites
 
 - nodejs. [Example using homebrew for mac users](https://www.dyclassroom.com/howto-mac/how-to-install-nodejs-and-npm-on-mac-using-homebrew)
 - [Sass](https://sass-lang.com/), to generate css. To install sass do `sudo gem install sass`.
-- [Pug](https://www.npmjs.com/package/pug), to generate html. To install pug do `npm install pug`.
-- Global installation of [npm standard module](https://www.npmjs.com/package/standard) for running tests. This can be done by `npm install standard --global`
-- To view database, download a database viewer, recommendations being `SQLManager`, `DBBrowser` or applicable extensions for VSCode such as `SQL Server`.
-
-## Running Tests
-
-All should be run inside the **site** directory
-
-- Run all tests: `npm run tests`
-- Coding style: `standard --fix`, or to ignore fixing just `standard`
-- Function tests: `npm test tests`
-- End to end tests: _TODO_
+- Global installations of [standard](https://www.npmjs.com/package/standard), pug, nodemon and watchify are required for live development. This can be done by `npm install -g standard` with each package name respectively.
+- To view database, download a database viewer, recommendations being `SQLManager` or `DBBrowser`.
 
 ## Deployment
 
-- Start the server (from **site** directory): `npm start`. This is the combination of multiple commands:
-  - Recompile all public html: `pug public/index.pug`
-  - Recompile all public css: `sass /public/style/main.scss`
-  - Start the server: `node server/server`
+In order to fully deploy the development set up:
+
+- Navigate to the site directory
+- Run `npm install` to install required modules. For other modules see prerequisites section above
+- Run `npm run dev`. This will start the server, dynamically watch for updates to Pug or Sass files and open the login page in browser. This page will not be found, Refresh this page after a few seconds once the server has finished starting up. If the login page fails to open automatically then the address will be `http://localhost:7000`
+- Run `npm run tests` to run automated tests
 
 ## Built With
 
-- [Bootstrap](https://www.npmjs.com/package/bootstrap)
-- [css](https://www.npmjs.com/package/css)
-- [express](https://www.npmjs.com/package/express)
-- [request](https://www.npmjs.com/package/request)
-- [chai](https://www.npmjs.com/package/chai)
-- [mocha](https://www.npmjs.com/package/mocha)
-- [standard](https://www.npmjs.com/package/standard)
-- [Express](https://www.npmjs.com/package/standard)
-- [node-sass](https://www.npmjs.com/package/node-sass)
-- [pug](https://www.npmjs.com/package/pug)
-- [pug-cli](https://github.com/pugjs/pug-cli)
-
-## Development
-
-### Useful commands
-
-- Start dev mode: `npm run dev`. Then search "localhost:7000" in search bar on chosen search engine (Google Recommended)
+See the [package-lock file](package-lock.json) for all packages.
 
 ### Useful Links
 
@@ -59,8 +37,8 @@ All should be run inside the **site** directory
 
 - Follow this colour sheet in general
   ![colour sheet](design/colour_scheme.png)
-- Title font is [Glacial-indifference](http://scripts.sil.org/). Main font is Open Sans.
-- Scheme for the database can be found at `server/database.png`
+- Title font is [Glacial-indifference](http://scripts.sil.org/). Main font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
+- Scheme for the database can be found at [here](database/database.png)
 
 ## License
 
