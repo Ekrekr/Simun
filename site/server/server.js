@@ -118,9 +118,7 @@ router.post("/login", async function (req, res) {
 async function authenticate(res, username, password) {
   var authentication = database.getUserData("Login", username);
   authentication.then(async function (result) {
-    // let newUsername = await database.hashingEntry(username);
-    // let newPassword = await database.hashingEntry(password);
-    if (result.length > 1) {
+    if (result.length > 0) {
       if (
         result[0].username == username &&
         result[0].password == password

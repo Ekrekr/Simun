@@ -9,9 +9,7 @@ var expect = require('chai').expect
 var database = require('../server/database.js')
 
 //Function to check if 2 objects are equivalent
-function isEquivalent(a, b) {
-  // If number of properties is different,
-  // objects are not equivalent
+function isEqual(a, b) {
   if (a[0].length != b[0].length) {
     return false;
   }
@@ -20,20 +18,16 @@ function isEquivalent(a, b) {
   const bValues = Object.values(b[0]);
 
   for (var i = 0; i < aValues.length; i++) {
-    // If values of same property are not equal,
-    // objects are not equivalent
     if (aValues[i] !== bValues[i]) {
       return false;
     }
   }
-  // If we made it this far, objects
-  // are considered equivalent
   return true;
 }
 
 //Get Data function test
 describe('database.getData()', async function () {
-  it('should return the output described', async function () {
+  it('checks that login data can be retrieved from the database', async function () {
     var expectC = [{
       id: 1,
       forename: 'James',
@@ -41,8 +35,8 @@ describe('database.getData()', async function () {
       username: 'Jadams',
       password: 'Maybe'
     }]
-    let value = await database.getData('Login', '1').then(function (err, result) {
-      if (isEquivalent(expectC, err)) {
+    let value = await database.getData('Login', '1').then(function (result) {
+      if (isEqual(expectC, result)) {
         return true
       } else {
         return false
@@ -54,10 +48,10 @@ describe('database.getData()', async function () {
 
 //Put Data function test
 describe('database.putData()', async function () {
-  it('should return the output described', async function () {
+  it('checks that data can be written to the database login table', async function () {
     var expectD = `Rows inserted 1`
-    let value = await database.putData('Login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (err, result) {
-      if (err == expectD) {
+    let value = await database.putData('Login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (result) {
+      if (result == expectD) {
         return true
       } else {
         return false
@@ -69,10 +63,11 @@ describe('database.putData()', async function () {
 
 //Update Data function test
 describe('database.updateData()', async function () {
-  it('should return the output described', async function () {
+  it('checks that data can be updated in the database login table', async function () {
     var expectE = `Row(s) updated: 1`
-    let value = await database.updateData('Login', 'Test1', 'TestForename').then(function (err, result) {
-      if (err == expectE) {
+    let value = await database.updateData('Login', 'Test1', 'TestForename').then(function (result) {
+      console.log(result)
+      if (result == expectE) {
         return true
       } else {
         return false
@@ -84,10 +79,10 @@ describe('database.updateData()', async function () {
 
 //Delete Data function test
 describe('database.deleteRow()', async function () {
-  it('should return the output described', async function () {
+  it('checks that data can be deleted from the database login table', async function () {
     var expectF = `Row(s) deleted 1`
-    let value = await database.deleteRow('Login', 'TestForename').then(function (err, result) {
-      if (err == expectF) {
+    let value = await database.deleteRow('Login', 'TestForename').then(function (result) {
+      if (result == expectF) {
         return true
       } else {
         return false

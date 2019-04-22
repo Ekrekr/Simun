@@ -4,7 +4,6 @@ const dbPath = path.resolve(__dirname, '../database/database.db')
 const bcrypt = require("bcrypt")
 const saltRounds = 10
 
-//Export
 module.exports = {
   connectDatabase: function connectDatabase() {},
   putData: putData,
@@ -60,15 +59,16 @@ function getData(table, lookup) {
           resolve(rows)
         }
       })
-      db.close()
+      closeDatabase(db)
     })
   })
 }
 
+//GET function for login functionality 
 function getUserData(table, lookup) {
   let db = connectDatabase()
   let sqlGet = `SELECT *
-                  FROM ` + table + `
+                  FROM Login
                   WHERE username = ?`
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
@@ -79,7 +79,7 @@ function getUserData(table, lookup) {
           resolve(rows)
         }
       })
-      db.close()
+      closeDatabase(db)
     })
   })
 }
@@ -87,7 +87,8 @@ function getUserData(table, lookup) {
 // PUT data from database
 function putData(table, forname, surname, username, password) {
   var data = [forname, surname, username, password]
-  var sqlPut = `INSERT INTO ` + table + ` (forename, surname, username, password) VALUES (?,?,?,?)`
+  var sqlPut = `INSERT INTO login (forename, surname, username, password) VALUES (?,?,?,?)`
+
   let db = connectDatabase()
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
@@ -98,7 +99,7 @@ function putData(table, forname, surname, username, password) {
           resolve(`Rows inserted ${this.changes}`)
         }
       })
-      db.close()
+      closeDatabase(db)
     })
   })
 }
@@ -107,8 +108,8 @@ function putData(table, forname, surname, username, password) {
 function updateData(table, lookup, change) {
   let data = [change, lookup]
   let db = connectDatabase()
-  let sqlUpdate = `UPDATE ` + table +
-    `SET forename = ?
+  let sqlUpdate = `UPDATE login
+    SET forename = ?
     WHERE forename = ?`
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
@@ -119,7 +120,7 @@ function updateData(table, lookup, change) {
           resolve(`Row(s) updated: ${this.changes}`)
         }
       })
-      db.close()
+      closeDatabase(db)
     })
   })
 }
@@ -137,7 +138,7 @@ function deleteRow(table, lookup) {
           resolve(`Row(s) deleted ${this.changes}`)
         }
       })
-      db.close()
+      closeDatabase(db)
     })
   })
 }
