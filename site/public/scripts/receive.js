@@ -14,7 +14,7 @@ function setActive (counter) {
   var contentID = rowItem.children[0].id
 
   // Need to retrieve the content from the server to populate the selected box.
-  tools.retrieveData('snippetcontent', contentID, (err, snippet) => {
+  tools.retrieveSnippetContent(contentID, (err, snippet) => {
     if (err) {
       console.log('Error retrieving snippetcontent from server:', err)
       return
@@ -67,12 +67,12 @@ module.exports = {
   colorlight: '#b8dbd9',
   colorwhite: '#f4f4f9',
   colorshadow: '#00000080',
-  retrieveData: retrieveData
+  retrieveSnippetContent: retrieveSnippetContent
 }
 
 // Retrieves data by asking the server for it.
-function retrieveData (table, id, _callback) {
-  request('http://localhost:7000/data/' + table + '/' + id, { json: true }, (err, res, body) => {
+function retrieveSnippetContent (id, _callback) {
+  request('http://localhost:7000/data/snippetcontent/' + id, { json: true }, (err, res, body) => {
     if (err) { return _callback(err) }
     return _callback(null, JSON.parse(JSON.stringify(body)))
   })

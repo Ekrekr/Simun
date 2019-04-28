@@ -6,34 +6,6 @@ var bodyParser = require('body-parser')
 var database = require('./database.js')
 const request = require('request')
 
-// parse requests
-app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
-)
-
-app.set('views', path.join(__dirname, '../models/public'))
-app.set('view engine', 'pug')
-app.use(express.static(path.join(__dirname, '../public')))
-app.use(bodyParser.json())
-
-router.get('/receive.js', (req, res) => {
-  res.sendfile('scripts/receive.js')
-})
-
-// Retrieve data from the database
-router.get('/data/:table/:id', (req, res) => {
-  console.log('Retrieving data from table "' + req.params.table + '" and id', req.params.id)
-  // if (req.params.table === 'snippetcontent') {
-  database.getData(req.params.table, req.params.id).then(response => {
-    res.send(JSON.stringify(response[0]))
-  })
-  // } else {
-  //   res.send(null)
-  // }
-})
-
 // Retrieves data by asking the server for it.
 function retrieveData (table, id, _callback) {
   request('http://localhost:7000/data/' + table + '/' + id, {
@@ -45,6 +17,60 @@ function retrieveData (table, id, _callback) {
     return _callback(null, JSON.parse(JSON.stringify(body)))
   })
 }
+
+// Authenticates username and password for login
+async function authenticate (res, username, password) {
+  var authentication = database.getUserData('Login', username)
+  authentication.then(async function (result) {
+    if (result.length > 0) {
+      if (
+        result[0].username === username &&
+        result[0].password === password
+      ) {
+        res.render('index')
+      } else {
+        res.render('login')
+      }
+    } else {
+      res.render('login')
+    }
+  })
+}
+
+// Enables REST communication with server.
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+)
+
+app.set('views', path.join(__dirname, '../models/public'))
+app.set('view engine', 'pug')
+app.use(express.static(path.join(__dirname, '../public')))
+app.use(bodyParser.json())
+
+router.get('/data/:table/:id', (req, res) => {
+  console.log('Retrieving data from table "' + req.params.table + '" and id', req.params.id)
+  database.getData(req.params.table, req.params.id).then(response => {
+    res.send(JSON.stringify(response[0]))
+  })
+})
+
+router.get('/', function (req, res) {
+  res.render('login')
+})
+
+router.get('/login', function (req, res) {
+  res.render('login')
+})
+
+// Login authentication
+// Gets the username and password of input and calls authentication function
+router.post('/login', async function (req, res) {
+  var username = req.body.username
+  var password = req.body.password
+  await authenticate(res, username, password)
+})
 
 router.get('/receive', (req, res) => {
   // File to pass to pug to tell it what value to give variables.
@@ -100,51 +126,8 @@ router.get('/send', (req, res) => {
   res.render('send')
 })
 
-router.get('/', function (req, res) {
-  res.render('login')
-})
-
-// Login authentication
-// Gets the username and password of input and calls authentication function
-router.post('/login', async function (req, res) {
-  var username = req.body.username
-  var password = req.body.password
-  await authenticate(res, username, password)
-})
-
-// Authenticates username and password for login
-async function authenticate (res, username, password) {
-  var authentication = database.getUserData('Login', username)
-  authentication.then(async function (result) {
-    if (result.length > 0) {
-      if (
-        result[0].username === username &&
-        result[0].password === password
-      ) {
-        res.render('index')
-      } else {
-        res.render('login')
-      }
-    } else {
-      res.render('login')
-    }
-  })
-}
-
-router.get('/login', function (req, res) {
-  res.render('login')
-})
-
-router.get('/send', function (req, res) {
-  res.render('send')
-})
-
 router.get('/stats', function (req, res) {
   res.render('stats')
-})
-
-router.get('/index', function (req, res) {
-  res.render('index')
 })
 
 app.use('/', router)
