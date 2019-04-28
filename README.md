@@ -17,7 +17,7 @@ In order to deploy the development set up:
 
 - Navigate to the site directory
 - Run `npm install` to install required modules. For other modules see prerequisites section above
-- Run `npm run dev`. This will start the server, dynamically watch for updates to Pug or Sass files and open the login page in browser. This page will not be found, Refresh this page after a few seconds once the server has finished starting up. If the login page fails to open automatically then the address will be `http://localhost:7000`
+- Run `npm run dev`. This will start the server, dynamically watch for updates to Pug or Sass files and open the login page in browser, and watch for changes in javascript files to compile with nodemon. This page will not be found, Refresh this page after a few seconds once the server has finished starting up. If the login page fails to open automatically then the address will be `http://localhost:7000`
 - Run `npm run tests` to run automated tests
 
 ## Built With
