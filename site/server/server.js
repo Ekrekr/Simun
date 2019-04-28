@@ -58,11 +58,14 @@ router.get('/data/:table/:id', (req, res) => {
   })
 })
 
-router.post('/snippets/:method/:id', (req, res) => {
-  console.log('Performing method "' + req.params.method + '" on item in table with id', req.params.id)
-  database.getData(req.params.table, req.params.id).then(response => {
-    res.send(true)
-  })
+router.post('/snippet/:method/', (req, res) => {
+  var snippetID = req.body.id
+  var method = req.params.method
+  console.log('Performing method "' + method + '" on item in table with id', snippetID)
+  if (method == "forward") {
+    console.log('Forwarding snippet ' + snippetID)
+    snippetLogic.forwardSnippet(snippetID)
+  }
 })
 
 router.get('/', function (req, res) {
@@ -94,7 +97,7 @@ router.get('/receive', (req, res) => {
 
     // For each snippet, retrieve the snippet content ID.
     snippets.forEach((entry, index) => {
-      retrieveData('snippets', entry, (err, snippet) => {
+      retrieveData('snippet', entry, (err, snippet) => {
         if (err) {
           console.log('Error retrieving snippets from server:', err)
           return
@@ -135,6 +138,10 @@ router.get('/send', (req, res) => {
 router.get('/stats', function (req, res) {
   res.render('stats')
 })
+
+// router.get('/scripts', function (req, res) {
+//   res.render('login')
+// })
 
 app.use('/', router)
 

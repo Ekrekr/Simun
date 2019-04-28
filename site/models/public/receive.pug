@@ -43,11 +43,12 @@ html(lang=lang)
         a(href="" title="Report")
           report
         control-box
-          a(href="" title="Trash it")
+          a(id="trash-it" title="Trash it")
             trash-it
-          a(href="" title="Forward it")
+          a(id="forward-it" title="Forward it")
             forward-it
 
   +create-footer
   
   script(type="text/javascript" src="../scripts/receive.js")
+  script(type="text/javascript" src="../scripts/tools.js")

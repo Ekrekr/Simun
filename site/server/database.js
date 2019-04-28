@@ -8,20 +8,10 @@ module.exports = {
   getData: getData,
   putUserData: putUserData,
   getUserData: getUserData,
-  updateData: updateData,
+  updateUserData: updateUserData,
   deleteRow: deleteRow,
   hashingEntry: hashingEntry,
   compareHash: compareHash
-}
-
-// Hashes input
-async function hashingEntry (entry) {
-  return bcrypt.hashSync(entry, saltRounds)
-}
-
-// Compares the hash and plaintext of inputs
-async function compareHash (plaintext, hash) {
-  return bcrypt.compareSync(plaintext, hash)
 }
 
 // Connect to the database
@@ -43,6 +33,20 @@ function closeDatabase (db) {
   })
 }
 
+// Hashes input
+async function hashingEntry (entry) {
+  return bcrypt.hashSync(entry, saltRounds)
+}
+
+// Compares the hash and plaintext of inputs
+async function compareHash (plaintext, hash) {
+  return bcrypt.compareSync(plaintext, hash)
+}
+
+//////////////////////////////////////////////////
+// Generalised calls.
+//////////////////////////////////////////////////
+
 // GET data from database
 function getData (table, lookup) {
   let db = connectDatabase()
@@ -62,6 +66,10 @@ function getData (table, lookup) {
     })
   })
 }
+
+//////////////////////////////////////////////////
+// Account related calls.
+//////////////////////////////////////////////////
 
 // GET function for login functionality
 function getUserData (table, lookup) {
@@ -104,7 +112,7 @@ function putUserData (table, forname, surname, username, password) {
 }
 
 // UPDATE data from database
-function updateData (table, lookup, change) {
+function updateUserData (table, lookup, change) {
   let data = [change, lookup]
   let db = connectDatabase()
   let sqlUpdate = `UPDATE login
@@ -135,6 +143,29 @@ function deleteRow (table, lookup) {
           reject(err)
         } else {
           resolve(`Row(s) deleted ${this.changes}`)
+        }
+      })
+      closeDatabase(db)
+    })
+  })
+}
+
+//////////////////////////////////////////////////
+// Snippet logic calls.
+//////////////////////////////////////////////////
+
+function putSnippetData (table, contentID, firstOwner, previousOwner, forwardCount) {
+  var data = [contentID, firstOwner, previousOwner, forwardCount]
+  var sqlPut = `INSERT INTO snippet (contentid, surname, username, password) VALUES (?,?,?,?)`
+
+  let db = connectDatabase()
+  return new Promise(function (resolve, reject) {
+    db.serialize(function () {
+      db.run(sqlPut, data, function (err, result) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(`Rows inserted ${this.changes}`)
         }
       })
       closeDatabase(db)

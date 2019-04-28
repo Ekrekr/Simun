@@ -459,6 +459,10 @@ receive {
       border-radius: 12px;
       transform: translate(-50%, -50%);
 
+      a {
+        cursor: pointer;
+      }
+
       trash-it {
         content: url("/assets/images/bin.png");
         display: block;
@@ -479,6 +483,7 @@ receive {
         top: 50%;
         right: 10%;
         transform: translate(0%, -50%);
+        cursor: pointer;
       }
     }
   }

@@ -62,10 +62,10 @@ describe('database.putUserData()', async function () {
 })
 
 // Update Data function test
-describe('database.updateData()', async function () {
+describe('database.updateUserData()', async function () {
   it('checks that data can be updated in the database login table', async function () {
     var expectE = `Row(s) updated: 1`
-    let value = await database.updateData('Login', 'Test1', 'TestForename').then(function (result) {
+    let value = await database.updateUserData('Login', 'Test1', 'TestForename').then(function (result) {
       if (result === expectE) {
         return true
       } else {

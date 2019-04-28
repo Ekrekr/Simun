@@ -20,9 +20,18 @@ function setActive (counter) {
     }
     $('selected-content').src = snippet.content
     $('selected-description').innerHTML = snippet.description
+
+    // Update trash it and forward it buttons.
+    $('trash-it').onclick = tools.forwardSnippet(snippet.id, (err, response) => {
+      if (err) {
+        console.log('Error forwarding snippet', err)
+        return
+      }
+      console.log("Snippet successfully forwarded")
+    })
   })
 
-  // Finally unhighlight the current selector and highlight the selected
+  // Unhighlight the current selector and highlight the selected
   var prevRowItem = $('select-' + currentlyActive)
   prevRowItem.children[0].style.backgroundColor = tools.colorprimary
   currentlyActive = counter
