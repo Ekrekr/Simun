@@ -9,16 +9,18 @@ var expect = require('chai').expect
 var database = require('../server/database.js')
 
 // Function to check if 2 objects are equivalent
-function isEqual (a, b) {
+function isEqualTo(a, b) {
   if (a[0].length !== b[0].length) {
     return false
   }
-
+  const works = 1
   const aValues = Object.values(a[0])
   const bValues = Object.values(b[0])
 
   for (var i = 0; i < aValues.length; i++) {
     if (aValues[i] !== bValues[i]) {
+      works = 2
+    } else if (works == 2 && !database.compareHash(aValues[i], bValues[i])) {
       return false
     }
   }
@@ -33,10 +35,11 @@ describe('database.getData()', async function () {
       forename: 'James',
       surname: 'Adams',
       username: 'Jadams',
-      password: 'Maybe'
+      password: 'Maybe',
+      salt: 'vj14m9qnktrhnc57'
     }]
     let value = await database.getData('Login', '1').then(function (result) {
-      if (isEqual(expectC, result)) {
+      if (isEqualTo(expectC, result)) {
         return true
       } else {
         return false
@@ -50,7 +53,7 @@ describe('database.getData()', async function () {
 describe('database.putData()', async function () {
   it('checks that data can be written to the database login table', async function () {
     var expectD = `Rows inserted 1`
-    let value = await database.putData('Login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (result) {
+    let value = await database.putData('Login', 'Test1', 'Test2', 'Test3', database.hashingEntry('Test4' + 'E1F53135E559C253'), 'E1F53135E559C253').then(function (result) {
       if (result === expectD) {
         return true
       } else {

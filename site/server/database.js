@@ -27,11 +27,11 @@ async function compareHash (plaintext, hash) {
 
 // Connect to the database
 function connectDatabase () {
-  return new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
+  return new sqlite3.Database(dbPath, (err) => {
     if (err) {
       console.error(err.message)
     }
-    console.log('Connected to the Login database.')
+    console.log('Connected to the Simun database.')
   })
 }
 
@@ -47,9 +47,7 @@ function closeDatabase (db) {
 // GET data from database
 function getData (table, lookup) {
   let db = connectDatabase()
-  let sqlGet = `SELECT *
-                  FROM ` + table + `
-                  WHERE id = ?`
+  let sqlGet = `SELECT * FROM ` + table + ` WHERE id = ?`
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
       db.all(sqlGet, lookup, function (err, rows) {
@@ -67,9 +65,7 @@ function getData (table, lookup) {
 // GET function for login functionality
 function getUserData (table, lookup) {
   let db = connectDatabase()
-  let sqlGet = `SELECT *
-                  FROM Login
-                  WHERE username = ?`
+  let sqlGet = `SELECT * FROM ` + table + ` WHERE username = ?`
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
       db.all(sqlGet, lookup, function (err, rows) {
@@ -86,8 +82,9 @@ function getUserData (table, lookup) {
 
 // PUT data from database
 function putData (table, forname, surname, username, password) {
-  var data = [forname, surname, username, password]
-  var sqlPut = `INSERT INTO login (forename, surname, username, password) VALUES (?,?,?,?)`
+  var salt = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 7)
+  var data = [forname, surname, username, password, salt]
+  var sqlPut = `INSERT INTO login (forename, surname, username, password, salt) VALUES (?,?,?,?,?)`
 
   let db = connectDatabase()
   return new Promise(function (resolve, reject) {

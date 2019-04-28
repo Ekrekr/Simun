@@ -5,7 +5,9 @@ var router = express.Router()
 var bodyParser = require('body-parser')
 var database = require('./database.js')
 const request = require('request')
+const jwt = require('jsonwebtoken')
 
+const config = require('./config.js');
 // parse requests
 app.use(
   bodyParser.urlencoded({
@@ -35,7 +37,7 @@ router.get('/data/:table/:id', (req, res) => {
 })
 
 // Retrieves data by asking the server for it.
-function retrieveData (table, id, _callback) {
+function retrieveData(table, id, _callback) {
   request('http://localhost:7000/data/' + table + '/' + id, {
     json: true
   }, (err, res, body) => {
@@ -113,22 +115,62 @@ router.post('/login', async function (req, res) {
 })
 
 // Authenticates username and password for login
-async function authenticate (res, username, password) {
-  var authentication = database.getUserData('Login', username)
+async function authenticate(res, username, password) {
+  var salt = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 7)
+  let token = jwt.sign({
+      username,
+      password
+    },
+    config.secret, {
+      expiresIn: '24h'
+    })
+  var authentication = database.getUserData('login', username)
   authentication.then(async function (result) {
+    var resulted = await database.compareHash(password + result[0].salt, password)
     if (result.length > 0) {
       if (
-        result[0].username === username &&
-        result[0].password === password
+        result[0].username == username &&
+        await database.compareHash(password + result[0].salt, result[0].password)
       ) {
+        res.json({
+          success: true,
+          message: 'Authentication successful!',
+          token: token
+        })
         res.render('index')
       } else {
+        res.json({
+          success: false,
+          message: 'Authentication unsuccessful!',
+          token: token
+        })
         res.render('login')
       }
     } else {
+      res.json({
+        success: false,
+        message: 'Authentication unsuccessful!',
+        token: token
+      })
       res.render('login')
     }
   })
+}
+
+function generateJWT(res, username, password) {
+  let token = jwt.sign({
+      username,
+      password
+    },
+    config.secret, {
+      expiresIn: '24h'
+    })
+  res.json({
+    success: true,
+    message: 'Authentication successful',
+    token: token
+  })
+
 }
 
 router.get('/login', function (req, res) {
@@ -151,7 +193,7 @@ app.use('/', router)
 
 connectToServer()
 
-async function connectToServer () {
+async function connectToServer() {
   app.listen(7000, () => {
     console.log(`Express running → PORT 7000`)
   })
