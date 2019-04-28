@@ -23,13 +23,16 @@ function setActive (counter) {
     $('selected-description').innerHTML = snippet.description
 
     // Update trash it and forward it buttons.
-    $('trash-it').onclick = tools.forwardSnippet(snippet.id, (err, response) => {
-      if (err) {
-        console.log('Error forwarding snippet', err)
-        return
-      }
-      console.log("Snippet successfully forwarded")
-    })
+    $('forward-it').onclick = () => {
+      console.log("trash-it button pressed")
+      tools.forwardSnippet(snippet.id, (err, response) => {
+        if (err) {
+          console.log('Error forwarding snippet', err)
+          return
+        }
+        console.log("Snippet successfully forwarded")
+      })
+    }
   })
 
   // Unhighlight the current selector and highlight the selected
@@ -82,19 +85,33 @@ module.exports = {
 
 function retrieveSnippetContent (id, _callback) {
   request('http://localhost:7000/data/snippetcontent/' + id, { json: true }, (err, res, body) => {
-    if (err) { return _callback(err) }
+    if (err) { 
+      console.log("tools: error retrieving snippet content")
+      return _callback(err) 
+    }
     return _callback(null, JSON.parse(JSON.stringify(body)))
   })
 }
 
-function forwardSnippet (snippetID, _callback) {
-  request.post({
-    url:     'http://localhost:7000/snippet/forward/',
-    form:    { id: snippetID }
-  }, function(error, response, body){
-    console.log('body to client: ', body)
-    console.log('response to client: ', response)
-    return _callback(null, JSON.parse(JSON.stringify(body)))
+async function forwardSnippet (snippetID, _callback) {
+  console.log("tools: forwarding snippet ", snippetID)
+
+  var requestInfo = {
+    uri: 'http://localhost:7000/snippet/forward/',
+    body: JSON.stringify({id: snippetID}),
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+  }
+  request(requestInfo, function (err, res) {
+    if (err) {
+      console.log("tools: error forwarding snippet")
+      return false
+    }
+    console.log('tools: error to client: ', err)
+    console.log('tools: body response to client: ', res.body)
+    return res.body
   });
 }
 },{"request":115}],3:[function(require,module,exports){

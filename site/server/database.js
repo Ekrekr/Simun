@@ -11,16 +11,16 @@ module.exports = {
   updateUserData: updateUserData,
   deleteRow: deleteRow,
   hashingEntry: hashingEntry,
-  compareHash: compareHash
+  compareHash: compareHash,
+  putSnippetData: putSnippetData
 }
 
 // Connect to the database
 function connectDatabase () {
   return new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
-      console.error(err.message)
+      console.error("ERROR while connecting database " + err.message)
     }
-    console.log('Connected to the Login database.')
   })
 }
 
@@ -47,7 +47,6 @@ async function compareHash (plaintext, hash) {
 // Generalised calls.
 //////////////////////////////////////////////////
 
-// GET data from database
 function getData (table, lookup) {
   let db = connectDatabase()
   let sqlGet = `SELECT *
@@ -154,9 +153,9 @@ function deleteRow (table, lookup) {
 // Snippet logic calls.
 //////////////////////////////////////////////////
 
-function putSnippetData (table, contentID, firstOwner, previousOwner, forwardCount) {
+function putSnippetData (contentID, firstOwner, previousOwner, forwardCount) {
   var data = [contentID, firstOwner, previousOwner, forwardCount]
-  var sqlPut = `INSERT INTO snippet (contentid, surname, username, password) VALUES (?,?,?,?)`
+  var sqlPut = 'INSERT INTO snippet (contentid, firstowner, previousowner, forwardcount) VALUES (?,?,?,?)'
 
   let db = connectDatabase()
   return new Promise(function (resolve, reject) {
@@ -165,10 +164,49 @@ function putSnippetData (table, contentID, firstOwner, previousOwner, forwardCou
         if (err) {
           reject(err)
         } else {
-          resolve(`Rows inserted ${this.changes}`)
+          resolve(this.lastID)
         }
       })
       closeDatabase(db)
     })
   })
 }
+
+function addSnippetToRedirect (redirectid, snippetid) {
+  var data = [contentID, firstOwner, previousOwner, forwardCount]
+  var sqlPut = 'UPDATE redirect SET'
+
+  let db = connectDatabase()
+  return new Promise(function (resolve, reject) {
+    db.serialize(function () {
+      db.run(sqlPut, data, function (err, result) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(this.lastID)
+        }
+      })
+      closeDatabase(db)
+    })
+  })
+}
+
+// function updateUserData (table, lookup, change) {
+//   let data = [change, lookup]
+//   let db = connectDatabase()
+//   let sqlUpdate = `UPDATE login
+//     SET forename = ?
+//     WHERE forename = ?`
+//   return new Promise(function (resolve, reject) {
+//     db.serialize(function () {
+//       db.run(sqlUpdate, data, function (err) {
+//         if (err) {
+//           reject(err)
+//         } else {
+//           resolve(`Row(s) updated: ${this.changes}`)
+//         }
+//       })
+//       closeDatabase(db)
+//     })
+//   })
+// }

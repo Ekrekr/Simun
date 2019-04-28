@@ -22,13 +22,16 @@ function setActive (counter) {
     $('selected-description').innerHTML = snippet.description
 
     // Update trash it and forward it buttons.
-    $('trash-it').onclick = tools.forwardSnippet(snippet.id, (err, response) => {
-      if (err) {
-        console.log('Error forwarding snippet', err)
-        return
-      }
-      console.log("Snippet successfully forwarded")
-    })
+    $('forward-it').onclick = () => {
+      console.log("trash-it button pressed")
+      tools.forwardSnippet(snippet.id, (err, response) => {
+        if (err) {
+          console.log('Error forwarding snippet', err)
+          return
+        }
+        console.log("Snippet successfully forwarded")
+      })
+    }
   })
 
   // Unhighlight the current selector and highlight the selected
