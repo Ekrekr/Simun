@@ -1,12 +1,14 @@
 var path = require('path')
 const express = require('express')
+var bodyParser = require('body-parser')
+const request = require('request')
+var database = require('./database.js')
+var snippetLogic = require('./snippet-logic.js')
+
 const app = express()
 var router = express.Router()
-var bodyParser = require('body-parser')
-var database = require('./database.js')
-const request = require('request')
 
-// Retrieves data by asking the server for it.
+// Retrieves data from the database.
 function retrieveData (table, id, _callback) {
   request('http://localhost:7000/data/' + table + '/' + id, {
     json: true
@@ -18,7 +20,7 @@ function retrieveData (table, id, _callback) {
   })
 }
 
-// Authenticates username and password for login
+// Authenticates username and password for login.
 async function authenticate (res, username, password) {
   var authentication = database.getUserData('Login', username)
   authentication.then(async function (result) {
@@ -56,6 +58,13 @@ router.get('/data/:table/:id', (req, res) => {
   })
 })
 
+router.post('/snippets/:method/:id', (req, res) => {
+  console.log('Performing method "' + req.params.method + '" on item in table with id', req.params.id)
+  database.getData(req.params.table, req.params.id).then(response => {
+    res.send(true)
+  })
+})
+
 router.get('/', function (req, res) {
   res.render('login')
 })
@@ -64,8 +73,6 @@ router.get('/login', function (req, res) {
   res.render('login')
 })
 
-// Login authentication
-// Gets the username and password of input and calls authentication function
 router.post('/login', async function (req, res) {
   var username = req.body.username
   var password = req.body.password
@@ -73,10 +80,8 @@ router.post('/login', async function (req, res) {
 })
 
 router.get('/receive', (req, res) => {
-  // File to pass to pug to tell it what value to give variables.
-  var variables = {}
-  variables.selected = {}
-  variables.snippets = []
+  var clientVariables = {}
+  clientVariables.snippetcontents = []
 
   // Need to load snippet data from the database to display on the page.
   retrieveData('redirect', 0, (err, redirect) => {
@@ -102,18 +107,19 @@ router.get('/receive', (req, res) => {
             return
           }
 
-          variables.snippets.push({
+          clientVariables.snippetcontents.push({
             'description': snippetcontent.description,
             'content': snippetcontent.content,
-            'id': snippetcontent.id
+            'id': snippetcontent.id,
+            'parentid': snippet.id
           })
 
-          // Only return final source if final iteration.
+          // Only return final source if it's final iteration to prevent loss.
           if (index === snippets.length - 1) {
             // Send the created page back to user after loading all the variables,
             // with a slight delay to prevent further problems.
             setTimeout(function () {
-              res.render('receive', variables)
+              res.render('receive', clientVariables)
             }, 100)
           }
         })

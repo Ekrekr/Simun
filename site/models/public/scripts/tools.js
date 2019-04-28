@@ -10,9 +10,22 @@ module.exports = {
   retrieveSnippetContent: retrieveSnippetContent
 }
 
-// Retrieves data by asking the server for it.
 function retrieveSnippetContent (id, _callback) {
   request('http://localhost:7000/data/snippetcontent/' + id, { json: true }, (err, res, body) => {
+    if (err) { return _callback(err) }
+    return _callback(null, JSON.parse(JSON.stringify(body)))
+  })
+}
+
+function retrieveSnippet (id, _callback) {
+  request('http://localhost:7000/data/snippets/' + id, { json: true }, (err, res, body) => {
+    if (err) { return _callback(err) }
+    return _callback(null, JSON.parse(JSON.stringify(body)))
+  })
+}
+
+function forwardSnippet (id, _callback) {
+  request('http://localhost:7000/snippets/forward/' + id, { json: true }, (err, res, body) => {
     if (err) { return _callback(err) }
     return _callback(null, JSON.parse(JSON.stringify(body)))
   })

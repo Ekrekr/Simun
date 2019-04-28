@@ -24,15 +24,15 @@ html(lang=lang)
     receive
 
       snippet-list
-        for snippet, index in snippets
+        for snippetcontent, index in snippetcontents
           row 
             a(id="select-"+index)
-              snippet(href="index" id=snippet.id)
+              snippet(href="index" id=snippetcontent.id)
                 info
-                  description #{snippet.description}
+                  description #{snippetcontent.description}
                   br
                   from jhon
-                img(src=snippet.content)
+                img(src=snippetcontent.content)
       
       snippet-selected
         info

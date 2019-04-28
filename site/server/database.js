@@ -5,9 +5,8 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 module.exports = {
-  connectDatabase: function connectDatabase () {},
-  putData: putData,
   getData: getData,
+  putUserData: putUserData,
   getUserData: getUserData,
   updateData: updateData,
   deleteRow: deleteRow,
@@ -85,7 +84,7 @@ function getUserData (table, lookup) {
 }
 
 // PUT data from database
-function putData (table, forname, surname, username, password) {
+function putUserData (table, forname, surname, username, password) {
   var data = [forname, surname, username, password]
   var sqlPut = `INSERT INTO login (forename, surname, username, password) VALUES (?,?,?,?)`
 

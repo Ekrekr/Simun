@@ -47,10 +47,10 @@ describe('database.getData()', async function () {
 })
 
 // Put Data function test
-describe('database.putData()', async function () {
+describe('database.putUserData()', async function () {
   it('checks that data can be written to the database login table', async function () {
     var expectD = `Rows inserted 1`
-    let value = await database.putData('Login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (result) {
+    let value = await database.putUserData('Login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (result) {
       if (result === expectD) {
         return true
       } else {
