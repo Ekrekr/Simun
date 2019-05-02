@@ -151,8 +151,8 @@ app.use('/', router)
 connectToServer()
 
 async function connectToServer () {
-  app.listen(7000, () => {
-    console.log(`Express running → PORT 7000`)
+  app.listen(7000, 'localhost', () => {
+    console.log('Express running → localhost:7000')
   })
 }
 

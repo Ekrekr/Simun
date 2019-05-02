@@ -12,7 +12,8 @@ module.exports = {
   deleteRow: deleteRow,
   hashingEntry: hashingEntry,
   compareHash: compareHash,
-  putSnippetData: putSnippetData
+  putSnippetData: putSnippetData,
+  getRandomRedirect: getRandomRedirect
 }
 
 // Connect to the database
@@ -153,9 +154,9 @@ function deleteRow (table, lookup) {
 // Snippet logic calls.
 //////////////////////////////////////////////////
 
-function putSnippetData (contentID, firstOwner, previousOwner, forwardCount) {
-  var data = [contentID, firstOwner, previousOwner, forwardCount]
-  var sqlPut = 'INSERT INTO snippet (contentid, firstowner, previousowner, forwardcount) VALUES (?,?,?,?)'
+function putSnippetData (contentID, redirectid, firstOwner, previousOwner, forwardCount) {
+  var data = [contentID, redirectid, firstOwner, previousOwner, forwardCount]
+  var sqlPut = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?,?,?,?,?)'
 
   let db = connectDatabase()
   return new Promise(function (resolve, reject) {
@@ -184,6 +185,23 @@ function addSnippetToRedirect (redirectid, snippetid) {
           reject(err)
         } else {
           resolve(this.lastID)
+        }
+      })
+      closeDatabase(db)
+    })
+  })
+}
+
+function getRandomRedirect () {
+  let db = connectDatabase()
+  let sqlGet = `SELECT * FROM redirect ORDER BY RANDOM() LIMIT 1;`
+  return new Promise(function (resolve, reject) {
+    db.serialize(function () {
+      db.all(sqlGet, function (err, rows) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(rows)
         }
       })
       closeDatabase(db)
