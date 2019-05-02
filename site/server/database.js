@@ -78,151 +78,60 @@ function getData (table, lookup, testMode=false) {
 }
 
 //////////////////////////////////////////////////
-// Account related calls.
+// Account related.
 //////////////////////////////////////////////////
 
 // Retrieves a user's login data given their username.
 function getUserData (username, testMode=false) {
   var sqlData = [username]
-  var sqlSelect = 'SELECT * FROM Login WHERE username = ?'
-  return get(sqlSelect, sqlData, testMode)
+  var sqlCode = 'SELECT * FROM Login WHERE username = ?'
+  return sqlInstruct(sqlCode, sqlData, testMode)
 }
 
 // Creates a new login.
 function createUser (username, password, testMode=false) {
   var sqlData = [username, password]
-  var sqlInsert = 'INSERT INTO login (username, password) VALUES (?,?)'
-  return put(sqlInsert, sqlData)
+  var sqlCode = 'INSERT INTO login (username, password) VALUES (?,?)'
+  return sqlInstruct(sqlCode, sqlData, testMode)
 }
 
 // Updates a users password.
-function updateUserPassword (loginid, newPassword) {
-  var data = [change, lookup]
-  var db = connectDatabase()
-  let sqlUpdate = 'UPDATE login SET password = ? WHERE id = ?'
-  return new Promise(function (resolve, reject) {
-    db.serialize(function () {
-      db.run(sqlUpdate, data, function (err) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(`Row(s) updated: ${this.changes}`)
-        }
-      })
-      closeDatabase(db)
-    })
-  })
+function updateUserPassword (loginid, newPassword, testMode=false) {
+  var sqlData = [newPassword, loginid]
+  let sqlCode = 'UPDATE login SET password = ? WHERE id = ?'
+  return sqlInstruct(sqlCode, sqlData, testMode)
 }
 
-// DELETE data from database
-function deleteRow (table, lookup) {
-  let db = connectDatabase()
-  let sqlDelete = 'DELETE FROM ' + table + ' WHERE id=?'
-  return new Promise(function (resolve, reject) {
-    db.serialize(function () {
-      db.run(sqlDelete, lookup, function (err) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(`Row(s) deleted ${this.changes}`)
-        }
-      })
-      closeDatabase(db)
-    })
-  })
+// Removes a user's login details from the database.
+function removerUser (loginid) {
+  var sqlData = [loginid]
+  let sqlCode = 'DELETE FROM login WHERE id = ?'
+  return sqlInstruct(sqlCode, sqlData, testMode)
 }
 
 //////////////////////////////////////////////////
-// Snippet logic calls.
+// Snippet logic.
 //////////////////////////////////////////////////
 
-function putSnippet (contentid, redirectid, firstOwner, previousOwner, forwardCount) {
-  var data = [contentid, redirectid, firstOwner, previousOwner, forwardCount]
-  var sqlPut = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?,?,?,?,?)'
-  let db = connectDatabase()
-  return new Promise(function (resolve, reject) {
-    db.serialize(function () {
-      db.run(sqlPut, data, function (err, result) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(this.lastID)
-        }
-      })
-      closeDatabase(db)
-    })
-  })
+function createSnippet (contentid, redirectid, firstOwner, previousOwner, forwardCount, testMode=false) {
+  var sqlData = [contentid, redirectid, firstOwner, previousOwner, forwardCount]
+  var sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?,?,?,?,?)'
+  return sqlInstruct(sqlCode, sqlData, testMode)
 }
 
-function putSnippetContent (content, description) {
-  var data = [content, description]
-  var sqlPut = 'INSERT INTO snippetcontent (contentid, description) VALUES (?,?)'
-  let db = connectDatabase()
-  return new Promise(function (resolve, reject) {
-    db.serialize(function () {
-      db.run(sqlPut, data, function (err, result) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(this.lastID)
-        }
-      })
-      closeDatabase(db)
-    })
-  })
+function createSnippetContent (content, description, testMode) {
+  var sqlData = [content, description]
+  var sqlCode = 'INSERT INTO snippetcontent (contentid, description) VALUES (?,?)'
+  return sqlInstruct(sqlCode, sqlData, testMode)
 }
 
 function updateRedirectSnippetList (redirectid, snippetids) {
-  var data = [snippetids, redirectid]
-  let sqlUpdate = `UPDATE redirect SET snippetids = ? WHERE id = ?`
-  let db = connectDatabase()
-  return new Promise(function (resolve, reject) {
-    db.serialize(function () {
-      db.run(sqlUpdate, data, function (err, res) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(res)
-        }
-      })
-      closeDatabase(db)
-    })
-  })
+  var sqlData = [snippetids, redirectid]
+  let sqlCode = 'UPDATE redirect SET snippetids = ? WHERE id = ?'
+  return sqlInstruct(sqlCode, sqlData, testMode)
 }
 
 function getRandomRedirect () {
-  let db = connectDatabase()
-  let sqlGet = `SELECT * FROM redirect ORDER BY RANDOM() LIMIT 1;`
-  return new Promise(function (resolve, reject) {
-    db.serialize(function () {
-      db.all(sqlGet, function (err, rows) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(rows)
-        }
-      })
-      closeDatabase(db)
-    })
-  })
+  let sqlCode = 'SELECT * FROM redirect ORDER BY RANDOM() LIMIT 1'
+  return sqlInstruct(sqlCode, [], testMode)
 }
-
-// function updateUserData (table, lookup, change) {
-//   let data = [change, lookup]
-//   let db = connectDatabase()
-//   let sqlUpdate = `UPDATE login
-//     SET forename = ?
-//     WHERE forename = ?`
-//   return new Promise(function (resolve, reject) {
-//     db.serialize(function () {
-//       db.run(sqlUpdate, data, function (err) {
-//         if (err) {
-//           reject(err)
-//         } else {
-//           resolve(`Row(s) updated: ${this.changes}`)
-//         }
-//       })
-//       closeDatabase(db)
-//     })
-//   })
-// }
