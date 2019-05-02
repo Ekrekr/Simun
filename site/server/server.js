@@ -59,14 +59,15 @@ router.get('/data/:table/:id', (req, res) => {
 })
 
 router.post('/snippet/:method/', async (req, res) => {
-  var snippetID = req.body.id
+  var snippetID = req.body.snippetid
+  var redirectID = req.body.redirectid
   var method = req.params.method
-  console.log('Performing method "' + method + '" on item in table with id', snippetID)
+  console.log('Performing method "' + method + '" on item in table with id', snippetID, 'by redirectID', redirectID)
   if (method == "forward") {
     console.log('Forwarding snippet ' + snippetID)
     // TODO: Update this to take the actual username.
-    var result = await snippetLogic.forwardSnippet(snippetID, "example-user")
-    console.log("sending " + result + " back to client")
+    // var result = await snippetLogic.forwardSnippet(snippetID, redirectID)
+    var result = await snippetLogic.forwardSnippet(snippetID, 0)
     res.send(result)
   }
 })

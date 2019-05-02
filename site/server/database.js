@@ -13,6 +13,7 @@ module.exports = {
   hashingEntry: hashingEntry,
   compareHash: compareHash,
   putSnippetData: putSnippetData,
+  updateRedirectSnippetList: updateRedirectSnippetList,
   getRandomRedirect: getRandomRedirect
 }
 
@@ -135,7 +136,7 @@ function updateUserData (table, lookup, change) {
 // DELETE data from database
 function deleteRow (table, lookup) {
   let db = connectDatabase()
-  let sqlDelete = `DELETE FROM ` + table + ` WHERE forename=?`
+  let sqlDelete = `DELETE FROM ` + table + ` WHERE id=?`
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
       db.run(sqlDelete, lookup, function (err) {
@@ -173,18 +174,18 @@ function putSnippetData (contentID, redirectid, firstOwner, previousOwner, forwa
   })
 }
 
-function addSnippetToRedirect (redirectid, snippetid) {
-  var data = [contentID, firstOwner, previousOwner, forwardCount]
-  var sqlPut = 'UPDATE redirect SET'
+function updateRedirectSnippetList (redirectid, snippetids) {
+  var data = [snippetids, redirectid]
+  let sqlUpdate = `UPDATE redirect SET snippetids = ? WHERE id = ?`
 
   let db = connectDatabase()
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
-      db.run(sqlPut, data, function (err, result) {
+      db.run(sqlUpdate, data, function (err, res) {
         if (err) {
           reject(err)
         } else {
-          resolve(this.lastID)
+          resolve(res)
         }
       })
       closeDatabase(db)

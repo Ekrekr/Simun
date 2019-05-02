@@ -21,12 +21,12 @@ function retrieveSnippetContent (id, _callback) {
   })
 }
 
-async function forwardSnippet (snippetID, _callback) {
-  console.log("tools: forwarding snippet ", snippetID)
+async function forwardSnippet (snippetID, redirectID, _callback) {
+  console.log("tools: forwarding snippet", snippetID, "from redirect", redirectID)
 
   var requestInfo = {
     uri: 'http://localhost:7000/snippet/forward/',
-    body: JSON.stringify({id: snippetID}),
+    body: JSON.stringify({snippetid: snippetID, redirectid: redirectID}),
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
