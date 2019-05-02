@@ -20,7 +20,7 @@ function retrieveData (table, id, _callback) {
   })
 }
 
-// Authenticates username and password for login.
+// Renders index page if credentials valid, otherwise returns to login page.
 async function authenticate (res, username, password) {
   var authentication = database.getUserData('Login', username)
   authentication.then(async function (result) {
@@ -37,6 +37,13 @@ async function authenticate (res, username, password) {
       res.render('login')
     }
   })
+}
+
+// Creates a new account. 
+async function register (username, password, alias, role) {
+  // TODO: Check username and password viable before accepting.
+  let fromRedirect = await database.putUserData(username, password, alias, role).then(res => {return res[0]})
+
 }
 
 // Enables REST communication with server.

@@ -1,14 +1,8 @@
 /* eslint-env mocha */
-// server_test.js
-// Runs all server tests.
-// Note:
-// * All tests should follow the arrange, act then assert structure.
-// * npm standard reports `describe` and `it` to not be defined so have warnings
-//      disabled for those specific lines.
 var expect = require('chai').expect
 var database = require('../server/database.js')
 
-// Function to check if 2 objects are equivalent
+// Checks that two lists are equal and have equivalent items in respective locations.
 function isEqual (a, b) {
   if (a[0].length !== b[0].length) {
     return false
@@ -25,7 +19,6 @@ function isEqual (a, b) {
   return true
 }
 
-// Get Data function test
 describe('database.getData()', async function () {
   it('checks that login data can be retrieved from the database', async function () {
     var expectC = [{
@@ -46,7 +39,6 @@ describe('database.getData()', async function () {
   })
 })
 
-// Put Data function test
 describe('database.putUserData()', async function () {
   it('checks that data can be written to the database login table', async function () {
     var expectD = `Rows inserted 1`
@@ -61,7 +53,6 @@ describe('database.putUserData()', async function () {
   })
 })
 
-// Update Data function test
 describe('database.updateUserData()', async function () {
   it('checks that data can be updated in the database login table', async function () {
     var expectE = `Row(s) updated: 1`
@@ -76,7 +67,6 @@ describe('database.updateUserData()', async function () {
   })
 })
 
-// Delete Data function test
 describe('database.deleteRow()', async function () {
   it('checks that data can be deleted from the database login table', async function () {
     var expectF = `Row(s) deleted 1`
