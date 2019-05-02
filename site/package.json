@@ -21,6 +21,7 @@
     "minimatch": "^3.0.4",
     "mssql": "^4.3.2",
     "mysql": "^2.16.0",
+    "node-daemon": "0.0.15",
     "node-fetch": "^2.3.0",
     "nodemon": "^1.18.11",
     "passport": "^0.4.0",
