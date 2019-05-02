@@ -19,23 +19,22 @@ function isEqual (a, b) {
   return true
 }
 
-describe('database.getData()', async function () {
-  it('checks that login data can be retrieved from the database', async function () {
-    var expectC = [{
-      id: 1,
-      forename: 'James',
-      surname: 'Adams',
-      username: 'Jadams',
-      password: 'Maybe'
-    }]
-    let value = await database.getData('Login', '1').then(function (result) {
-      if (isEqual(expectC, result)) {
-        return true
-      } else {
-        return false
-      }
+describe('Account creation; both Login and redirect insertion for user', async function () {
+  it('Checks that login and redirect are created correctly', async function () {
+    var expect = [{username: 'TestUsername', password: 'Password*1'}]
+    let newUserID = await database.createUser('TestUsername', 'Password*1', true).then(res => {
+      return isEqual(expect, res)
     })
+    let value = await database.createUser('TestUsername', 'Password*1', true).then(res => {
+      return isEqual(expect, res)
+    })
+
+
     expect(value).to.equal(true)
+
+    var expect = [{username: 'TestUsername', password: 'Password*1'}]
+    let value = await database.createUser('TestUsername', 'Password*1', true).then(result => {
+      return isEqual(expect, result)
   })
 })
 

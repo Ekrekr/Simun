@@ -7,13 +7,15 @@ const saltRounds = 10
 
 module.exports = {
   getData: getData,
-  putUserData: putUserData,
+  createUser: createUser,
   getUserData: getUserData,
-  updateUserData: updateUserData,
+  updateUserPassword: updateUserPassword,
+  createRedirect: createRedirect,
   deleteRow: deleteRow,
   hashingEntry: hashingEntry,
   compareHash: compareHash,
-  putSnippet: putSnippet,
+  createSnippet: createSnippet,
+  createSnippetContent: createSnippetContent,
   updateRedirectSnippetList: updateRedirectSnippetList,
   getRandomRedirect: getRandomRedirect
 }
@@ -27,7 +29,7 @@ function connectDatabase (testMode=false) {
   })
 }
 
-// Close the database connection
+// Close the database connection.
 function closeDatabase (db) {
   db.close((err) => {
     if (err) {
@@ -36,12 +38,12 @@ function closeDatabase (db) {
   })
 }
 
-// Hashes input
+// Hashes given input.
 async function hashingEntry (entry) {
   return bcrypt.hashSync(entry, saltRounds)
 }
 
-// Compares the hash and plaintext of inputs
+// Compares the hash and plaintext of inputs.
 async function compareHash (plaintext, hash) {
   return bcrypt.compareSync(plaintext, hash)
 }
@@ -82,6 +84,7 @@ function getData (table, lookup, testMode=false) {
 //////////////////////////////////////////////////
 
 // Retrieves a user's login data given their username.
+// TODO: Remove this and compare hashes directly without returning full user data.
 function getUserData (username, testMode=false) {
   var sqlData = [username]
   var sqlCode = 'SELECT * FROM Login WHERE username = ?'
@@ -91,7 +94,7 @@ function getUserData (username, testMode=false) {
 // Creates a new login.
 function createUser (username, password, testMode=false) {
   var sqlData = [username, password]
-  var sqlCode = 'INSERT INTO login (username, password) VALUES (?,?)'
+  var sqlCode = 'INSERT INTO login (username, password) VALUES (?, ?)'
   return sqlInstruct(sqlCode, sqlData, testMode)
 }
 
@@ -109,19 +112,26 @@ function removerUser (loginid) {
   return sqlInstruct(sqlCode, sqlData, testMode)
 }
 
+// Creates a new redirect.
+function createRedirect (alias, roleid, testMode=false) {
+  var sqlData = [alias, [], roleid]
+  var sqlCode = 'INSERT INTO redirect (alias, snippetids, roleid) VALUES (?, ?, ?)'
+  return sqlInstruct(sqlCode, sqlData, testMode)
+}
+
 //////////////////////////////////////////////////
 // Snippet logic.
 //////////////////////////////////////////////////
 
 function createSnippet (contentid, redirectid, firstOwner, previousOwner, forwardCount, testMode=false) {
   var sqlData = [contentid, redirectid, firstOwner, previousOwner, forwardCount]
-  var sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?,?,?,?,?)'
+  var sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?, ?, ?, ?, ?)'
   return sqlInstruct(sqlCode, sqlData, testMode)
 }
 
 function createSnippetContent (content, description, testMode) {
   var sqlData = [content, description]
-  var sqlCode = 'INSERT INTO snippetcontent (contentid, description) VALUES (?,?)'
+  var sqlCode = 'INSERT INTO snippetcontent (contentid, description) VALUES (?, ?)'
   return sqlInstruct(sqlCode, sqlData, testMode)
 }
 
