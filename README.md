@@ -9,7 +9,7 @@ All accounts will be anonymous and discourage the sharing of personal informatio
 - nodejs. [Example using homebrew for mac users](https://www.dyclassroom.com/howto-mac/how-to-install-nodejs-and-npm-on-mac-using-homebrew)
 - [Sass](https://sass-lang.com/), to generate css. To install sass do `sudo gem install sass`.
 - Global installations of [standard](https://www.npmjs.com/package/standard), pug, nodemon and watchify are required for live development. This can be done by `npm install -g standard` with each package name respectively.
-- To view database, download a database viewer, recommendations being `SQLManager` or `DBBrowser`.
+- To view database, download a database viewer, recommendations being `SQLiteManager` or `DBBrowser`.
 
 ## Deployment
 
