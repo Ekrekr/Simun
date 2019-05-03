@@ -80,7 +80,8 @@ module.exports = {
   colorwhite: '#f4f4f9',
   colorshadow: '#00000080',
   retrieveSnippetContent: retrieveSnippetContent,
-  forwardSnippet: forwardSnippet
+  forwardSnippet: forwardSnippet,
+  createSnippet: createSnippet
 }
 
 function retrieveSnippetContent (id, _callback) {
