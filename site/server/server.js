@@ -12,12 +12,12 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, '../public')))
-// app.use(bodyParser.json())
+app.use(bodyParser.json())
 app.use('/', router)
 
 async function connectToServer () {
   app.listen(7000, 'localhost', () => {
-    console.log('Express running → localhost:7000')
+    console.log('server: Express running → localhost:7000')
   })
 }
 
@@ -32,24 +32,24 @@ module.exports = {
 /// ///////////////////////////////////////////////
 
 router.get('/snippetcontent/:id', (req, res) => {
-  console.log('Retrieving snippet content with id:', req.params.id)
+  console.log('server: Retrieving snippet content with id:', req.params.id)
   database.getSnippetContent(req.params.id).then(response => { 
     res.send(JSON.stringify(response[0]))
   })
 })
 
-router.post('/snippet/:method/', async (req, res) => {
-  var snippetID = req.body.snippetid
-  var redirectID = req.body.redirectid
-  var method = req.params.method
-  console.log('Performing method "' + method + '" on item in table with id', snippetID, 'by redirectID', redirectID)
-  if (method == 'forward') {
-    console.log('Forwarding snippet ' + snippetID)
-    // TODO: Update this to take the actual username.
-    // var result = await snippetLogic.forwardSnippet(snippetID, redirectID)
-    var result = await snippetLogic.forwardSnippet(snippetID, 0)
-    res.send(result)
-  }
+router.post('/forward-snippet/', (req, res) => {
+  console.log('server: Forwarding snippet id:', req.body.snippetid)
+  database.forwardSnippet(req.body.snippetid).then(res => {
+    return res
+  })
+})
+
+router.post('/create-snippet/', (req, res) => {
+  console.log('server: Creating snippet with content:', req.body.content, 'description:', req.body.description, 'redirectid:', redirectid)
+  database.createSnippet(req.body.content, req.body.description, req.body.redirectid).then(res => {
+    return res
+  })
 })
 
 /// ///////////////////////////////////////////////
@@ -106,7 +106,7 @@ router.get('/receive', (req, res) => {
         database.getSnippetContent(snippet.contentid).then(snippetcontent => { 
           snippetcontent = snippetcontent[0]
 
-          console.log("Rendering receive, snippetcontent.id: ", snippetcontent.id)
+          console.log("server: Rendering receive, snippetcontent.id: ", snippetcontent.id)
 
           clientVariables.snippetcontents.push({
             'description': snippetcontent.description,

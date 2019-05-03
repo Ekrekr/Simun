@@ -93,12 +93,12 @@ function retrieveSnippetContent (id, _callback) {
   })
 }
 
-async function forwardSnippet (snippetID, redirectID, _callback) {
-  console.log('tools: forwarding snippet', snippetID, 'from redirect', redirectID)
+async function forwardSnippet (snippetid, _callback) {
+  console.log('tools: forwarding snippet', snippetid)
 
   var requestInfo = {
-    uri: 'http://localhost:7000/snippet/forward/',
-    body: JSON.stringify({ snippetid: snippetID, redirectid: redirectID }),
+    uri: 'http://localhost:7000/forward-snippet/',
+    body: JSON.stringify({ snippetid: snippetid }),
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -107,6 +107,28 @@ async function forwardSnippet (snippetID, redirectID, _callback) {
   request(requestInfo, function (err, res) {
     if (err) {
       console.log('tools: error forwarding snippet')
+      return false
+    }
+    console.log('tools: error to client: ', err)
+    console.log('tools: body response to client: ', res.body)
+    return res.body
+  })
+}
+
+async function createSnippet (content, description, redirectid, _callback) {
+  console.log('tools: creating snippet content', content, 'with description', description, 'from redirect id', redirectid)
+
+  var requestInfo = {
+    uri: 'http://localhost:7000/create-snippet/',
+    body: JSON.stringify({ content: content, description: description, redirectid: redirectid }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  request(requestInfo, function (err, res) {
+    if (err) {
+      console.log('tools: error creating snippet')
       return false
     }
     console.log('tools: error to client: ', err)
