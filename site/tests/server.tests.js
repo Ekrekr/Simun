@@ -2,23 +2,6 @@
 var expect = require('chai').expect
 var database = require('../server/database.js')
 
-// Checks that two lists are equal and have equivalent items in respective locations.
-function isEqual (a, b) {
-  if (a[0].length !== b[0].length) {
-    return false
-  }
-
-  const aValues = Object.values(a[0])
-  const bValues = Object.values(b[0])
-
-  for (var i = 0; i < aValues.length; i++) {
-    if (aValues[i] !== bValues[i]) {
-      return false
-    }
-  }
-  return true
-}
-
 var redirect = null
 var userID = null
 

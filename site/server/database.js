@@ -12,8 +12,6 @@ module.exports = {
   hashEntry: hashEntry,
   compareHash: compareHash,
 
-  getData: getData,
-
   createUser: createUser,
   getUserData: getUserData,
   updateUserPassword: updateUserPassword,
@@ -28,6 +26,7 @@ module.exports = {
   createSnippet: createSnippet,
   forwardSnippet: forwardSnippet,
 
+  getSnippetContent: getSnippetContent,
   removeSnippetContent: removeSnippetContent
 }
 
@@ -113,17 +112,6 @@ function sqlGetRandom (table, testMode = false) {
       closeDatabase(db)
     })
   })
-}
-
-/// ///////////////////////////////////////////////
-// Generalised Calls.
-/// ///////////////////////////////////////////////
-
-// TODO: Phase this out, insecure.
-function getData (table, lookup, testMode = false) {
-  var sqlData = [table, lookup]
-  var sqlCode = 'SELECT * FROM ? WHERE id = ?'
-  return sqlGet(sqlCode, sqlData, testMode)
 }
 
 /// ///////////////////////////////////////////////
@@ -214,7 +202,7 @@ async function createSnippet (content, description, redirectid, testMode = false
   var snippetList = JSON.parse(fromRedirect.snippetids)
   snippetList.push(snippetID.toString())
   snippetList = JSON.stringify(snippetList)
-  var redirected = await updateRedirectSnippetList(fromRedirect.id, snippetList, testMode).then(res => { return res })
+  await updateRedirectSnippetList(fromRedirect.id, snippetList, testMode).then(res => { return res })
 
   var snippetIDs = await forwardSnippet(snippetID, testMode)
 
@@ -267,7 +255,12 @@ async function forwardSnippet (snippetid, testMode = false) {
 // Snippet Content Related Calls.
 /// ///////////////////////////////////////////////
 
-async function removeSnippetContent (snippetcontentid, testMode = false) {
+function getSnippetContent (snippetcontentid, testMode = false) {
+  var sqlCode = 'SELECT * FROM snippetcontent WHERE id = ?'
+  return sqlGet(sqlCode, snippetcontentid, testMode)
+}
+
+function removeSnippetContent (snippetcontentid, testMode = false) {
   var sqlData = [snippetcontentid]
   var sqlCode = 'DELETE FROM snippetcontent WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)

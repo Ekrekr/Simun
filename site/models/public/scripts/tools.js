@@ -12,7 +12,7 @@ module.exports = {
 }
 
 function retrieveSnippetContent (id, _callback) {
-  request('http://localhost:7000/data/snippetcontent/' + id, { json: true }, (err, res, body) => {
+  request('http://localhost:7000/snippetcontent/' + id, { json: true }, (err, res, body) => {
     if (err) {
       console.log('tools: error retrieving snippet content')
       return _callback(err)
