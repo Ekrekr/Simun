@@ -201,42 +201,66 @@ async function createSnippet (content, description, redirectid, testMode = false
   // Retrieve the redirect corresponding to the redirectid.
   var fromRedirect = await getRedirect(redirectid, testMode).then(res => { return res[0] })
 
-  // Retrieve the redirect of a random user.
-  toRedirect = await sqlGetRandom('redirect', testMode).then(res => { return res[0] })
-
   // Create a new snippet content.
   sqlCode = 'INSERT INTO snippetcontent (content, description) VALUES (?, ?)'
   snippetContentID = await sqlPut(sqlCode, [content, description], testMode).then(res => { return res })
 
-  // Create a new snippet with the content, belonging to the toRedirect and from the fromRedirect.
-  var sqlData = [snippetContentID, toRedirect.id, fromRedirect.alias, fromRedirect.alias, 0]
+  // Create a new snippet with the content, belonging to the fromRedirect and from the fromRedirect.
+  var sqlData = [snippetContentID, fromRedirect.id, fromRedirect.alias, fromRedirect.alias, 0]
   sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?, ?, ?, ?, ?)'
   snippetID = await sqlPut(sqlCode, sqlData, testMode).then(res => { return res })
 
   // Append the snippet ID to the redirects list of owned redirect IDs.
-  var snippetList = JSON.parse(toRedirect.snippetids)
+  var snippetList = JSON.parse(fromRedirect.snippetids)
   snippetList.push(snippetID.toString())
   snippetList = JSON.stringify(snippetList)
-  var redirected = await updateRedirectSnippetList(toRedirect.id, snippetList, testMode).then(res => { return res })
+  var redirected = await updateRedirectSnippetList(fromRedirect.id, snippetList, testMode).then(res => { return res })
 
-  return snippetID
+  var snippetIDs = await forwardSnippet(snippetID, testMode)
+
+  return snippetIDs
 }
 
-function forwardSnippet (snippetid, testMode = false) {
+async function forwardSnippet (snippetid, testMode = false) {
+  // Retrieve the current snippet.
+  var currentSnippet = await getSnippet(snippetid, testMode).then(res => { return res[0] })
+
   // Retrieve the redirect corresponding to the redirectid.
-  var fromRedirect = await getRedirect(redirectid, testMode).then(res => { return res[0] })
+  var fromRedirect = await getRedirect(currentSnippet.redirectid, testMode).then(res => { return res[0] })
 
   // Retrieve the redirect of two random users.
   toRedirect0 = await sqlGetRandom('redirect', testMode).then(res => { return res[0] })
   toRedirect1 = await sqlGetRandom('redirect', testMode).then(res => { return res[0] })
 
-  // Create two new snippets with the same content, belonging to the two different 
+  // Create two new snippets with the same content, belonging to the two different
   // toRedirects and from the fromRedirect.
   sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?, ?, ?, ?, ?)'
-  var sqlData = [snippetContentID, toRedirect.id, fromRedirect.alias, fromRedirect.alias, 0]
-  
-  snippetID = await sqlPut(sqlCode, sqlData, testMode).then(res => { return res })
+  var sqlData = [currentSnippet.contentid, toRedirect0.id, currentSnippet.firstowner, fromRedirect.alias, currentSnippet.forwardcount + 1]
+  newSnippetID0 = await sqlPut(sqlCode, sqlData, testMode).then(res => { return res })
+  var sqlData = [currentSnippet.contentid, toRedirect1.id, currentSnippet.firstowner, fromRedirect.alias, currentSnippet.forwardcount + 1]
+  newSnippetID1 = await sqlPut(sqlCode, sqlData, testMode).then(res => { return res })
 
+  // Append the snippet ID to each of the toRedirects list of snippet IDs.
+  var snippetList = JSON.parse(toRedirect0.snippetids)
+  snippetList.push(newSnippetID0.toString())
+  snippetList = JSON.stringify(snippetList)
+  await updateRedirectSnippetList(toRedirect0.id, snippetList, testMode).then(res => { return res })
+
+  snippetList = JSON.parse(toRedirect1.snippetids)
+  snippetList.push(newSnippetID1.toString())
+  snippetList = JSON.stringify(snippetList)
+  await updateRedirectSnippetList(toRedirect1.id, snippetList, testMode).then(res => { return res })
+
+  // Remove the snippet ID in the original redirects list of snippet IDs.
+  snippetList = JSON.parse(fromRedirect.snippetids)
+  snippetList.splice(snippetList.indexOf(currentSnippet.id.toString()), 1)
+  snippetList = JSON.stringify(snippetList)
+  await updateRedirectSnippetList(fromRedirect.id, snippetList, testMode).then(res => { return res })
+
+  // Remove the original snippet
+  await removeSnippet(currentSnippet.id, testMode).then(res => { return res })
+
+  return [newSnippetID0, newSnippetID1]
 }
 
 /// ///////////////////////////////////////////////

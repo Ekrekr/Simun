@@ -21,7 +21,6 @@ function isEqual (a, b) {
 
 var redirect = null
 var userID = null
-var originalSnippet = null
 
 describe('Account creation.', async function () {
   it('Login and redirect are created and retrieved correctly.', async function () {
@@ -38,34 +37,32 @@ describe('Account creation.', async function () {
   })
 })
 
-describe('Snippet Creation and Retrieval.', async function () {
-  it('Snippets can be created, retrieved, and are by default forwarded.', async function () {
-    var snippetID = await database.createSnippet('https://i.imgur.com/DccRRP7.jpg', 'Example Snippet', redirect.id, true).then(res => { return res })
-    originalSnippet = await database.getSnippet(snippetID, true).then(res => { return res[0] })
-    expect(originalSnippet).to.not.equal(null)
+describe('Snippet Creation, Retrieval, Forwarding and Deletion.', async function () {
+  it('Snippets can be created, retrieved, and forwarded (Forwarding done by default in creation).', async function () {
+    // Create new snippet that forwards to two users.
+    var snippetIDs = await database.createSnippet('https://i.imgur.com/DccRRP7.jpg', 'Example Snippet', redirect.id, true).then(res => { return res })
+    expect(snippetIDs).to.not.equal(null)
+    var snippetID0 = snippetIDs[0]
+    var snippetID1 = snippetIDs[1]
+    expect(snippetID0).to.not.equal(snippetID1)
 
-    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
-  })
-})
+    // Retrieve the first snippet for checking the content
+    var snippet0 = await database.getSnippet(snippetID0, true).then(res => { return res[0] })
+    var snippet1 = await database.getSnippet(snippetID1, true).then(res => { return res[0] })
+    expect(snippet0.contentid).to.equal(snippet1.contentid)
 
-describe('Snippet Forwarding.', async function () {
-  it('Snippets can be created, retrieved, and are by default forwarded.', async function () {
-    
-  })
-})
-
-describe('Snippet and Content Deletion.', async function () {
-  it('Snippets and snippetcontents can be removed.', async function () {
-    var contentID = await database.removeSnippetContent(originalSnippet.contentid, true).then(res => { return res })
-    var snippetID = await database.removeSnippet(originalSnippet.id, true).then(res => { return res })
+    // Remove the snippet content first as snippets point to it.
+    var contentID0 = await database.removeSnippetContent(snippet0.contentid, true).then(res => { return res })
     // TODO: try retrieving snippet and fail if successfully retrieves.
-    expect(contentID).to.not.equal(null)
-    expect(snippetID).to.not.equal(null)
+    expect(contentID0).to.not.equal(null)
+
+    // Remove the two snippets.
+    snippetID0 = await database.removeSnippet(snippetID0, true).then(res => { return res })
+    snippetID1 = await database.removeSnippet(snippetID1, true).then(res => { return res })
+    expect(snippetID0).to.not.equal(null)
+    expect(snippetID1).to.not.equal(null)
   })
 })
-
-// https://i.imgur.com/DccRRP7.jpg
-// https://i.imgur.com/EwVxG0U.jpg
 
 describe('Account Deletion.', async function () {
   it('Accounts and redirects can be removed.', async function () {
