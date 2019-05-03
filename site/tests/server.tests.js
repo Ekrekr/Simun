@@ -41,10 +41,16 @@ describe('Account creation.', async function () {
 describe('Snippet Creation and Retrieval.', async function () {
   it('Snippets can be created, retrieved, and are by default forwarded.', async function () {
     var snippetID = await database.createSnippet('https://i.imgur.com/DccRRP7.jpg', 'Example Snippet', redirect.id, true).then(res => { return res })
-    originalSnippet = await database.getSnippet(snippetID, true).then(res => { return res })
+    originalSnippet = await database.getSnippet(snippetID, true).then(res => { return res[0] })
     expect(originalSnippet).to.not.equal(null)
 
     redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+  })
+})
+
+describe('Snippet Forwarding.', async function () {
+  it('Snippets can be created, retrieved, and are by default forwarded.', async function () {
+    
   })
 })
 
@@ -71,45 +77,3 @@ describe('Account Deletion.', async function () {
     expect(redirectRemoved).to.not.equal(null)
   })
 })
-
-// describe('database.putUserData()', async function () {
-//   it('checks that data can be written to the database login table', async function () {
-//     var expectD = `Rows inserted 1`
-//     let value = await database.putUserData('Login', 'Test1', 'Test2', 'Test3', 'Test4').then(function (result) {
-//       if (result === expectD) {
-//         return true
-//       } else {
-//         return false
-//       }
-//     })
-//     expect(value).to.equal(true)
-//   })
-// })
-
-// describe('database.updateUserData()', async function () {
-//   it('checks that data can be updated in the database login table', async function () {
-//     var expectE = `Row(s) updated: 1`
-//     let value = await database.updateUserData('Login', 'Test1', 'TestForename').then(function (result) {
-//       if (result === expectE) {
-//         return true
-//       } else {
-//         return false
-//       }
-//     })
-//     expect(value).to.equal(true)
-//   })
-// })
-
-// describe('database.deleteRow()', async function () {
-//   it('checks that data can be deleted from the database login table', async function () {
-//     var expectF = `Row(s) deleted 1`
-//     let value = await database.deleteRow('Login', 'TestForename').then(function (result) {
-//       if (result === expectF) {
-//         return true
-//       } else {
-//         return false
-//       }
-//     })
-//     expect(value).to.equal(true)
-//   })
-// })
