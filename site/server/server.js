@@ -1,14 +1,13 @@
 var path = require('path')
 const express = require('express')
 var bodyParser = require('body-parser')
-const request = require('request')
 var database = require('./database.js')
 
 const app = express()
 var router = express.Router()
 
 // Enables REST communication with server.
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, '../public')))
@@ -33,7 +32,7 @@ module.exports = {
 
 router.get('/snippetcontent/:id', (req, res) => {
   console.log('server: Retrieving snippet content with id:', req.params.id)
-  database.getSnippetContent(req.params.id).then(response => { 
+  database.getSnippetContent(req.params.id).then(response => {
     res.send(JSON.stringify(response[0]))
   })
 })
@@ -46,7 +45,7 @@ router.post('/forward-snippet/', (req, res) => {
 })
 
 router.post('/create-snippet/', (req, res) => {
-  console.log('server: Creating snippet with content:', req.body.content, 'description:', req.body.description, 'redirectid:', redirectid)
+  console.log('server: Creating snippet with content:', req.body.content, 'description:', req.body.description, 'redirectid:', req.body.redirectid)
   database.createSnippet(req.body.content, req.body.description, req.body.redirectid).then(res => {
     return res
   })
@@ -65,25 +64,20 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-  var username = req.body.username
-  var password = req.body.password
-
-  await async function(res, username, password) {
-    database.getUserData('Login', username).then(res => {
-      if (result.length > 0) {
-        if (
-          result[0].username === username &&
-          result[0].password === password
-        ) {
-          res.render('index')
-        } else {
-          res.render('login')
-        }
+  database.getUserData('Login', req.body.username).then(result => {
+    if (result.length > 0) {
+      if (
+        result[0].username === req.body.username &&
+        result[0].password === req.body.password
+      ) {
+        res.render('index')
       } else {
         res.render('login')
       }
-    })
-  }
+    } else {
+      res.render('login')
+    }
+  })
 })
 
 router.get('/receive', (req, res) => {
@@ -103,10 +97,10 @@ router.get('/receive', (req, res) => {
         snippet = snippet[0]
 
         // Retrieve the snippet content.
-        database.getSnippetContent(snippet.contentid).then(snippetcontent => { 
+        database.getSnippetContent(snippet.contentid).then(snippetcontent => {
           snippetcontent = snippetcontent[0]
 
-          console.log("server: Rendering receive, snippetcontent.id: ", snippetcontent.id)
+          console.log('server: Rendering receive, snippetcontent.id: ', snippetcontent.id)
 
           clientVariables.snippetcontents.push({
             'description': snippetcontent.description,
