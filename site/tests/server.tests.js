@@ -21,27 +21,40 @@ function isEqual (a, b) {
 
 var redirect = null
 var userID = null
+var originalSnippet = null
 
 describe('Account creation.', async function () {
-  it('Checks that login and redirect are created and retrieved correctly.', async function () {
+  it('Login and redirect are created and retrieved correctly.', async function () {
     // The redirect needs to be created first as the login points to it.
     var redirectID = await database.createRedirect('TestAlias', 1, true).then(res => { return res })
     redirect = await database.getRedirect(redirectID, true).then(res => { return res[0] })
     expect(redirect.alias).to.equal('TestAlias')
     expect(redirect.roleid).to.equal(1)
 
-    // Only the new login ID returned can be tested as the database is not allowed to return user entry.
-    // The new user ID should be 0 as it's the first user in the tests database.
+    // Only the new login ID returned can be tested as the database is not allowed to return
+    // user entry in order to not reveal the hashed and salted password.
     userID = await database.createUser('TestUsername', 'Password*1', redirectID, true).then(res => { return res })
     expect(userID).to.not.equal(null)
   })
 })
 
-describe('Snippet Creation.', async function () {
-  it('Checks that snippets can be created and are by default forwarded.', async function () {
+describe('Snippet Creation and Retrieval.', async function () {
+  it('Snippets can be created, retrieved, and are by default forwarded.', async function () {
     var snippetID = await database.createSnippet('https://i.imgur.com/DccRRP7.jpg', 'Example Snippet', redirect.id, true).then(res => { return res })
+    originalSnippet = await database.getSnippet(snippetID, true).then(res => { return res })
+    expect(originalSnippet).to.not.equal(null)
+
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+  })
+})
+
+describe('Snippet and Content Deletion.', async function () {
+  it('Snippets and snippetcontents can be removed.', async function () {
+    var contentID = await database.removeSnippetContent(originalSnippet.contentid, true).then(res => { return res })
+    var snippetID = await database.removeSnippet(originalSnippet.id, true).then(res => { return res })
+    // TODO: try retrieving snippet and fail if successfully retrieves.
+    expect(contentID).to.not.equal(null)
     expect(snippetID).to.not.equal(null)
-    console.log('SnippetID found:', snippetID)
   })
 })
 
@@ -49,7 +62,7 @@ describe('Snippet Creation.', async function () {
 // https://i.imgur.com/EwVxG0U.jpg
 
 describe('Account Deletion.', async function () {
-  it('Checks accounts and redirects can be removed from the system.', async function () {
+  it('Accounts and redirects can be removed.', async function () {
     // TODO: Try to retrieve user and redirect, test successful if it fails.
     // Clean up login and redirect.
     var userRemoved = await database.removeUser(userID, true).then(res => { return res })

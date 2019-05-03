@@ -20,13 +20,15 @@ module.exports = {
   removeUser: removeUser,
 
   createRedirect: createRedirect,
-  updateRedirectSnippetList: updateRedirectSnippetList,
   getRedirect: getRedirect,
   removeRedirect: removeRedirect,
 
   getSnippet: getSnippet,
+  removeSnippet: removeSnippet,
   createSnippet: createSnippet,
-  forwardSnippet: forwardSnippet
+  forwardSnippet: forwardSnippet,
+
+  removeSnippetContent: removeSnippetContent
 }
 
 // Connect to the database
@@ -95,6 +97,24 @@ function sqlPut (sqlCode, sqlData, testMode = false) {
   })
 }
 
+// Returns a random entry from the table specified.
+function sqlGetRandom (table, testMode = false) {
+  sqlCode = 'SELECT * FROM ' + table + ' ORDER BY RANDOM() LIMIT 1'
+  let db = connectDatabase(testMode)
+  return new Promise(function (resolve, reject) {
+    db.serialize(function () {
+      db.all(sqlCode, function (err, result) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(result)
+        }
+      })
+      closeDatabase(db)
+    })
+  })
+}
+
 /// ///////////////////////////////////////////////
 // Generalised Calls.
 /// ///////////////////////////////////////////////
@@ -150,7 +170,7 @@ function getRedirect (redirectid, testMode = false) {
   return sqlGet(sqlCode, redirectid, testMode)
 }
 
-function updateRedirectSnippetList (redirectid, snippetids) {
+function updateRedirectSnippetList (redirectid, snippetids, testMode = false) {
   var sqlData = [snippetids, redirectid]
   var sqlCode = 'UPDATE redirect SET snippetids = ? WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
@@ -171,32 +191,33 @@ function getSnippet (snippetid, testMode = false) {
   return sqlGet(sqlCode, snippetid, testMode)
 }
 
+function removeSnippet (snippetid, testMode = false) {
+  var sqlData = [snippetid]
+  var sqlCode = 'DELETE FROM snippet WHERE id = ?'
+  return sqlPut(sqlCode, sqlData, testMode)
+}
+
 async function createSnippet (content, description, redirectid, testMode = false) {
   // Retrieve the redirect corresponding to the redirectid.
   var fromRedirect = await getRedirect(redirectid, testMode).then(res => { return res[0] })
-  console.log('fromRedirect:', fromRedirect)
 
   // Retrieve the redirect of a random user.
-  console.log('retrieving random redirect')
-  var sqlCode = 'SELECT * FROM redirect ORDER BY RANDOM() LIMIT 1'
-  toRedirect = await sqlGet(sqlCode, null, testMode).then(res => { return res[0] })
-  console.log('toRedirect:', toRedirect)
+  toRedirect = await sqlGetRandom('redirect', testMode).then(res => { return res[0] })
 
   // Create a new snippet content.
-  sqlCode = 'INSERT INTO snippetcontent (contentid, description) VALUES (?, ?)'
+  sqlCode = 'INSERT INTO snippetcontent (content, description) VALUES (?, ?)'
   snippetContentID = await sqlPut(sqlCode, [content, description], testMode).then(res => { return res })
-  console.log('snippetContentID:', snippetContentID)
 
   // Create a new snippet with the content, belonging to the toRedirect and from the fromRedirect.
   var sqlData = [snippetContentID, toRedirect.id, fromRedirect.alias, fromRedirect.alias, 0]
-  var sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?, ?, ?, ?, ?)'
+  sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?, ?, ?, ?, ?)'
   snippetID = await sqlPut(sqlCode, sqlData, testMode).then(res => { return res })
-  console.log('snippetID:', snippetID)
 
-  // Append the snippet ID to the redirects list of owned redirect IDs
+  // Append the snippet ID to the redirects list of owned redirect IDs.
   var snippetList = JSON.parse(toRedirect.snippetids)
   snippetList.push(snippetID.toString())
-  await updateRedirectSnippetList(snippetList, toRedirect.id).then(res => {})
+  snippetList = JSON.stringify(snippetList)
+  var redirected = await updateRedirectSnippetList(toRedirect.id, snippetList, testMode).then(res => { return res })
 
   return snippetID
 }
@@ -215,4 +236,14 @@ function forwardSnippet (snippetid, testMode = false) {
   // var snippet = await database.getData('snippet', snippetid).then(res => { return res[0] })
   // console.log('snippet found with ID: ' + snippet.id)
   // let newSnippetID1 = await database.putSnippet(snippet.contentid, toRedirect1.id, snippet.firstowner, fromRedirect.alias, snippet.forwardcount + 1).then(res => { return res })
+}
+
+/// ///////////////////////////////////////////////
+// Snippet Content Related Calls.
+/// ///////////////////////////////////////////////
+
+async function removeSnippetContent (snippetcontentid, testMode = false) {
+  var sqlData = [snippetcontentid]
+  var sqlCode = 'DELETE FROM snippetcontent WHERE id = ?'
+  return sqlPut(sqlCode, sqlData, testMode)
 }
