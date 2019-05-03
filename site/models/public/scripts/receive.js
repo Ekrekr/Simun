@@ -23,13 +23,13 @@ function setActive (counter) {
 
     // Update trash it and forward it buttons.
     $('forward-it').onclick = () => {
-      console.log("trash-it button pressed")
+      console.log('trash-it button pressed')
       tools.forwardSnippet(snippet.id, (err, response) => {
         if (err) {
           console.log('Error forwarding snippet', err)
           return
         }
-        console.log("Snippet successfully forwarded")
+        console.log('Snippet successfully forwarded')
       })
     }
   })

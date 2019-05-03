@@ -39,11 +39,10 @@ async function authenticate (res, username, password) {
   })
 }
 
-// Creates a new account. 
+// Creates a new account.
 async function register (username, password, alias, role) {
   // TODO: Check username and password viable before accepting.
-  let fromRedirect = await database.putUserData(username, password, alias, role).then(res => {return res[0]})
-
+  let fromRedirect = await database.putUserData(username, password, alias, role).then(res => { return res[0] })
 }
 
 // Enables REST communication with server.
@@ -70,7 +69,7 @@ router.post('/snippet/:method/', async (req, res) => {
   var redirectID = req.body.redirectid
   var method = req.params.method
   console.log('Performing method "' + method + '" on item in table with id', snippetID, 'by redirectID', redirectID)
-  if (method == "forward") {
+  if (method == 'forward') {
     console.log('Forwarding snippet ' + snippetID)
     // TODO: Update this to take the actual username.
     // var result = await snippetLogic.forwardSnippet(snippetID, redirectID)

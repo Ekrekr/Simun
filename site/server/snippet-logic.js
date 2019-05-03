@@ -9,22 +9,22 @@ module.exports = {
 
 // Forwards a snippet on to two separate users at random.
 async function forwardSnippet (snippetid, redirectid) {
-  console.log("snippet-logic: forwarding snippet from account " + redirectid)
+  console.log('snippet-logic: forwarding snippet from account ' + redirectid)
 
   // Retrieve redirect for the current user.
-  let fromRedirect = await database.getData('redirect', redirectid).then(res => {return res[0]})
+  let fromRedirect = await database.getData('redirect', redirectid).then(res => { return res[0] })
 
   // Select two redirect entries at random.
-  let toRedirect1 = await database.getRandomRedirect().then(res => {return res[0]})
-  let toRedirect2 = await database.getRandomRedirect().then(res => {return res[0]})
-  console.log("Redirects chosen with IDs: " + toRedirect1.id + " and " + toRedirect2.id)
+  let toRedirect1 = await database.getRandomRedirect().then(res => { return res[0] })
+  let toRedirect2 = await database.getRandomRedirect().then(res => { return res[0] })
+  console.log('Redirects chosen with IDs: ' + toRedirect1.id + ' and ' + toRedirect2.id)
 
   // Create two new snippets with the same content id, same first owner, the alias of the current user, and an increased forward count.
-  let snippet = await database.getData('snippet', snippetid).then(res => {return res[0]})
-  console.log("snippet found with ID: " + snippet.id)
-  let newSnippetID1 = await database.putSnippet(snippet.contentid, toRedirect1.id, snippet.firstowner, fromRedirect.alias, snippet.forwardcount + 1).then( res => {return res})
-  let newSnippetID2 = await database.putSnippet(snippet.contentid, toRedirect2.id, snippet.firstowner, fromRedirect.alias, snippet.forwardcount + 1).then( res => {return res})
-  console.log("New snippets: " + newSnippetID1 + ", " + newSnippetID2)
+  let snippet = await database.getData('snippet', snippetid).then(res => { return res[0] })
+  console.log('snippet found with ID: ' + snippet.id)
+  let newSnippetID1 = await database.putSnippet(snippet.contentid, toRedirect1.id, snippet.firstowner, fromRedirect.alias, snippet.forwardcount + 1).then(res => { return res })
+  let newSnippetID2 = await database.putSnippet(snippet.contentid, toRedirect2.id, snippet.firstowner, fromRedirect.alias, snippet.forwardcount + 1).then(res => { return res })
+  console.log('New snippets: ' + newSnippetID1 + ', ' + newSnippetID2)
 
   // Append the new snippet IDs to the redirects list of owned snippets.
   var snippetList = JSON.parse(toRedirect1.snippetids)
@@ -39,7 +39,7 @@ async function forwardSnippet (snippetid, redirectid) {
 
   // Delete the snippet from the senders' redirect.
   var snippetList = JSON.parse(fromRedirect.snippetids)
-  snippetList.splice(snippetList.indexOf(snippetid.toString()), 1);
+  snippetList.splice(snippetList.indexOf(snippetid.toString()), 1)
   await database.updateRedirectSnippetList(snippetList, fromRedirect.id).then(res => {})
 
   // Force update the accounts attached to the redirect.
@@ -51,13 +51,13 @@ async function forwardSnippet (snippetid, redirectid) {
 // Creates new content, encapsulats it in a snippet, and then forwards the snippet.
 async function createSnippet (content, description, redirectid) {
   // Create a new snippet content of snippetInfo, storing the snippet content ID.
-  let newSnippetContentID = await database.putSnippetContent(content, description).then(res => {return res})
+  let newSnippetContentID = await database.putSnippetContent(content, description).then(res => { return res })
 
-  // Retrieve the current username alias.
-  let fromRedirect = await database.getData('redirect', redirectid).then(res => {return res[0]})
+  // Retrieve the current alias.
+  let fromRedirect = await database.getData('redirect', redirectid).then(res => { return res[0] })
 
   // Create a 'fake' snippet that belongs to the current user.
-  let newSnippetID = await database.putSnippet(newSnippetContentID, fromRedirect.id, fromRedirect.alias, fromRedirect.alias, 0).then( res => {return res})
+  let newSnippetID = await database.putSnippet(newSnippetContentID, fromRedirect.id, fromRedirect.alias, fromRedirect.alias, 0).then(res => { return res })
 
   // Forward the snippet on.
   let forwarded = await forwardSnippet(newSnippetID)
