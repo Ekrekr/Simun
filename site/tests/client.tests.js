@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 var expect = require('chai').expect
 var database = require('../server/database.js')
-var tools = require('../public/scripts/tools.js')
+var tools = require('../models/public/scripts/tools.js')
 
 // describe('Account registration.', async function () {
 //   it('Account is created and retrieved correctly for secure password, unsuccessful for insecure.', async function () {
