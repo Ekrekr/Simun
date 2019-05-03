@@ -7,7 +7,6 @@ const saltRounds = 10
 
 // The functions exported here should only allow the transferral of nonsensitive information; login
 // details should be strictly monitored, as well as access to redirects.
-// TODO: Ensure this happens.
 module.exports = {
   hashEntry: hashEntry,
   compareHash: compareHash,
