@@ -51,16 +51,16 @@ async function forwardSnippet (snippetid, redirectid) {
 // Creates new content, encapsulats it in a snippet, and then forwards the snippet.
 async function createSnippet (content, description, redirectid) {
   // Create a new snippet content of snippetInfo, storing the snippet content ID.
-  let newSnippetContentID = await database.putSnippetContent(content, description).then(res => { return res })
+  var newSnippetContentID = await database.putSnippetContent(content, description).then(res => { return res })
 
   // Retrieve the current alias.
-  let fromRedirect = await database.getData('redirect', redirectid).then(res => { return res[0] })
+  var fromRedirect = await database.getData('redirect', redirectid).then(res => { return res[0] })
 
   // Create a 'fake' snippet that belongs to the current user.
-  let newSnippetID = await database.putSnippet(newSnippetContentID, fromRedirect.id, fromRedirect.alias, fromRedirect.alias, 0).then(res => { return res })
+  var newSnippetID = await database.putSnippet(newSnippetContentID, fromRedirect.id, fromRedirect.alias, fromRedirect.alias, 0).then(res => { return res })
 
   // Forward the snippet on.
-  let forwarded = await forwardSnippet(newSnippetID)
+  var forwarded = await forwardSnippet(newSnippetID)
 
   return true
 }

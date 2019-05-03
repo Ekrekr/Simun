@@ -19,40 +19,45 @@ function isEqual (a, b) {
   return true
 }
 
-var redirectID = null
+var redirect = null
 var userID = null
 
 describe('Account creation.', async function () {
   it('Checks that login and redirect are created and retrieved correctly.', async function () {
     // The redirect needs to be created first as the login points to it.
-    var redirectID = await database.createRedirect('TestAlias', 1, true).then(res => {return res})
-    var newRedirect = await database.getRedirect(redirectID, true).then(res => {return res[0]})
-    expect(newRedirect.alias).to.equal('TestAlias')
-    expect(newRedirect.roleid).to.equal(1)
+    var redirectID = await database.createRedirect('TestAlias', 1, true).then(res => { return res })
+    redirect = await database.getRedirect(redirectID, true).then(res => { return res[0] })
+    expect(redirect.alias).to.equal('TestAlias')
+    expect(redirect.roleid).to.equal(1)
 
     // Only the new login ID returned can be tested as the database is not allowed to return user entry.
     // The new user ID should be 0 as it's the first user in the tests database.
-    var userID = await database.createUser('TestUsername', 'Password*1', redirectID, true).then(res => {return res})
+    userID = await database.createUser('TestUsername', 'Password*1', redirectID, true).then(res => { return res })
     expect(userID).to.not.equal(null)
   })
 })
 
 describe('Snippet Creation.', async function () {
-  it('Checks that snippets can be created.', async function () {
-    let snippetContentID = await database.putSnippetContent(content, description).then(res => { return res })
-
-
+  it('Checks that snippets can be created and are by default forwarded.', async function () {
+    var snippetID = await database.createSnippet('https://i.imgur.com/DccRRP7.jpg', 'Example Snippet', redirect.id, true).then(res => { return res })
+    expect(snippetID).to.not.equal(null)
+    console.log('SnippetID found:', snippetID)
   })
 })
 
+// https://i.imgur.com/DccRRP7.jpg
+// https://i.imgur.com/EwVxG0U.jpg
 
+describe('Account Deletion.', async function () {
+  it('Checks accounts and redirects can be removed from the system.', async function () {
+    // TODO: Try to retrieve user and redirect, test successful if it fails.
     // Clean up login and redirect.
-    await database.removeUser(newUserID, true).then(res => {
-      return res
-    })
-    await database.removeRedirect(newUserID, true).then(res => {
-      return res
-    })
+    var userRemoved = await database.removeUser(userID, true).then(res => { return res })
+    expect(userRemoved).to.not.equal(null)
+    var redirectRemoved = await database.removeRedirect(redirect.id, true).then(res => { return res })
+    expect(redirectRemoved).to.not.equal(null)
+  })
+})
 
 // describe('database.putUserData()', async function () {
 //   it('checks that data can be written to the database login table', async function () {
