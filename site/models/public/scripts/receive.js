@@ -13,16 +13,28 @@ function setActive (counter) {
   var contentID = rowItem.children[0].id
 
   // Need to retrieve the content from the server to populate the selected box.
-  tools.retrieveData('snippetcontent', contentID, (err, snippet) => {
+  tools.retrieveSnippetContent(contentID, (err, snippet) => {
     if (err) {
       console.log('Error retrieving snippetcontent from server:', err)
       return
     }
     $('selected-content').src = snippet.content
     $('selected-description').innerHTML = snippet.description
+
+    // Update trash it and forward it buttons.
+    $('forward-it').onclick = () => {
+      console.log('trash-it button pressed')
+      tools.forwardSnippet(snippet.id, (err, response) => {
+        if (err) {
+          console.log('Error forwarding snippet', err)
+          return
+        }
+        console.log('Snippet successfully forwarded')
+      })
+    }
   })
 
-  // Finally unhighlight the current selector and highlight the selected
+  // Unhighlight the current selector and highlight the selected
   var prevRowItem = $('select-' + currentlyActive)
   prevRowItem.children[0].style.backgroundColor = tools.colorprimary
   currentlyActive = counter
