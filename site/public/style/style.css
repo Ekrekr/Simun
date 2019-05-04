@@ -294,6 +294,7 @@ index text-box arrow-left {
   margin: 2%;
   transform: translate(-50%, -50%);
   cursor: pointer;
+  visibility: hidden;
 }
 
 receive {

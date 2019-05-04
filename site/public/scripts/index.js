@@ -58,7 +58,6 @@ function prevText() {
 
 $('arrow-right').onclick = () => { nextText() }
 $('arrow-left').onclick = () => { prevText() }
-$('arrow-left').style.visibility = "hidden";
 
 // Enabling arrow presses using keyboard.
 document.addEventListener('keydown', function(event) {
