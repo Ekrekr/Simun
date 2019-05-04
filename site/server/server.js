@@ -56,7 +56,8 @@ router.post('/create-snippet/', (req, res) => {
 /// ///////////////////////////////////////////////
 
 router.get('/', (req, res) => {
-  res.render('login')
+  // TODO: Update this to be the stats page for initial newcomers.
+  res.render('index')
 })
 
 router.get('/login', (req, res) => {

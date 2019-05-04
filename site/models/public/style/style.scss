@@ -237,7 +237,7 @@ footer {
 
 /* Page Specifics -------------------------------------------------- */
 
-home {
+index {
   display: block;
   position: absolute;
   top: 0;
@@ -314,12 +314,13 @@ home {
       display: block;
       top: 70%;
       left: 56%;
-      width: 10%;
+      width: 12%;
       height: auto;
       z-index: 6;
       margin: 2%;
       transform: translate(-50%, -50%);
       animation: opacity-oscillate 1s linear infinite;
+      cursor: pointer;
     }
 
     arrow-left {
@@ -328,11 +329,12 @@ home {
       display: block;
       top: 70%;
       left: 41%;
-      width: 10%;
+      width: 12%;
       height: auto;
       z-index: 6;
       margin: 2%;
       transform: translate(-50%, -50%);
+      cursor: pointer;
     }
   }
 }

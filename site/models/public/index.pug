@@ -21,15 +21,15 @@ html(lang=lang)
         li.nav-item
           a.color-light(href="stats") Stats
 
-    home
+    index
       house
       postbox
       mail
       text-box
         h1 Welcome to Simun!
-        a(href="")
-          arrow-left
-        a(href="")
-          arrow-right
+        arrow-left(id="arrow-left")
+        arrow-right(id="arrow-right")
   
   +create-footer
+
+  script(type="text/javascript" src="scripts/index.js")

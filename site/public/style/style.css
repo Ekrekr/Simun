@@ -199,7 +199,7 @@ footer small {
 }
 
 /* Page Specifics -------------------------------------------------- */
-home {
+index {
   display: block;
   position: absolute;
   top: 0;
@@ -211,7 +211,7 @@ home {
   border-radius: 6px;
   padding: 10px;
 }
-home house {
+index house {
   content: url("/assets/images/simun-logo.png");
   display: block;
   position: absolute;
@@ -223,7 +223,7 @@ home house {
   box-sizing: border-box;
   z-index: 5;
 }
-home postbox {
+index postbox {
   content: url("/assets/images/postbox.png");
   display: block;
   position: absolute;
@@ -234,11 +234,11 @@ home postbox {
   box-sizing: border-box;
   z-index: 5;
 }
-home postbox:hover {
+index postbox:hover {
   animation: shake 0.5s;
   animation-iteration-count: infinite;
 }
-home mail {
+index mail {
   content: url("/assets/images/simun-mail.png");
   display: block;
   position: absolute;
@@ -249,7 +249,7 @@ home mail {
   z-index: 5;
   animation: spin 10s linear infinite;
 }
-home text-box {
+index text-box {
   display: block;
   position: absolute;
   top: 60%;
@@ -260,34 +260,36 @@ home text-box {
   border-radius: 6px;
   padding: 10px;
 }
-home text-box h1 {
+index text-box h1 {
   color: #b8dbd9;
   font-size: 24px;
 }
-home text-box arrow-right {
+index text-box arrow-right {
   content: url("/assets/images/arrow-right.png");
   position: absolute;
   display: block;
   top: 70%;
   left: 56%;
-  width: 10%;
+  width: 12%;
   height: auto;
   z-index: 6;
   margin: 2%;
   transform: translate(-50%, -50%);
   animation: opacity-oscillate 1s linear infinite;
+  cursor: pointer;
 }
-home text-box arrow-left {
+index text-box arrow-left {
   content: url("/assets/images/arrow-left.png");
   position: absolute;
   display: block;
   top: 70%;
   left: 41%;
-  width: 10%;
+  width: 12%;
   height: auto;
   z-index: 6;
   margin: 2%;
   transform: translate(-50%, -50%);
+  cursor: pointer;
 }
 
 receive {
