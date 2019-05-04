@@ -227,7 +227,7 @@ index postbox {
   content: url("/assets/images/postbox.png");
   display: block;
   position: absolute;
-  left: 39%;
+  left: 32%;
   top: 44.5%;
   height: 7.5%;
   width: auto;
@@ -242,7 +242,7 @@ index mail {
   content: url("/assets/images/simun-mail.png");
   display: block;
   position: absolute;
-  left: 59%;
+  left: 64%;
   top: 45%;
   height: 3%;
   width: auto;
@@ -252,23 +252,27 @@ index mail {
 index text-box {
   display: block;
   position: absolute;
+  width: 400px;
+  height: 140px;
   top: 60%;
-  left: 30%;
-  right: 30%;
-  bottom: 20%;
+  left: 50%;
   background-color: #2f4550;
   border-radius: 6px;
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  transform: translate(-50%, 0%);
 }
 index text-box h1 {
   color: #b8dbd9;
   font-size: 24px;
+  vertical-align: center;
 }
 index text-box arrow-right {
   content: url("/assets/images/arrow-right.png");
   position: absolute;
   display: block;
-  top: 70%;
+  top: 75%;
   left: 56%;
   width: 12%;
   height: auto;
@@ -282,7 +286,7 @@ index text-box arrow-left {
   content: url("/assets/images/arrow-left.png");
   position: absolute;
   display: block;
-  top: 70%;
+  top: 75%;
   left: 41%;
   width: 12%;
   height: auto;
