@@ -193,7 +193,7 @@ header {
   z-index: 3;
 
   logo {
-    content: url("/assets/images/simon-logo.png");
+    content: url("/assets/images/simun-logo.png");
     display: block;
     height: 48px;
     margin: 12px;
@@ -250,7 +250,7 @@ home {
   padding: 10px;
 
   house {
-    content: url("/assets/images/simon-logo.png");
+    content: url("/assets/images/simun-logo.png");
     display: block;
     position: absolute;
     left: 50%;
@@ -281,7 +281,7 @@ home {
   }
 
   mail {
-    content: url("/assets/images/simon-mail.png");
+    content: url("/assets/images/simun-mail.png");
     display: block;
     position: absolute;
     left: 59%;
@@ -459,6 +459,10 @@ receive {
       border-radius: 12px;
       transform: translate(-50%, -50%);
 
+      a {
+        cursor: pointer;
+      }
+
       trash-it {
         content: url("/assets/images/bin.png");
         display: block;
@@ -479,6 +483,7 @@ receive {
         top: 50%;
         right: 10%;
         transform: translate(0%, -50%);
+        cursor: pointer;
       }
     }
   }

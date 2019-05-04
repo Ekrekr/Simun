@@ -14,16 +14,28 @@ function setActive (counter) {
   var contentID = rowItem.children[0].id
 
   // Need to retrieve the content from the server to populate the selected box.
-  tools.retrieveData('snippetcontent', contentID, (err, snippet) => {
+  tools.retrieveSnippetContent(contentID, (err, snippet) => {
     if (err) {
       console.log('Error retrieving snippetcontent from server:', err)
       return
     }
     $('selected-content').src = snippet.content
     $('selected-description').innerHTML = snippet.description
+
+    // Update trash it and forward it buttons.
+    $('forward-it').onclick = () => {
+      console.log('trash-it button pressed')
+      tools.forwardSnippet(snippet.id, (err, response) => {
+        if (err) {
+          console.log('Error forwarding snippet', err)
+          return
+        }
+        console.log('Snippet successfully forwarded')
+      })
+    }
   })
 
-  // Finally unhighlight the current selector and highlight the selected
+  // Unhighlight the current selector and highlight the selected
   var prevRowItem = $('select-' + currentlyActive)
   prevRowItem.children[0].style.backgroundColor = tools.colorprimary
   currentlyActive = counter
@@ -72,13 +84,75 @@ module.exports = {
 
 // Retrieves data by asking the server for it.
 function retrieveData (table, id, _callback) {
-  request('http://localhost:7000/data/' + table + '/' + id, {
-    json: true
-  }, (err, res, body) => {
+  request('http://localhost:7000/data/' + table + '/' + id, { json: true }, (err, res, body) => {
+    if (err) { return _callback(err) }
+    return _callback(null, JSON.parse(JSON.stringify(body)))
+  })
+}
+
+module.exports = {
+  colorblack: '#000000',
+  colordark: '#2f4550',
+  colorprimary: '#586f7c',
+  colorlight: '#b8dbd9',
+  colorwhite: '#f4f4f9',
+  colorshadow: '#00000080',
+  retrieveSnippetContent: retrieveSnippetContent,
+  forwardSnippet: forwardSnippet,
+  createSnippet: createSnippet
+}
+
+function retrieveSnippetContent (id, _callback) {
+  request('http://localhost:7000/snippetcontent/' + id, { json: true }, (err, res, body) => {
     if (err) {
+      console.log('tools: error retrieving snippet content')
       return _callback(err)
     }
     return _callback(null, JSON.parse(JSON.stringify(body)))
+  })
+}
+
+async function forwardSnippet (snippetid, _callback) {
+  console.log('tools: forwarding snippet', snippetid)
+
+  var requestInfo = {
+    uri: 'http://localhost:7000/forward-snippet/',
+    body: JSON.stringify({ snippetid: snippetid }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  request(requestInfo, function (err, res) {
+    if (err) {
+      console.log('tools: error forwarding snippet')
+      return false
+    }
+    console.log('tools: error to client: ', err)
+    console.log('tools: body response to client: ', res.body)
+    return res.body
+  })
+}
+
+async function createSnippet (content, description, redirectid, _callback) {
+  console.log('tools: creating snippet content', content, 'with description', description, 'from redirect id', redirectid)
+
+  var requestInfo = {
+    uri: 'http://localhost:7000/create-snippet/',
+    body: JSON.stringify({ content: content, description: description, redirectid: redirectid }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  request(requestInfo, function (err, res) {
+    if (err) {
+      console.log('tools: error creating snippet')
+      return false
+    }
+    console.log('tools: error to client: ', err)
+    console.log('tools: body response to client: ', res.body)
+    return res.body
   })
 }
 
@@ -6702,8 +6776,8 @@ function _setExports(ndebug) {
 
 module.exports = _setExports(process.env.NODE_NDEBUG);
 
-}).call(this,{"isBuffer":require("../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")},require('_process'))
-},{"../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":277,"_process":306,"assert":183,"stream":343,"util":355}],52:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")},require('_process'))
+},{"../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":277,"_process":306,"assert":183,"stream":343,"util":355}],52:[function(require,module,exports){
 
 /*!
  *  Copyright 2010 LearnBoost <dev@learnboost.com>
@@ -8170,8 +8244,8 @@ CombinedStream.prototype._emitError = function(err) {
   this.emit('error', err);
 };
 
-}).call(this,{"isBuffer":require("../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
-},{"../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":277,"./defer.js":58,"delayed-stream":60,"stream":343,"util":355}],58:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":277,"./defer.js":58,"delayed-stream":60,"stream":343,"util":355}],58:[function(require,module,exports){
 (function (process,setImmediate){
 module.exports = defer;
 
@@ -8311,8 +8385,8 @@ function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
 
-}).call(this,{"isBuffer":require("../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
-},{"../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":277}],60:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":277}],60:[function(require,module,exports){
 var Stream = require('stream').Stream;
 var util = require('util');
 
@@ -11293,8 +11367,8 @@ module.exports = {
 
 };
 
-}).call(this,{"isBuffer":require("../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
-},{"../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":277,"./utils":94,"assert-plus":51,"crypto":231,"http":344,"jsprim":102,"sshpk":149,"util":355}],94:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":277,"./utils":94,"assert-plus":51,"crypto":231,"http":344,"jsprim":102,"sshpk":149,"util":355}],94:[function(require,module,exports){
 // Copyright 2012 Joyent, Inc.  All rights reserved.
 
 var assert = require('assert-plus');
@@ -31878,8 +31952,8 @@ Key._oldVersionDetect = function (obj) {
 	return ([1, 0]);
 };
 
-}).call(this,{"isBuffer":require("../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
-},{"../../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":277,"./algs":130,"./dhe":132,"./ed-compat":133,"./errors":134,"./fingerprint":135,"./formats/auto":136,"./formats/dnssec":137,"./formats/pem":139,"./formats/pkcs1":140,"./formats/pkcs8":141,"./formats/putty":142,"./formats/rfc4253":143,"./formats/ssh":145,"./formats/ssh-private":144,"./private-key":151,"./signature":152,"./utils":154,"assert-plus":51,"crypto":231}],151:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../../../usr/local/lib/node_modules/watchify/node_modules/is-buffer/index.js":277,"./algs":130,"./dhe":132,"./ed-compat":133,"./errors":134,"./fingerprint":135,"./formats/auto":136,"./formats/dnssec":137,"./formats/pem":139,"./formats/pkcs1":140,"./formats/pkcs8":141,"./formats/putty":142,"./formats/rfc4253":143,"./formats/ssh":145,"./formats/ssh-private":144,"./private-key":151,"./signature":152,"./utils":154,"assert-plus":51,"crypto":231}],151:[function(require,module,exports){
 // Copyright 2017 Joyent, Inc.
 
 module.exports = PrivateKey;
@@ -34850,7 +34924,7 @@ module.exports={
   "_args": [
     [
       "tough-cookie@2.4.3",
-      "/mnt/d/ComputerScience/Year 3/WebTechnology/Simon/site"
+      "/Users/eliaskassellraymond/Documents/GitHub/Simon/site"
     ]
   ],
   "_from": "tough-cookie@2.4.3",
@@ -34874,7 +34948,7 @@ module.exports={
   ],
   "_resolved": "https://registry.npmjs.org/tough-cookie/-/tough-cookie-2.4.3.tgz",
   "_spec": "2.4.3",
-  "_where": "/mnt/d/ComputerScience/Year 3/WebTechnology/Simon/site",
+  "_where": "/Users/eliaskassellraymond/Documents/GitHub/Simon/site",
   "author": {
     "name": "Jeremy Stashewsky",
     "email": "jstash@gmail.com"
@@ -72365,3 +72439,28 @@ function extend() {
 }
 
 },{}]},{},[1]);
+
+const request = require('request')
+const request = require('request')
+
+module.exports = {
+  colorblack: '#000000',
+  colordark: '#2f4550',
+  colorprimary: '#586f7c',
+  colorlight: '#b8dbd9',
+  colorwhite: '#f4f4f9',
+  colorshadow: '#00000080',
+  retrieveData: retrieveData
+}
+
+// Retrieves data by asking the server for it.
+function retrieveData (table, id, _callback) {
+  request('http://localhost:7000/data/' + table + '/' + id, {
+    json: true
+  }, (err, res, body) => {
+    if (err) {
+      return _callback(err)
+    }
+    return _callback(null, JSON.parse(JSON.stringify(body)))
+  })
+}
