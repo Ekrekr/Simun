@@ -26,13 +26,12 @@ app.use(express.static(path.join(__dirname, '../public')))
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use('/', router)
+//Used to check current user against the cookie token
 // router.use(function (req, res, next) {
 //   console.log('Here')
 //   try {
-//     console.log('Gets here at least ' + req.json)
-//     // const token = req.json.split(" ")[1]
+//   const token = req.json.split(" ")[1]
 //     jwt.verify(token, config.secret, function (err, result) {
-//       console.log('Rip ' + result)
 //       if (result) {
 //         database.getUserData('login', result[0].username).then((result) => {
 //           req.body.username = result[0].username
@@ -43,17 +42,15 @@ app.use('/', router)
 //           next()
 //         })
 //       } else {
-//         console.log('Gets here too I guess ')
 //         next()
 //       }
 //     })
 //   } catch (e) {
-//     console.log(e + 'Oopsies')
 //     next()
 //   }
 // })
 
-async function connectToServer () {
+async function connectToServer() {
   app.listen(7000, 'localhost', () => {
     console.log('server: Express running → localhost:7000')
   })
@@ -122,7 +119,7 @@ router.post('/login', async (req, res) => {
   })
 })
 // Retrieves data by asking the server for it.
-function retrieveData (table, id, _callback) {
+function retrieveData(table, id, _callback) {
   request('http://localhost:7000/data/' + table + '/' + id, {
     json: true
   }, (err, res, body) => {
@@ -194,14 +191,7 @@ router.post('/login', async function (req, res) {
 })
 
 // Authenticates username and password for login
-async function authenticate (res, req, username, password) {
-  // let token = jwt.sign({
-  //   username,
-  //   password
-  // },
-  // config.secret, {
-  //   expiresIn: '24h'
-  // })
+async function authenticate(res, req, username, password) {
   var authentication = database.getUserData('login', username)
   authentication.then(async function (result) {
     if (result.length > 0) {
@@ -232,14 +222,14 @@ async function authenticate (res, req, username, password) {
   })
 }
 
-function generateJWT (res, username, password) {
+function generateJWT(res, username, password) {
   let token = jwt.sign({
-    username,
-    password
-  },
-  config.secret, {
-    expiresIn: '24h'
-  })
+      username,
+      password
+    },
+    config.secret, {
+      expiresIn: '24h'
+    })
   res.json({
     success: true,
     message: 'Authentication successful',
