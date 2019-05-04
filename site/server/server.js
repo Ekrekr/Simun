@@ -7,7 +7,7 @@ const app = express()
 var router = express.Router()
 const request = require('request')
 const jwt = require('jwt-simple')
-const config = require('./config.js');
+const config = require('./config.js')
 var cookieParser = require('cookie-parser')
 // parse requests
 app.use(
@@ -17,39 +17,41 @@ app.use(
 )
 
 // Enables REST communication with server.
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
 app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, '../public')))
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use('/', router)
-router.use(function (req, res, next) {
-  console.log("Here")
-  try {
-    console.log("Gets here at least " + req.json)
-    const token = req.json.split(" ")[1]
-    jwt.verify(token, config.secret, function (err, result) {
-      console.log("Rip " + result)
-      if (result) {
-        database.getUserData('login', result[0].username).then((result) => {
-          req.body.username = result[0].username
-          req.body.password = result[0].password
-          req.body.salt = result[0].salt
-          req.session.save()
-          res.redirect('./index')
-          next()
-        })
-      } else {
-        console.log("Gets here too I guess ")
-        next()
-      }
-    })
-  } catch (e) {
-    console.log(e + "Oopsies")
-    next()
-  }
-})
+// router.use(function (req, res, next) {
+//   console.log('Here')
+//   try {
+//     console.log('Gets here at least ' + req.json)
+//     // const token = req.json.split(" ")[1]
+//     jwt.verify(token, config.secret, function (err, result) {
+//       console.log('Rip ' + result)
+//       if (result) {
+//         database.getUserData('login', result[0].username).then((result) => {
+//           req.body.username = result[0].username
+//           req.body.password = result[0].password
+//           req.body.salt = result[0].salt
+//           req.session.save()
+//           res.redirect('./index')
+//           next()
+//         })
+//       } else {
+//         console.log('Gets here too I guess ')
+//         next()
+//       }
+//     })
+//   } catch (e) {
+//     console.log(e + 'Oopsies')
+//     next()
+//   }
+// })
 
 async function connectToServer () {
   app.listen(7000, 'localhost', () => {
@@ -104,11 +106,11 @@ router.post('/login', async (req, res) => {
   // TODO: This password should be encrypted before being received here.
   console.log('Attempting to log in with username', req.body.username, 'and password', req.body.password)
   database.getUserData(req.body.username).then(result => {
-    console.log("result back from server:", result)
+    console.log('result back from server:', result)
     if (result.length > 0) {
       if (
         result[0].username === req.body.username &&
-        result[0].password === req.body.password
+        database.compareHash(req.body.password + result[0].salt, result[0].password)
       ) {
         res.render('index')
       } else {
@@ -116,8 +118,11 @@ router.post('/login', async (req, res) => {
       }
     } else {
       res.render('login')
+    }
+  })
+})
 // Retrieves data by asking the server for it.
-function retrieveData(table, id, _callback) {
+function retrieveData (table, id, _callback) {
   request('http://localhost:7000/data/' + table + '/' + id, {
     json: true
   }, (err, res, body) => {
@@ -125,7 +130,7 @@ function retrieveData(table, id, _callback) {
       return _callback(err)
     }
   })
-})
+}
 
 router.get('/receive', (req, res) => {
   var clientVariables = {}
@@ -175,8 +180,9 @@ router.get('/send', (req, res) => {
 })
 
 router.get('/stats', (req, res) => {
-router.get('/', function (req, res) {
-  res.render('login')
+  router.get('/', function (req, res) {
+    res.render('login')
+  })
 })
 
 // Login authentication
@@ -188,70 +194,64 @@ router.post('/login', async function (req, res) {
 })
 
 // Authenticates username and password for login
-async function authenticate(res, req, username, password) {
-  var salt = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 7)
+async function authenticate (res, req, username, password) {
   // let token = jwt.sign({
-  //     username,
-  //     password
-  //   },
-  //   config.secret, {
-  //     expiresIn: '24h'
-  //   })
+  //   username,
+  //   password
+  // },
+  // config.secret, {
+  //   expiresIn: '24h'
+  // })
   var authentication = database.getUserData('login', username)
   authentication.then(async function (result) {
-    var returnValue = await database.compareHash(password + result[0].salt, password)
     if (result.length > 0) {
       if (
-        result[0].username == username &&
+        result[0].username === username &&
         await database.compareHash(password + result[0].salt, result[0].password)
       ) {
-        var token = jwt.encode({
-            data: {
-              username: username,
-              password: result[0].password
-            }
-          },
-          config.secret, {
-            expiresIn: '24h'
-          }
-        )
-        req.header.authorization = token
-
+        // var token = jwt.encode({
+        //     data: {
+        //       username: username,
+        //       password: result[0].password
+        //     }
+        //   },
+        //   config.secret, {
+        //     expiresIn: '24h'
+        //   }
+        // )
+        // req.header.authorization = token
+        res.render('index')
         // req.header.save()
-        res.json(token)
+        // res.json(token)
       } else {
         res.render('login')
-        return
       }
     } else {
       res.render('login')
-      return
     }
   })
 }
 
-function generateJWT(res, username, password) {
+function generateJWT (res, username, password) {
   let token = jwt.sign({
-      username,
-      password
-    },
-    config.secret, {
-      expiresIn: '24h'
-    })
+    username,
+    password
+  },
+  config.secret, {
+    expiresIn: '24h'
+  })
   res.json({
     success: true,
     message: 'Authentication successful',
     token: token
   })
-
 }
 
 router.get('/login', function (req, res) {
   if (req.user) {
     database.getUserData('login', req.user.username).then((result) => {
-      if (result[0].username == req.user.username) {
+      if (result[0].username === req.user.username) {
         res.render('index')
-        return
       }
     })
   }
@@ -273,12 +273,6 @@ router.get('/index', function (req, res) {
 app.use('/', router)
 
 connectToServer()
-
-async function connectToServer() {
-  app.listen(7000, () => {
-    console.log(`Express running → PORT 7000`)
-  })
-}
 
 module.exports = {
   connectToServer: connectToServer

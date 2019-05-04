@@ -13,11 +13,15 @@ module.exports = {
 }
 
 function retrieveSnippetContent (id, _callback) {
-  request('http://localhost:7000/snippetcontent/' + id, { json: true }, (err, res, body) => {
+  request('http://localhost:7000/snippetcontent/' + id, {
+    json: true
+  }, (err, res, body) => {
     if (err) {
       console.log('tools: error retrieving snippet content')
       return _callback(err)
     }
+  })
+}
 // Retrieves data by asking the server for it.
 function retrieveData (table, id, _callback) {
   request('http://localhost:7000/data/' + table + '/' + id, {
@@ -35,7 +39,9 @@ async function forwardSnippet (snippetid, _callback) {
 
   var requestInfo = {
     uri: 'http://localhost:7000/forward-snippet/',
-    body: JSON.stringify({ snippetid: snippetid }),
+    body: JSON.stringify({
+      snippetid: snippetid
+    }),
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -57,7 +63,11 @@ async function createSnippet (content, description, redirectid, _callback) {
 
   var requestInfo = {
     uri: 'http://localhost:7000/create-snippet/',
-    body: JSON.stringify({ content: content, description: description, redirectid: redirectid }),
+    body: JSON.stringify({
+      content: content,
+      description: description,
+      redirectid: redirectid
+    }),
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
