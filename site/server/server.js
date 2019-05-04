@@ -56,12 +56,6 @@ async function connectToServer() {
   })
 }
 
-connectToServer()
-
-module.exports = {
-  connectToServer: connectToServer
-}
-
 /// ///////////////////////////////////////////////
 // Non page requests.
 /// ///////////////////////////////////////////////
