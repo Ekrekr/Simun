@@ -5,9 +5,9 @@ var router = express.Router()
 var bodyParser = require('body-parser')
 var database = require('./database.js')
 const request = require('request')
-const jwt = require('jsonwebtoken')
-
+const jwt = require('jwt-simple')
 const config = require('./config.js');
+var cookieParser = require('cookie-parser')
 // parse requests
 app.use(
   bodyParser.urlencoded({
@@ -18,7 +18,34 @@ app.use(
 app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, '../public')))
+app.use(cookieParser())
 app.use(bodyParser.json())
+router.use(function (req, res, next) {
+  console.log("Here")
+  try {
+    console.log("Gets here at least " + req.json)
+    const token = req.json.split(" ")[1]
+    jwt.verify(token, config.secret, function (err, result) {
+      console.log("Rip " + result)
+      if (result) {
+        database.getUserData('login', result[0].username).then((result) => {
+          req.body.username = result[0].username
+          req.body.password = result[0].password
+          req.body.salt = result[0].salt
+          req.session.save()
+          res.redirect('./index')
+          next()
+        })
+      } else {
+        console.log("Gets here too I guess ")
+        next()
+      }
+    })
+  } catch (e) {
+    console.log(e + "Oopsies")
+    next()
+  }
+})
 
 router.get('/receive.js', (req, res) => {
   res.sendfile('scripts/receive.js')
@@ -111,48 +138,48 @@ router.get('/', function (req, res) {
 router.post('/login', async function (req, res) {
   var username = req.body.username
   var password = req.body.password
-  await authenticate(res, username, password)
+  await authenticate(res, req, username, password)
 })
 
 // Authenticates username and password for login
-async function authenticate(res, username, password) {
+async function authenticate(res, req, username, password) {
   var salt = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 7)
-  let token = jwt.sign({
-      username,
-      password
-    },
-    config.secret, {
-      expiresIn: '24h'
-    })
+  // let token = jwt.sign({
+  //     username,
+  //     password
+  //   },
+  //   config.secret, {
+  //     expiresIn: '24h'
+  //   })
   var authentication = database.getUserData('login', username)
   authentication.then(async function (result) {
-    var resulted = await database.compareHash(password + result[0].salt, password)
+    var returnValue = await database.compareHash(password + result[0].salt, password)
     if (result.length > 0) {
       if (
         result[0].username == username &&
         await database.compareHash(password + result[0].salt, result[0].password)
       ) {
-        res.json({
-          success: true,
-          message: 'Authentication successful!',
-          token: token
-        })
-        res.render('index')
+        var token = jwt.encode({
+            data: {
+              username: username,
+              password: result[0].password
+            }
+          },
+          config.secret, {
+            expiresIn: '24h'
+          }
+        )
+        req.header.authorization = token
+
+        // req.header.save()
+        res.json(token)
       } else {
-        res.json({
-          success: false,
-          message: 'Authentication unsuccessful!',
-          token: token
-        })
         res.render('login')
+        return
       }
     } else {
-      res.json({
-        success: false,
-        message: 'Authentication unsuccessful!',
-        token: token
-      })
       res.render('login')
+      return
     }
   })
 }
@@ -174,6 +201,14 @@ function generateJWT(res, username, password) {
 }
 
 router.get('/login', function (req, res) {
+  if (req.user) {
+    database.getUserData('login', req.user.username).then((result) => {
+      if (result[0].username == req.user.username) {
+        res.render('index')
+        return
+      }
+    })
+  }
   res.render('login')
 })
 
