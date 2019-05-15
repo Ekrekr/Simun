@@ -10,6 +10,7 @@ const saltRounds = 10
 module.exports = {
   hashEntry: hashEntry,
   compareHash: compareHash,
+  checkPassword: checkPassword,
 
   createUser: createUser,
   getUserData: getUserData,
@@ -18,6 +19,7 @@ module.exports = {
 
   createRedirect: createRedirect,
   getRedirect: getRedirect,
+  sqlGet: sqlGet,
   removeRedirect: removeRedirect,
 
   getSnippet: getSnippet,
@@ -35,7 +37,6 @@ function connectDatabase(testMode = false) {
     if (err) {
       console.error('ERROR while connecting database ' + err.message)
     }
-    console.log('Connected to the Simun database.')
   })
 }
 
@@ -55,7 +56,7 @@ async function hashEntry(entry) {
 
 // Compares the hash and plaintext of inputs.
 async function compareHash(plaintext, hash) {
-  return bcrypt.compareSync(plaintext, hash)
+  return await bcrypt.compareSync(plaintext, hash)
 }
 
 /// ///////////////////////////////////////////////
@@ -124,19 +125,34 @@ function getUserData(username, testMode = false) {
   return sqlGet(sqlCode, username, testMode)
 }
 
-async function createUser(username, password, testMode = false) {
-  var sqlDataRole = ['User']
-  var sqlCodeRole = 'INSERT INTO role (role) VALUES (?)'
-  var roleID = sqlPut(sqlCodeRole, sqlDataRole, testMode)
-  console.log(roleID)
-  var sqlDataRedirect = ['Tipy', 'Blank', roleID]
-  var sqlCodeRedirect = 'INSERT INTO redirect (alias, snippetids, roleid) VALUES (?, ?, ?)'
-  var redirectID = sqlPut(sqlCodeRedirect, sqlDataRedirect, testMode)
-  var salt = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 7)
+async function createUser(username, password, redirectID, testMode = false) {
+  // This will eventually have the functionality to create all rows relevant to user
+  // In each table
+
+  // var sqlDataRole = ['User']
+  // var sqlCodeRole = 'INSERT INTO role (role) VALUES (?)'
+  // var roleID = sqlPut(sqlCodeRole, sqlDataRole, testMode)
+  // var sqlDataRedirect = ['Tipy', 'Blank', roleID]
+  // var sqlCodeRedirect = 'INSERT INTO redirect (alias, snippetids, roleid) VALUES (?, ?, ?)'
+  // var redirectID = sqlPut(sqlCodeRedirect, sqlDataRedirect, testMode)
+
+  // This gets the salt of size 16
+  var salt = Math.random().toString(17).substring(2, 17) + Math.random().toString(5).substring(2, 5)
   password = await hashEntry(password + salt)
   var sqlDataLogin = [username, password, salt, 2]
   var sqlCodeLogin = 'INSERT INTO login (username, password, salt, redirectid) VALUES (?, ?, ?, ?)'
   return sqlPut(sqlCodeLogin, sqlDataLogin, testMode)
+}
+
+async function checkPassword(hash, original, salt) {
+
+  compareHash('hello', '$2y$10$/EFLwAz2Yh/ZmfADob7j5..MaMTiMua0H328c2bYTf1lT/7baExHy').then(result => {
+    console.log(original + salt)
+    console.log(hash)
+    console.log(result)
+    return result
+  })
+
 }
 
 function updateUserPassword(loginid, newPassword, testMode = false) {

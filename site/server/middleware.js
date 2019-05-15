@@ -2,9 +2,13 @@
 // This is through the config secret and whether or not the token has expired
 let jwt = require('jsonwebtoken')
 const config = require('./config.js')
+module.exports = {
+  checkToken: checkToken
+}
 
-let checkToken = (req, res, next) => {
+function checkToken(req, res) {
   let token = req.headers['x-access-token'] || req.headers['authorization'] // Express headers are auto converted to lowercase
+  console.log(token)
   if (token.startsWith('Bearer ')) {
     // Remove Bearer from string
     token = token.slice(7, token.length)
@@ -19,7 +23,7 @@ let checkToken = (req, res, next) => {
         })
       } else {
         req.decoded = decoded
-        next()
+        // next()
       }
     })
   } else {
@@ -28,8 +32,4 @@ let checkToken = (req, res, next) => {
       message: 'Auth token is not supplied'
     })
   }
-}
-
-module.exports = {
-  checkToken: checkToken
 }
