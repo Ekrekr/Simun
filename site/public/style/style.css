@@ -505,6 +505,7 @@ send form box-input {
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: 60px 60px;
+  transition: all 0.4s;
 }
 send form box-input input {
   width: 380px;
@@ -535,6 +536,7 @@ send form button {
   border: none;
   border-radius: 12px;
   border: 4px solid #2f4550;
+  transition: all 0.4s;
   cursor: pointer;
 }
 send form button:hover {
