@@ -56,7 +56,8 @@ router.post('/create-snippet/', (req, res) => {
 /// ///////////////////////////////////////////////
 
 router.get('/', (req, res) => {
-  res.render('login')
+  // TODO: Update this to be the stats page for initial newcomers.
+  res.render('index')
 })
 
 router.get('/login', (req, res) => {
@@ -67,7 +68,7 @@ router.post('/login', async (req, res) => {
   // TODO: This password should be encrypted before being received here.
   console.log('Attempting to log in with username', req.body.username, 'and password', req.body.password)
   database.getUserData(req.body.username).then(result => {
-    console.log("result back from server:", result)
+    console.log('result back from server:', result)
     if (result.length > 0) {
       if (
         result[0].username === req.body.username &&
