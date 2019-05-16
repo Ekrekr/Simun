@@ -17,7 +17,7 @@ fileField.addEventListener('change', (e) => {
     fileBackground.style.backgroundImage = 'url(' + e.target.result + ')'
 
     // Retreive the image dimensions then scale the upload box background from there.
-    var img = new Image()
+    var img = new window.Image()
     img.src = reader.result
     img.onload = () => {
       // If the image is wider than it is tall, then to maximise the area occupied set the width
