@@ -22,13 +22,14 @@ html(lang=lang)
           a(href="stats") Stats
 
     send
-      holder
-        form(method='post' action='/send')
-          br
-          input.shadow(type="text" name="title" placeholder="Snippet Title" required)
-          br
-          input.file-input.shadow(type='file' name='imageupload' required)
-          br
-          button(type="send") Send
+      form(method='post' action='/send')
+        br
+        input.shadow(type="text" name="title" placeholder="Snippet Title" required)
+        br
+        br
+        box-input
+          input.shadow(type="file" name="imageupload" placeholder="Snippet Title" required)
+        br
+        button(type="send")
   
   +create-footer
