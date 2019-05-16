@@ -21,6 +21,7 @@ module.exports = {
   getRedirect: getRedirect,
   sqlGet: sqlGet,
   removeRedirect: removeRedirect,
+  getRedirectViaAlias: getRedirectViaAlias,
 
   getSnippet: getSnippet,
   removeSnippet: removeSnippet,
@@ -32,7 +33,7 @@ module.exports = {
 }
 
 // Connect to the database
-function connectDatabase(testMode = false) {
+function connectDatabase (testMode = false) {
   return new sqlite3.Database(testMode ? testsDbPath : dbPath, sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.error('ERROR while connecting database ' + err.message)
@@ -41,7 +42,7 @@ function connectDatabase(testMode = false) {
 }
 
 // Close the database connection.
-function closeDatabase(db) {
+function closeDatabase (db) {
   db.close((err) => {
     if (err) {
       return console.error(err.message)
@@ -50,12 +51,12 @@ function closeDatabase(db) {
 }
 
 // Hashes given input.
-async function hashEntry(entry) {
+async function hashEntry (entry) {
   return bcrypt.hashSync(entry, saltRounds)
 }
 
 // Compares the hash and plaintext of inputs.
-async function compareHash(plaintext, hash) {
+async function compareHash (plaintext, hash) {
   return await bcrypt.compareSync(plaintext, hash)
 }
 
@@ -63,7 +64,7 @@ async function compareHash(plaintext, hash) {
 // Generalised Wrappers. Not to be made public.
 /// ///////////////////////////////////////////////
 // Generic SQL instruction that returns whatever is returned by the query.
-function sqlGet(sqlCode, lookup, testMode = false) {
+function sqlGet (sqlCode, lookup, testMode = false) {
   let db = connectDatabase(testMode)
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
@@ -80,7 +81,7 @@ function sqlGet(sqlCode, lookup, testMode = false) {
 }
 
 // Generic SQL instruction that returns whatever the new ID inserted is.
-function sqlPut(sqlCode, sqlData, testMode = false) {
+function sqlPut (sqlCode, sqlData, testMode = false) {
   var db = connectDatabase(testMode)
   return new Promise(function (resolve, reject) {
     db.serialize(function () {
@@ -97,7 +98,7 @@ function sqlPut(sqlCode, sqlData, testMode = false) {
 }
 
 // Returns a random entry from the table specified.
-function sqlGetRandom(table, testMode = false) {
+function sqlGetRandom (table, testMode = false) {
   var sqlCode = 'SELECT * FROM ' + table + ' ORDER BY RANDOM() LIMIT 1'
   var db = connectDatabase(testMode)
   return new Promise(function (resolve, reject) {
@@ -120,12 +121,12 @@ function sqlGetRandom(table, testMode = false) {
 
 // Retrieves a user's login data given their username.
 // TODO: Remove this and compare hashes directly without returning full user data.
-function getUserData(username, testMode = false) {
+function getUserData (username, testMode = false) {
   var sqlCode = 'SELECT * FROM Login WHERE username = ?'
   return sqlGet(sqlCode, username, testMode)
 }
 
-async function createUser(username, password, redirectID, testMode = false) {
+async function createUser (username, password, redirectID, testMode = false) {
   // This will eventually have the functionality to create all rows relevant to user
   // In each table
 
@@ -144,18 +145,13 @@ async function createUser(username, password, redirectID, testMode = false) {
   return sqlPut(sqlCodeLogin, sqlDataLogin, testMode)
 }
 
-async function checkPassword(hash, original, salt) {
-
-  compareHash('hello', '$2y$10$/EFLwAz2Yh/ZmfADob7j5..MaMTiMua0H328c2bYTf1lT/7baExHy').then(result => {
-    console.log(original + salt)
-    console.log(hash)
-    console.log(result)
+async function checkPassword (hash, original, salt) {
+  await compareHash(original + salt, hash).then(result => {
     return result
   })
-
 }
 
-function updateUserPassword(loginid, newPassword, testMode = false) {
+function updateUserPassword (loginid, newPassword, testMode = false) {
   var salt = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 7)
   newPassword = hashEntry(newPassword + salt)
   var sqlData = [newPassword, loginid]
@@ -163,7 +159,7 @@ function updateUserPassword(loginid, newPassword, testMode = false) {
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
-function removeUser(loginid, testMode = false) {
+function removeUser (loginid, testMode = false) {
   var sqlData = [loginid]
   var sqlCode = 'DELETE FROM login WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
@@ -173,24 +169,29 @@ function removeUser(loginid, testMode = false) {
 // Redirect Related Calls.
 /// ///////////////////////////////////////////////
 
-function createRedirect(alias, roleid, testMode = false) {
+function createRedirect (alias, roleid, testMode = false) {
   var sqlData = [alias, '[]', roleid]
   var sqlCode = 'INSERT INTO redirect (alias, snippetids, roleid) VALUES (?, ?, ?)'
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
-function getRedirect(redirectid, testMode = false) {
+function getRedirect (redirectid, testMode = false) {
   var sqlCode = 'SELECT * FROM redirect WHERE id = ?'
   return sqlGet(sqlCode, redirectid, testMode)
 }
 
-function updateRedirectSnippetList(redirectid, snippetids, testMode = false) {
+function getRedirectViaAlias (alias, testMode = false) {
+  var sqlCode = 'SELECT * FROM  redirect WHERE alias = ?'
+  return sqlGet(sqlCode, alias, testMode)
+}
+
+function updateRedirectSnippetList (redirectid, snippetids, testMode = false) {
   var sqlData = [snippetids, redirectid]
   var sqlCode = 'UPDATE redirect SET snippetids = ? WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
-function removeRedirect(redirectid, testMode = false) {
+function removeRedirect (redirectid, testMode = false) {
   var sqlData = [redirectid]
   var sqlCode = 'DELETE FROM redirect WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
@@ -200,18 +201,18 @@ function removeRedirect(redirectid, testMode = false) {
 // Snippet Related Calls.
 /// ///////////////////////////////////////////////
 
-function getSnippet(snippetid, testMode = false) {
+function getSnippet (snippetid, testMode = false) {
   var sqlCode = 'SELECT * FROM snippet WHERE id = ?'
   return sqlGet(sqlCode, snippetid, testMode)
 }
 
-function removeSnippet(snippetid, testMode = false) {
+function removeSnippet (snippetid, testMode = false) {
   var sqlData = [snippetid]
   var sqlCode = 'DELETE FROM snippet WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
-async function createSnippet(content, description, redirectid, testMode = false) {
+async function createSnippet (content, description, redirectid, testMode = false) {
   // Retrieve the redirect corresponding to the redirectid.
   var fromRedirect = await getRedirect(redirectid, testMode).then(res => {
     return res[0]
@@ -242,7 +243,7 @@ async function createSnippet(content, description, redirectid, testMode = false)
   return snippetIDs
 }
 
-async function forwardSnippet(snippetid, testMode = false) {
+async function forwardSnippet (snippetid, testMode = false) {
   // Retrieve the current snippet.
   var currentSnippet = await getSnippet(snippetid, testMode).then(res => {
     return res[0]
@@ -308,12 +309,12 @@ async function forwardSnippet(snippetid, testMode = false) {
 // Snippet Content Related Calls.
 /// ///////////////////////////////////////////////
 
-function getSnippetContent(snippetcontentid, testMode = false) {
+function getSnippetContent (snippetcontentid, testMode = false) {
   var sqlCode = 'SELECT * FROM snippetcontent WHERE id = ?'
   return sqlGet(sqlCode, snippetcontentid, testMode)
 }
 
-function removeSnippetContent(snippetcontentid, testMode = false) {
+function removeSnippetContent (snippetcontentid, testMode = false) {
   var sqlData = [snippetcontentid]
   var sqlCode = 'DELETE FROM snippetcontent WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)

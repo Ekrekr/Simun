@@ -9,13 +9,13 @@ const request = require('request')
 const jwt = require('jsonwebtoken')
 const config = require('./config.js')
 var cookieParser = require('cookie-parser')
-// var middleware = require('./middleware.js')
-var passport = require("passport")
-var passportJWT = require("passport-jwt")
-var extractJWT = passportJWT.ExtractJwt
-var jwtStrategy = passportJWT.Strategy
+var fs = require('fs')
+var https = require('https')
+// var certificate = fs.readFileSync('../client-key.pem').toString();
 module.exports = {
-    connectToServer: connectToServer
+    connectToServer: connectToServer,
+    generateJWT: generateJWT,
+    verifyUserViaAlias: verifyUserViaAlias
 }
 connectToServer()
 
@@ -77,11 +77,13 @@ router.post('/create-snippet/', (req, res) => {
 // Page requests.
 /// ///////////////////////////////////////////////
 
+// The next 2 requests include the authentication
+// Of the current user
 router.get('/', (req, res) => {
     try {
-        var token = new Cookies(req, res).get('auth')
-        let decoded = jwt.decode(token, config.secret)
-        verifyUser(res, res, decoded.data)
+        var token = new Cookies(req, res).get('currentUser')
+        let decoded = jwt.verify(token, config.secret)
+        verifyUserViaAlias(res, res, decoded.data)
     } catch (e) {
         res.render('login')
     }
@@ -89,9 +91,10 @@ router.get('/', (req, res) => {
 
 router.get('/login', (req, res) => {
     try {
-        var token = new Cookies(req, res).get('auth')
-        let decoded = jwt.decode(token, config.secret)
-        verifyUser(res, res, decoded.data)
+        var token = new Cookies(req, res).get('currentUser')
+        console.log(res)
+        let decoded = jwt.verify(token, config.secret)
+        verifyUserViaAlias(res, res, decoded.data)
     } catch (e) {
         res.render('login')
     }
@@ -155,15 +158,12 @@ router.post('/login', async function (req, res) {
     await authenticate(res, req, username, password)
 })
 
-async function verifyUser(res, req, username) {
-    console.log(username)
-    let sqlQuery = 'SELECT * FROM Login WHERE username = ?'
-    let sqlData = username
-    var authentication = database.sqlGet(sqlQuery, sqlData, false)
+async function verifyUserViaAlias(res, req, alias) {
+    var authentication = database.getRedirectViaAlias(alias, false)
     authentication.then(async function (result) {
         if (result.length > 0) {
             if (
-                result[0].username === username
+                result[0].alias === alias
             ) {
                 res.render('index')
             } else {
@@ -183,9 +183,10 @@ async function authenticate(res, req, username, password) {
     authentication.then(async function (result) {
         if (result.length > 0) {
             if (
-                result[0].username === username
+                result[0].username === username &&
+                await database.compareHash(password + result[0].salt, result[0].password)
             ) {
-                generateJWT(res, req, username)
+                await generateJWT(res, req, result[0].redirectid, 'currentUser')
                 res.render('index')
             } else {
                 res.render('login')
@@ -196,15 +197,21 @@ async function authenticate(res, req, username, password) {
     })
 }
 
-function generateJWT(res, req, username) {
+async function generateJWT(res, req, redirectid, cookieName) {
+    console.log(redirectid)
+    var alias = await database.getRedirect(redirectid).then(res => {
+        console.log(res[0])
+        return res[0].alias
+    })
+    console.log(redirectid)
     var token = jwt.sign({
-        data: username
+        data: alias
     }, config.secret, {
-        expiresIn: '1h'
+        expiresIn: 30
     }, {
         algorithm: 'RS256'
     })
-    res.cookie('auth', token)
+    res.cookie(cookieName, token)
 }
 
 router.get('/send', function (req, res) {
@@ -216,3 +223,4 @@ router.get('/stats', function (req, res) {
 })
 
 app.use('/', router)
+// var httpsServer = https.createServer(app)
