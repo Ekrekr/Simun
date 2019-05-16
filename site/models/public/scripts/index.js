@@ -9,7 +9,7 @@ var infoTextList = ['Welcome to Simun!',
   'Snippets are little nuggets of whatever you want',
   'They can be funny, eye opening or educational; you pick',
   'The catch is, you can\'t decide who you send to or receive from',
-  'Snippets are transferred at completely at random',
+  'Snippets are transferred completely at random',
   'Here, try sending a snippet',
   'Great, now see if you have received any back',
   'And that\'s how the system goes!']
