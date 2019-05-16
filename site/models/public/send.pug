@@ -20,5 +20,10 @@ html(lang=lang)
           a.color-light(href="send") Send
         li.nav-item
           a(href="stats") Stats
+
+    send
+      form(method='post', enctype='multipart/form-data')
+        input(type='file', name='imageupload')
+        input(type='submit', name='uploadimage', value='Upload Image')
   
   +create-footer
