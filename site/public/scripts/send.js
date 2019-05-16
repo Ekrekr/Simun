@@ -25,8 +25,23 @@ fileField.addEventListener('change', (e) => {
     img.src = reader.result;
     img.onload = () => {
       console.log("The width of the image is " + img.width + "px.");
-    };
-  };
+      // If the image is wider than it is tall, then to maximise the area occupied set the width
+      // to the width of the divider and the height to the maxium height while keeping the 
+      // correct aspect ratio. Do the opposite if the image is taller than it is wide.
+      if (img.width >= (img.height * 2.0)) {
+        console.log("The image is wider than it is tall")
+        fileBackground.style.height = (img.height / img.width * 400) + "px"
+        fileBackground.style.width = 400
+      } else {
+        console.log("The image is taller than it is wide")
+        console.log("setting height to " + img.width / img.height * fileBackground.style.height)
+        fileBackground.style.width = (img.width / img.height * 200) + "px"
+        fileBackground.style.height = 200
+      }
+      // Make the background cover the whole of the dividier, rather than just the + in the middle.
+      fileBackground.style.backgroundSize = "cover";
+    }
+  }
 })
 },{"./tools.js":2}],2:[function(require,module,exports){
 const request = require('request')
