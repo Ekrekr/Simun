@@ -174,7 +174,7 @@ async function authenticate(res, req, username, password) {
     if (result.length > 0) {
       if (
         result[0].username === username &&
-        await database.compareHash(password + result[0].salt, result[0].password)
+        await database.checkPassword(result[0].password, password, result[0].salt)
       ) {
         await generateJWT(res, req, result[0].redirectid, 'currentUser')
         res.render('index')
