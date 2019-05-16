@@ -56,13 +56,13 @@ $color-shadow: #00000080;
 }
 
 @font-face {
-  font-family: 'OpenSans';
+  font-family: 'OpenSansBold';
   src: url("fonts/open-sans/OpenSans-Bold.ttf") format("truetype");
   font-weight: bold;
 }
 
 @font-face {
-  font-family: 'OpenSans';
+  font-family: 'OpenSansItalic';
   src: url("fonts/open-sans/OpenSans-Italic.ttf") format("truetype");
   font-weight: italic;
 }
@@ -559,7 +559,8 @@ send {
     text-align: center;
 
     p {
-      color: $color-white;
+      color: $color-light;
+      font-family: OpenSansItalic;
     }
 
     box-input {
@@ -569,15 +570,24 @@ send {
       margin-left: auto;
       margin-right: auto;
       background-color: $color-primary;
-      border: 8px dashed $color-light;
       text-align: center;
       border-radius: 12px;
+      border: 8px dashed $color-primary;
+      background-image: url("/assets/images/plus.png");
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: 60px 60px;
 
       input {
         width: 380px;
         height: 180px;
         opacity: 0;
+        cursor: pointer;
       }
+    }
+
+    box-input:hover {
+      border: 8px dashed $color-light;
     }
 
     input {
@@ -593,7 +603,6 @@ send {
 
     button {
       background-image: url("/assets/images/send-button.png");
-      // background-repeat: no-repeat;
       background-position: 50% 50%;
       background-size: cover;
       width: 100px;

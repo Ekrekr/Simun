@@ -43,12 +43,12 @@
   src: url("fonts/open-sans/OpenSans-Regular.ttf") format("truetype");
 }
 @font-face {
-  font-family: "OpenSans";
+  font-family: "OpenSansBold";
   src: url("fonts/open-sans/OpenSans-Bold.ttf") format("truetype");
   font-weight: bold;
 }
 @font-face {
-  font-family: "OpenSans";
+  font-family: "OpenSansItalic";
   src: url("fonts/open-sans/OpenSans-Italic.ttf") format("truetype");
   font-weight: italic;
 }
@@ -488,7 +488,8 @@ send form {
   text-align: center;
 }
 send form p {
-  color: #f4f4f9;
+  color: #b8dbd9;
+  font-family: OpenSansItalic;
 }
 send form box-input {
   display: block;
@@ -497,14 +498,22 @@ send form box-input {
   margin-left: auto;
   margin-right: auto;
   background-color: #586f7c;
-  border: 8px dashed #b8dbd9;
   text-align: center;
   border-radius: 12px;
+  border: 8px dashed #586f7c;
+  background-image: url("/assets/images/plus.png");
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 60px 60px;
 }
 send form box-input input {
   width: 380px;
   height: 180px;
   opacity: 0;
+  cursor: pointer;
+}
+send form box-input:hover {
+  border: 8px dashed #b8dbd9;
 }
 send form input {
   width: 200px;
