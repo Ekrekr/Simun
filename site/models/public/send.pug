@@ -22,8 +22,13 @@ html(lang=lang)
           a(href="stats") Stats
 
     send
-      form(method='post', enctype='multipart/form-data')
-        input(type='file', name='imageupload')
-        input(type='submit', name='uploadimage', value='Upload Image')
+      holder
+        form(method='post' action='/send')
+          br
+          input.shadow(type="text" name="title" placeholder="Snippet Title" required)
+          br
+          input.file-input.shadow(type='file' name='imageupload' required)
+          br
+          button(type="send") Send
   
   +create-footer
