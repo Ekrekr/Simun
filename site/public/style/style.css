@@ -501,10 +501,10 @@ send form box-input {
   text-align: center;
   border-radius: 12px;
   border: 8px dashed #586f7c;
-  background-image: url("/assets/images/plus.png");
+  background-image: url("/assets/images/plus-with-background.png");
   background-position: 50% 50%;
   background-repeat: no-repeat;
-  background-size: 60px 60px;
+  background-size: cover;
   transition: all 0.4s;
 }
 send form box-input input {

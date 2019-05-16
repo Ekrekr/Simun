@@ -38,8 +38,6 @@ fileField.addEventListener('change', (e) => {
         fileBackground.style.width = (img.width / img.height * 200) + "px"
         fileBackground.style.height = 200
       }
-      // Make the background cover the whole of the dividier, rather than just the + in the middle.
-      fileBackground.style.backgroundSize = "cover";
     }
   }
 })
