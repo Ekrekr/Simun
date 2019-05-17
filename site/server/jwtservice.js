@@ -21,8 +21,8 @@ module.exports = {
     try {
       var verifyCheck = jwt.verify(token, publicKey, tokenOptions)
       return verifyCheck
-    } catch (err) { 
-      return false 
+    } catch (err) {
+      return false
     }
   }
 }

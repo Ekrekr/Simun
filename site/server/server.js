@@ -11,7 +11,6 @@ var identifiers = require('./identifiers.js')
 /// ///////////////////////////////////////////////
 
 const server = express()
-var router = express.Router()
 
 // Enables REST communication with server.
 server.use(bodyParser.urlencoded({ extended: true }))
@@ -46,7 +45,7 @@ function checkSessionCookie (req, res) {
 
   // Verify the cookie, if it is not valid then delete the cookie and return to the login page.
   var decodedCookie = jwtservice.verify(req.cookies['session'])
-  if (decodedCookie == false) {
+  if (decodedCookie === false) {
     res.clearCookie('session')
     res.redirect('login')
     return false
@@ -114,12 +113,12 @@ server.post('/login', async (req, res) => {
   if (isValid) {
     // Create a token so that the user doesn't have to log in again for a while,
     // return the token in a delicios cookie.
-    redirectID = await database.getUserRedirectID(req.body.username)
+    var redirectID = await database.getUserRedirectID(req.body.username)
     await sendSessionCookie(req, res, req.body.username, redirectID)
     res.redirect('index')
   } else {
     // TODO: Update this with notification of incorrect credentials.
-    console.log("Incorrect password. TODO: Add graphic response here to say already taken.")
+    console.log('Incorrect password. TODO: Add graphic response here to say already taken.')
     res.render('login')
   }
 })
@@ -142,7 +141,7 @@ server.post('/register', async (req, res) => {
   // Create an account pointing to the redirect
   var userID = await database.createUser(req.body.username, req.body.password, redirectID).then(res => { return res })
   if (userID === identifiers.duplicateID) {
-    console.log("duplicate ID found. TODO: Add graphic response here to say already taken.")
+    console.log('duplicate ID found. TODO: Add graphic response here to say already taken.')
     res.render('register')
     return
   }
@@ -154,20 +153,20 @@ server.post('/register', async (req, res) => {
 
 server.get('/receive', async (req, res) => {
   if (!checkSessionCookie(req, res)) { return }
-  console.log("Loading receive page.")
+  console.log('Loading receive page.')
 
-  decodedCookie = checkSessionCookie(req, res)
+  var decodedCookie = checkSessionCookie(req, res)
   if (!decodedCookie) { return }
 
-  redirectID = decodedCookie.redirectid
-  
+  var redirectID = decodedCookie.redirectid
+
   var clientVariables = {}
   clientVariables.snippetcontents = []
 
   // Need to load snippet data from the database to display on the page.
   var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
   var snippets = JSON.parse(redirect.snippetids)
-  console.log("SNIPPETS FOUND:", snippets)
+  console.log('SNIPPETS FOUND:', snippets)
 
   // If no snippets found, then render an empty receive page.
   if (snippets.length === 0) {
@@ -177,7 +176,7 @@ server.get('/receive', async (req, res) => {
   // For each snippet, retrieve the snippet content ID.
   await snippets.forEach(async (entry, index) => {
     var snippet = await database.getSnippet(snippetID0).then(res => { return res[0] })
-    console.log("selecting snippet:", snippet)
+    console.log('selecting snippet:', snippet)
 
     // Retrieve the snippet content.
     var snippetcontent = await database.getSnippetContent(snippet.contentid).then(res => { return res[0] })
