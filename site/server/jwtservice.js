@@ -2,9 +2,6 @@
 const fs = require('fs')
 const jwt = require('jsonwebtoken')
 
-console.log('CURRENT DIRECTORY')
-console.log(process.cwd())
-
 var privateKey = fs.readFileSync('./server/keys/private.key', 'utf8')
 var publicKey = fs.readFileSync('./server/keys/public.key', 'utf8')
 
@@ -22,8 +19,10 @@ module.exports = {
   },
   verify: (token) => {
     try { return jwt.verify(token, publicKey, tokenOptions) } catch (err) { return false }
-  },
-  decode: (token) => {
-    return jwt.decode(token, { complete: true })
   }
+  // ,
+  // decode: (token) => {
+  //   // Note: Only use this if the token has been verified as secure.
+  //   return jwt.decode(token, { complete: true })
+  // }
 }

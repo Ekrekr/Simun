@@ -19,7 +19,6 @@ app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, '../public')))
 app.use(bodyParser.json())
-app.use(express.cookieParser())
 app.use(cookieParser())
 app.use('/', router)
 
@@ -66,6 +65,12 @@ router.get('/', (req, res) => {
 })
 
 router.get('/login', (req, res) => {
+  var cookie = req.cookies.cookieName
+  if (cookie !== undefined) {
+    console.log('Cookie exists:', cookie)
+    res.render('index')
+  }
+  console.log('No cookie found')
   res.render('login')
 })
 
@@ -98,13 +103,15 @@ router.post('/register', async (req, res) => {
 
   // Create a redirect to attach to the user details.
   var redirectID = await database.createRedirect(req.body.alias, 1, true).then(res => { return res })
-  redirect = await database.getRedirect(redirectID, true).then(res => { return res[0] })
+  console.log('redirect created')
 
   // Create an account pointing to the redirect
-  userID = await database.createUser(req.body.username, req.body.password, redirectID, true).then(res => { return res })
+  await database.createUser(req.body.username, req.body.password, redirectID, true).then(res => { return res })
+  console.log('user created')
 
   // Create a token so that the user doesn't have to log in again for a while.
-  token = jwtservice.sign({ username: req.body.username })
+  var token = await jwtservice.sign({ username: req.body.username })
+  console.log('token signed')
 
   // Return the token in a delicious cookie.
   res.cookie(req.body.username, token)
@@ -154,9 +161,7 @@ router.get('/receive', (req, res) => {
 })
 
 router.get('/send', (req, res) => {
-  var testRead = req.cookies
-  console.log(testRead)
-
+  console.log('Cookies: ', req.cookies.cookieName)
   res.render('send')
 })
 

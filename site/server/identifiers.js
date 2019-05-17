@@ -1,4 +1,4 @@
 
 module.exports = {
-  duplicateId: 'duplicateId'
+  duplicateID: 'duplicateID'
 }

@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 var expect = require('chai').expect
 var database = require('../server/database.js')
+var identifiers = require('../server/identifiers.js')
 
 var redirect = null
 var userID = null
@@ -9,6 +10,7 @@ describe('Account creation.', async function () {
   it('Login and redirect are created and retrieved correctly.', async function () {
     // The redirect needs to be created first as the login points to it.
     var redirectID = await database.createRedirect('TestAlias', 1, true).then(res => { return res })
+    console.log('RedirectID:', redirectID)
     redirect = await database.getRedirect(redirectID, true).then(res => { return res[0] })
     expect(redirect.alias).to.equal('TestAlias')
     expect(redirect.roleid).to.equal(1)
@@ -17,16 +19,16 @@ describe('Account creation.', async function () {
     // user entry in order to not reveal the hashed and salted password.
     userID = await database.createUser('TestUsername', 'Password*1', redirectID, true).then(res => { return res })
     expect(userID).to.not.equal(null)
-  }),
+  })
   it('Accounts can\'t be created with idential usernames', async function () {
     var noUserID = await database.createUser('TestUsername', 'NewPassword', 0, true).then(res => { return res })
-    expect(noUserID).to.equal('Username not available')
+    expect(noUserID).to.equal(identifiers.duplicateID)
   })
 })
 
 describe('Account authentication.', async function () {
   it('Generated password is valid for the user', async function () {
-    isValid = await database.authenticateUser('TestUsername', 'Password*1', true).then(res => { return res })
+    var isValid = await database.authenticateUser('TestUsername', 'Password*1', true).then(res => { return res })
     expect(isValid).to.equal(true)
 
     isValid = await database.authenticateUser('TestUsername', 'pAsSwOrD*1', true).then(res => { return res })
