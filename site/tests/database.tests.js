@@ -22,8 +22,11 @@ describe('Account creation.', async function () {
 
 describe('Account authentication.', async function () {
   it('Generated password is valid for the user', async function () {
-    
-    expect(userID).to.not.equal(null)
+    isValid = await database.authenticateUser('TestUsername', 'Password*1', true).then(res => { return res })
+    expect(isValid).to.equal(true)
+
+    isValid = await database.authenticateUser('TestUsername', 'pAsSwOrD*1', true).then(res => { return res })
+    expect(isValid).to.equal(false)
   })
 })
 

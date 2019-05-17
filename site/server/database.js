@@ -8,8 +8,8 @@ var crypto = require('crypto')
 // The functions exported here should only allow the transferral of nonsensitive information; login
 // details should be strictly monitored, as well as access to redirects.
 module.exports = {
-  createUser: createUser,
   authenticateUser: authenticateUser,
+  createUser: createUser,
   updateUserPassword: updateUserPassword,
   removeUser: removeUser,
 
@@ -53,7 +53,7 @@ function hashPassword (password) {
   })
 }
 
-async function comparePassword (password, hash, callback) {
+function comparePassword (password, hash) {
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, hash, (err, isPasswordMatch) => {
       if (err) reject(err)
@@ -110,16 +110,11 @@ async function sqlGetRandom (table, testMode = false) {
 // Account Related Calls.
 /// ///////////////////////////////////////////////
 
-async function authenticateUser (username, password) {
-  var hash = await database.getRedirect(redirectID, true).then(res => { return res[0] })
+async function authenticateUser (username, password, testMode = false) {
+  var sqlCode = 'SELECT * FROM Login WHERE username = ?'
+  var userData = await sqlGet(sqlCode, username, testMode).then(res => { return res[0] })
+  return comparePassword(password, userData.password)
 }
-
-// // Retrieves a user's login data given their username.
-// // TODO: Remove this and compare hashes directly without returning full user data.
-// function getUserData (username, testMode = false) {
-//   var sqlCode = 'SELECT * FROM Login WHERE username = ?'
-//   return sqlGet(sqlCode, username, testMode)
-// }
 
 async function createUser (username, password, redirectid, testMode = false) {
   // Salt and hash the password.
@@ -132,7 +127,7 @@ async function createUser (username, password, redirectid, testMode = false) {
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
-function updateUserPassword (loginid, newPassword, testMode = false) {
+async function updateUserPassword (loginid, newPassword, testMode = false) {
   // Salt and hash the password.
   var securePassword = await hashPassword(newPassword)
 
