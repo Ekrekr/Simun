@@ -20,5 +20,21 @@ html(lang=lang)
           a.color-light(href="send") Send
         li.nav-item
           a(href="stats") Stats
+
+    send
+      form(method='post' action='/send')
+        br
+        input.shadow(type="text" name="title" placeholder="Snippet Title" required autofocus)
+        br
+        br
+        box-input(id="snippet-file-container")
+          input.shadow(id="snippet-file-input" type="file" name="fileupload" required)
+          holder
+            plus
+        p From jhon
+        button(type="send")
   
   +create-footer
+  
+  script(type="text/javascript" src="scripts/send.js")
+  script(type="text/javascript" src="scripts/tools.js")

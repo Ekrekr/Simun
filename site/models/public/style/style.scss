@@ -56,13 +56,13 @@ $color-shadow: #00000080;
 }
 
 @font-face {
-  font-family: 'OpenSans';
+  font-family: 'OpenSansBold';
   src: url("fonts/open-sans/OpenSans-Bold.ttf") format("truetype");
   font-weight: bold;
 }
 
 @font-face {
-  font-family: 'OpenSans';
+  font-family: 'OpenSansItalic';
   src: url("fonts/open-sans/OpenSans-Italic.ttf") format("truetype");
   font-weight: italic;
 }
@@ -516,7 +516,7 @@ login {
     display: block;
     position: absolute;
     left: 50%;
-    top: 30%;
+    top: 25%;
     transform: translate(-50%, -50%);
     height: 20%;
     width: auto;
@@ -542,5 +542,82 @@ login {
 
   .button:hover {
     background-color: $color-dark;
+  }
+}
+
+send {
+  display: table;
+  position: relative;
+  width: 100%;
+  height:100vh;
+  background-image: radial-gradient(circle, $color-dark 70%, $color-light, $color-dark, $color-dark);
+
+  form {
+    padding-top:100px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+
+    p {
+      color: $color-light;
+      font-family: OpenSansItalic;
+    }
+
+    box-input {
+      display: block;
+      width: 400px;
+      height: 200px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: $color-primary;
+      text-align: center;
+      border-radius: 12px;
+      border: 8px dashed $color-primary;
+      background-image: url("/assets/images/plus-with-background.png");
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      transition: all 0.4s;
+
+      input {
+        width: 380px;
+        height: 180px;
+        opacity: 0;
+        cursor: pointer;
+      }
+    }
+
+    box-input:hover {
+      border: 8px dashed $color-light;
+    }
+
+    input {
+      width: 200px;
+      height: 14px;
+      margin-bottom: 10px;
+      background-color: $color-white;
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 22px;
+      color: $color-dark;
+    }
+
+    button {
+      background-image: url("/assets/images/send-button.png");
+      background-position: 50% 50%;
+      background-size: cover;
+      width: 100px;
+      height: 60px;
+      box-sizing: border-box;
+      border: none;
+      border-radius: 12px;
+      border: 4px solid $color-dark;
+      transition: all 0.4s;
+      cursor: pointer;
+    }
+
+    button:hover {
+      border: 4px solid $color-light;
+    }
   }
 }
