@@ -9,7 +9,7 @@ var tokenOptions = {
   issuer: 'Simun',
   subject: 'User',
   audience: 'http://localhost:7000',
-  expiresIn: 30,
+  expiresIn: 600,
   algorithm: 'RS256'
 }
 
@@ -18,6 +18,11 @@ module.exports = {
     return jwt.sign(payload, privateKey, tokenOptions)
   },
   verify: (token) => {
-    try { return jwt.verify(token, publicKey, tokenOptions) } catch (err) { return false }
+    try {
+      var verifyCheck = jwt.verify(token, publicKey, tokenOptions)
+      return verifyCheck
+    } catch (err) { 
+      return false 
+    }
   }
 }

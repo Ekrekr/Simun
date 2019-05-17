@@ -10,7 +10,6 @@ describe('Account creation.', async function () {
   it('Login and redirect are created and retrieved correctly.', async function () {
     // The redirect needs to be created first as the login points to it.
     var redirectID = await database.createRedirect('TestAlias', 1, true).then(res => { return res })
-    console.log('RedirectID:', redirectID)
     redirect = await database.getRedirect(redirectID, true).then(res => { return res[0] })
     expect(redirect.alias).to.equal('TestAlias')
     expect(redirect.roleid).to.equal(1)
@@ -26,13 +25,17 @@ describe('Account creation.', async function () {
   })
 })
 
-describe('Account authentication.', async function () {
+describe('Account authentication and utility.', async function () {
   it('Generated password is valid for the user', async function () {
     var isValid = await database.authenticateUser('TestUsername', 'Password*1', true).then(res => { return res })
     expect(isValid).to.equal(true)
 
     isValid = await database.authenticateUser('TestUsername', 'pAsSwOrD*1', true).then(res => { return res })
     expect(isValid).to.equal(false)
+  })
+  it('Retrieve redirectID by using user\'s username', async function () {
+    var redirectID = await database.getUserRedirectID('TestUsername', true).then(res => { return res })
+    expect(redirect.id).to.equal(redirectID)
   })
 })
 

@@ -37,12 +37,28 @@ connectToServer()
 // Generic functions.
 /// ///////////////////////////////////////////////
 
-function isLoggedIn (req, res) {
+function checkSessionCookie (req, res) {
+  // If there is no cookie, then send to login page.
   if (req.cookies['session'] === undefined) {
     res.redirect('login')
     return false
   }
-  return true
+
+  // Verify the cookie, if it is not valid then delete the cookie and return to the login page.
+  var decodedCookie = jwtservice.verify(req.cookies['session'])
+  if (decodedCookie == false) {
+    res.clearCookie('session')
+    res.redirect('login')
+    return false
+  }
+  return decodedCookie
+}
+
+async function sendSessionCookie (req, res, username, redirectID) {
+  // Create a token so that the user doesn't have to log in again for a while,
+  // return the token in a delicious cookie.
+  var token = await jwtservice.sign({ username: username, redirectid: redirectID })
+  res.cookie('session', token)
 }
 
 /// ///////////////////////////////////////////////
@@ -75,12 +91,12 @@ server.post('/create-snippet/', (req, res) => {
 /// ///////////////////////////////////////////////
 
 server.get('/', (req, res) => {
-  if (!isLoggedIn(req, res)) { return }
+  if (!checkSessionCookie(req, res)) { return }
   res.redirect('index')
 })
 
 server.get('/index', (req, res) => {
-  if (!isLoggedIn(req, res)) { return }
+  if (!checkSessionCookie(req, res)) { return }
   res.render('index')
 })
 
@@ -98,8 +114,8 @@ server.post('/login', async (req, res) => {
   if (isValid) {
     // Create a token so that the user doesn't have to log in again for a while,
     // return the token in a delicios cookie.
-    var token = await jwtservice.sign({ username: req.body.username })
-    res.cookie('session', token)
+    redirectID = await database.getUserRedirectID(req.body.username)
+    await sendSessionCookie(req, res, req.body.username, redirectID)
     res.redirect('index')
   } else {
     // TODO: Update this with notification of incorrect credentials.
@@ -131,63 +147,62 @@ server.post('/register', async (req, res) => {
     return
   }
 
-  // Create a token so that the user doesn't have to log in again for a while,
-  // return the token in a delicios cookie.
-  var token = await jwtservice.sign({ username: req.body.username })
-  res.cookie('session', token)
+  await sendSessionCookie(req, res, req.body.username, redirectID)
 
   res.redirect('index')
 })
 
-server.get('/receive', (req, res) => {
-  if (!isLoggedIn(req, res)) { return }
+server.get('/receive', async (req, res) => {
+  if (!checkSessionCookie(req, res)) { return }
+  console.log("Loading receive page.")
+
+  decodedCookie = checkSessionCookie(req, res)
+  if (!decodedCookie) { return }
+
+  redirectID = decodedCookie.redirectid
   
   var clientVariables = {}
   clientVariables.snippetcontents = []
 
-  var redirectID = 0
-
   // Need to load snippet data from the database to display on the page.
-  database.getRedirect(redirectID).then(redirect => {
-    redirect = redirect[0]
-    var snippets = JSON.parse(redirect.snippetids)
+  var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
+  var snippets = JSON.parse(redirect.snippetids)
+  console.log("SNIPPETS FOUND:", snippets)
 
-    // For each snippet, retrieve the snippet content ID.
-    snippets.forEach((entry, index) => {
-      database.getSnippet(entry).then(snippet => {
-        snippet = snippet[0]
+  // If no snippets found, then render an empty receive page.
+  if (snippets.length === 0) {
+    res.render('receive', clientVariables)
+  }
 
-        // Retrieve the snippet content.
-        database.getSnippetContent(snippet.contentid).then(snippetcontent => {
-          snippetcontent = snippetcontent[0]
+  // For each snippet, retrieve the snippet content ID.
+  await snippets.forEach(async (entry, index) => {
+    var snippet = await database.getSnippet(snippetID0).then(res => { return res[0] })
+    console.log("selecting snippet:", snippet)
 
-          console.log('server: Rendering receive, snippetcontent.id: ', snippetcontent.id)
+    // Retrieve the snippet content.
+    var snippetcontent = await database.getSnippetContent(snippet.contentid).then(res => { return res[0] })
+    console.log('server: Rendering receive, snippetcontent.id: ', snippetcontent.id)
 
-          clientVariables.snippetcontents.push({
-            'description': snippetcontent.description,
-            'content': snippetcontent.content,
-            'id': snippetcontent.id,
-            'parentid': snippet.id
-          })
-
-          // Only return final source if it's final iteration to prevent loss.
-          if (index === snippets.length - 1) {
-            // Send the created page back to user after loading all the variables,
-            // with a slight delay to prevent further problems.
-            setTimeout(function () {
-              res.render('receive', clientVariables)
-            }, 100)
-          }
-        })
-      })
+    clientVariables.snippetcontents.push({
+      'description': snippetcontent.description,
+      'content': snippetcontent.content,
+      'id': snippetcontent.id,
+      'parentid': snippet.id
     })
+
+    // Only return final source if it's final iteration to prevent loss.
+    if (index === snippets.length - 1) {
+      // Send the created page back to user after loading all the variables,
+      // with a slight delay to prevent further problems.
+      setTimeout(function () {
+        res.render('receive', clientVariables)
+      }, 100)
+    }
   })
 })
 
 server.get('/send', (req, res) => {
-  if (!isLoggedIn(req, res)) { return }
-
-  console.log('Cookies: ', req.cookies.cookieName)
+  if (!checkSessionCookie(req, res)) { return }
   res.render('send')
 })
 

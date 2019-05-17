@@ -16,6 +16,7 @@ module.exports = {
   createRedirect: createRedirect,
   getRedirect: getRedirect,
   removeRedirect: removeRedirect,
+  getUserRedirectID: getUserRedirectID,
 
   getSnippet: getSnippet,
   removeSnippet: removeSnippet,
@@ -55,8 +56,7 @@ function hashPassword (password) {
 
 function comparePassword (password, userData) {
   return new Promise((resolve, reject) => {
-    if (userData === undefined)
-      resolve(false)
+    if (userData === undefined) { resolve(false) }
     bcrypt.compare(password, userData.password, (err, isPasswordMatch) => {
       if (err) reject(err)
       resolve(isPasswordMatch)
@@ -175,6 +175,13 @@ function removeRedirect (redirectid, testMode = false) {
   var sqlData = [redirectid]
   var sqlCode = 'DELETE FROM redirect WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
+}
+
+async function getUserRedirectID (username, testMode = false) {
+  var sqlCode = 'SELECT * FROM Login WHERE username = ?'
+  var userData = await sqlGet(sqlCode, username, testMode).then(res => { return res[0] })
+  var fromRedirect = await getRedirect(userData.redirectid, testMode).then(res => { return res[0] })
+  return fromRedirect.id
 }
 
 /// ///////////////////////////////////////////////
