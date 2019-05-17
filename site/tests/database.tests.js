@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 var expect = require('chai').expect
 var database = require('../server/database.js')
+var identifiers = require('../server/identifiers.js')
 
 var redirect = null
 var userID = null
@@ -17,6 +18,24 @@ describe('Account creation.', async function () {
     // user entry in order to not reveal the hashed and salted password.
     userID = await database.createUser('TestUsername', 'Password*1', redirectID, true).then(res => { return res })
     expect(userID).to.not.equal(null)
+  })
+  it('Accounts can\'t be created with idential usernames', async function () {
+    var noUserID = await database.createUser('TestUsername', 'NewPassword', 0, true).then(res => { return res })
+    expect(noUserID).to.equal(identifiers.duplicateID)
+  })
+})
+
+describe('Account authentication and utility.', async function () {
+  it('Generated password is valid for the user', async function () {
+    var isValid = await database.authenticateUser('TestUsername', 'Password*1', true).then(res => { return res })
+    expect(isValid).to.equal(true)
+
+    isValid = await database.authenticateUser('TestUsername', 'pAsSwOrD*1', true).then(res => { return res })
+    expect(isValid).to.equal(false)
+  })
+  it('Retrieve redirectID by using user\'s username', async function () {
+    var redirectID = await database.getUserRedirectID('TestUsername', true).then(res => { return res })
+    expect(redirect.id).to.equal(redirectID)
   })
 })
 
