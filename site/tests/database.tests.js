@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 var expect = require('chai').expect
 var database = require('../server/database.js')
+var identifier = require('../server/identifier.js')
 
 var redirect = null
 var userID = null
@@ -17,6 +18,10 @@ describe('Account creation.', async function () {
     // user entry in order to not reveal the hashed and salted password.
     userID = await database.createUser('TestUsername', 'Password*1', redirectID, true).then(res => { return res })
     expect(userID).to.not.equal(null)
+  }),
+  it('Accounts can\'t be created with idential usernames', async function () {
+    var noUserID = await database.createUser('TestUsername', 'NewPassword', 0, true).then(res => { return res })
+    expect(noUserID).to.equal('Username not available')
   })
 })
 

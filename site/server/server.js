@@ -2,6 +2,12 @@ var path = require('path')
 const express = require('express')
 var bodyParser = require('body-parser')
 var database = require('./database.js')
+var database = require('jwtservice.js')
+var identifier = require('identifier.js')
+
+/// ///////////////////////////////////////////////
+// Start app and express settings, then start the server.
+/// ///////////////////////////////////////////////
 
 const app = express()
 var router = express.Router()
@@ -21,10 +27,6 @@ async function connectToServer () {
 }
 
 connectToServer()
-
-module.exports = {
-  connectToServer: connectToServer
-}
 
 /// ///////////////////////////////////////////////
 // Non page requests.
@@ -64,10 +66,6 @@ router.get('/login', (req, res) => {
   res.render('login')
 })
 
-router.get('/register', (req, res) => {
-  res.render('register')
-})
-
 router.post('/login', async (req, res) => {
   // TODO: This password should be encrypted before being received here.
   console.log('Attempting to log in with username', req.body.username, 'and password', req.body.password)
@@ -86,6 +84,27 @@ router.post('/login', async (req, res) => {
       res.render('login')
     }
   })
+})
+
+router.get('/register', (req, res) => {
+  res.render('register')
+})
+
+router.post('/register', async (req, res) => {
+  console.log('Attempting to register account with username', req.body.username + ', password', req.body.password, 'and alias', req.body.alias)
+
+  // Create a redirect to attach to the user details.
+  var redirectID = await database.createRedirect(req.body.alias, 1, true).then(res => { return res })
+  redirect = await database.getRedirect(redirectID, true).then(res => { return res[0] })
+
+  // Create an account pointing to the redirect
+  userID = await database.createUser(req.body.username, req.body.password, redirectID, true).then(res => { return res })
+
+  // Create a token so that the user doesn't have to log in again for a while.
+  token = jwtservice.sign({ username: req.body.username })
+
+  // Return the token in a delicious cookie.
+  res.cookie(req.body.username, token)
 })
 
 router.get('/receive', (req, res) => {

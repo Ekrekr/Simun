@@ -3,7 +3,7 @@ const sqlite3 = require('sqlite3').verbose()
 const dbPath = path.resolve(__dirname, '../database/database.db')
 const testsDbPath = path.resolve(__dirname, '../database/tests-database.db')
 const bcrypt = require('bcrypt')
-var crypto = require('crypto')
+var identifier = require('identifier.js')
 
 // The functions exported here should only allow the transferral of nonsensitive information; login
 // details should be strictly monitored, as well as access to redirects.
@@ -85,7 +85,14 @@ async function sqlPut (sqlCode, sqlData, testMode = false) {
   return new Promise((resolve, reject) => {
     db.serialize(() => {
       db.run(sqlCode, sqlData, function (err, result) {
-        return err ? reject(err) : resolve(this.lastID)
+        if (err) {
+          console.log('SQL Put error hit:', err)
+          if (err.errno === 19) {
+            resolve('Username not available')
+          }
+          reject(err)
+        }
+        resolve(this.lastID)
       })
       closeDatabase(db)
     })
