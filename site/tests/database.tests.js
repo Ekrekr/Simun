@@ -20,6 +20,13 @@ describe('Account creation.', async function () {
   })
 })
 
+describe('Account authentication.', async function () {
+  it('Generated password is valid for the user', async function () {
+    
+    expect(userID).to.not.equal(null)
+  })
+})
+
 describe('Snippet Creation, Retrieval, Forwarding and Deletion.', async function () {
   it('Snippets can be created, retrieved, and forwarded (Forwarding done by default in creation).', async function () {
     // Create new snippet that forwards to two users.

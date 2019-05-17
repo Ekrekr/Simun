@@ -3,16 +3,13 @@ const sqlite3 = require('sqlite3').verbose()
 const dbPath = path.resolve(__dirname, '../database/database.db')
 const testsDbPath = path.resolve(__dirname, '../database/tests-database.db')
 const bcrypt = require('bcrypt')
-const saltRounds = 10
+var crypto = require('crypto')
 
 // The functions exported here should only allow the transferral of nonsensitive information; login
 // details should be strictly monitored, as well as access to redirects.
 module.exports = {
-  hashEntry: hashEntry,
-  compareHash: compareHash,
-
   createUser: createUser,
-  getUserData: getUserData,
+  authenticateUser: authenticateUser,
   updateUserPassword: updateUserPassword,
   removeUser: removeUser,
 
@@ -47,14 +44,22 @@ function closeDatabase (db) {
   })
 }
 
-// Hashes given input.
-async function hashEntry (entry) {
-  return bcrypt.hashSync(entry, saltRounds)
+function hashPassword (password) {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(password, 10, (err, hash) => {
+      if (err) reject(err)
+      else resolve(hash)
+    })
+  })
 }
 
-// Compares the hash and plaintext of inputs.
-async function compareHash (plaintext, hash) {
-  return bcrypt.compareSync(plaintext, hash)
+async function comparePassword (password, hash, callback) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, hash, (err, isPasswordMatch) => {
+      if (err) reject(err)
+      else resolve(isPasswordMatch)
+    })
+  })
 }
 
 /// ///////////////////////////////////////////////
@@ -64,14 +69,10 @@ async function compareHash (plaintext, hash) {
 // Generic SQL instruction that returns whatever is returned by the query.
 function sqlGet (sqlCode, lookup, testMode = false) {
   let db = connectDatabase(testMode)
-  return new Promise(function (resolve, reject) {
-    db.serialize(function () {
-      db.all(sqlCode, lookup, function (err, result) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(result)
-        }
+  return new Promise((resolve, reject) => {
+    db.serialize(() => {
+      db.all(sqlCode, lookup, (err, result) => {
+        return err ? reject(err) : resolve(result)
       })
       closeDatabase(db)
     })
@@ -79,16 +80,12 @@ function sqlGet (sqlCode, lookup, testMode = false) {
 }
 
 // Generic SQL instruction that returns whatever the new ID inserted is.
-function sqlPut (sqlCode, sqlData, testMode = false) {
+async function sqlPut (sqlCode, sqlData, testMode = false) {
   var db = connectDatabase(testMode)
-  return new Promise(function (resolve, reject) {
-    db.serialize(function () {
+  return new Promise((resolve, reject) => {
+    db.serialize(() => {
       db.run(sqlCode, sqlData, function (err, result) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(this.lastID)
-        }
+        return err ? reject(err) : resolve(this.lastID)
       })
       closeDatabase(db)
     })
@@ -96,17 +93,13 @@ function sqlPut (sqlCode, sqlData, testMode = false) {
 }
 
 // Returns a random entry from the table specified.
-function sqlGetRandom (table, testMode = false) {
+async function sqlGetRandom (table, testMode = false) {
   var sqlCode = 'SELECT * FROM ' + table + ' ORDER BY RANDOM() LIMIT 1'
   var db = connectDatabase(testMode)
-  return new Promise(function (resolve, reject) {
-    db.serialize(function () {
-      db.all(sqlCode, function (err, result) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(result)
-        }
+  return new Promise((resolve, reject) => {
+    db.serialize(() => {
+      db.all(sqlCode, (err, result) => {
+        return err ? reject(err) : resolve(result)
       })
       closeDatabase(db)
     })
@@ -114,24 +107,36 @@ function sqlGetRandom (table, testMode = false) {
 }
 
 /// ///////////////////////////////////////////////
-// Login Related Calls.
+// Account Related Calls.
 /// ///////////////////////////////////////////////
 
-// Retrieves a user's login data given their username.
-// TODO: Remove this and compare hashes directly without returning full user data.
-function getUserData (username, testMode = false) {
-  var sqlCode = 'SELECT * FROM Login WHERE username = ?'
-  return sqlGet(sqlCode, username, testMode)
+async function authenticateUser (username, password) {
+  var hash = await database.getRedirect(redirectID, true).then(res => { return res[0] })
 }
 
-function createUser (username, password, redirectid, testMode = false) {
-  var sqlData = [username, password, redirectid]
+// // Retrieves a user's login data given their username.
+// // TODO: Remove this and compare hashes directly without returning full user data.
+// function getUserData (username, testMode = false) {
+//   var sqlCode = 'SELECT * FROM Login WHERE username = ?'
+//   return sqlGet(sqlCode, username, testMode)
+// }
+
+async function createUser (username, password, redirectid, testMode = false) {
+  // Salt and hash the password.
+  var securePassword = await hashPassword(password)
+
+  // Insert the account details into the database.
+  var sqlData = [username, securePassword, redirectid]
   var sqlCode = 'INSERT INTO login (username, password, redirectid) VALUES (?, ?, ?)'
+
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
 function updateUserPassword (loginid, newPassword, testMode = false) {
-  var sqlData = [newPassword, loginid]
+  // Salt and hash the password.
+  var securePassword = await hashPassword(newPassword)
+
+  var sqlData = [securePassword, loginid]
   var sqlCode = 'UPDATE login SET password = ? WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
 }
