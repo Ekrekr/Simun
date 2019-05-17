@@ -64,6 +64,10 @@ router.get('/login', (req, res) => {
   res.render('login')
 })
 
+router.get('/register', (req, res) => {
+  res.render('register')
+})
+
 router.post('/login', async (req, res) => {
   // TODO: This password should be encrypted before being received here.
   console.log('Attempting to log in with username', req.body.username, 'and password', req.body.password)

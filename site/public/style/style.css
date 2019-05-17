@@ -430,7 +430,7 @@ receive snippet-selected control-box forward-it {
   cursor: pointer;
 }
 
-login {
+login-register {
   display: block;
   position: absolute;
   top: 0;
@@ -440,22 +440,27 @@ login {
   margin-top: 80px;
   background-color: #2f4550;
 }
-login h1 {
+login-register h1 {
   color: #b8dbd9;
   font-size: 100px;
   margin-bottom: 10px;
 }
-login holder {
+login-register holder {
   display: block;
   position: absolute;
   left: 50%;
-  top: 25%;
+  top: 15%;
   transform: translate(-50%, -50%);
   height: 20%;
   width: auto;
   z-index: 5;
 }
-login input {
+login-register holder form p {
+  color: #b8dbd9;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+login-register input {
   width: 200px;
   height: 14px;
   margin-bottom: 10px;
@@ -465,12 +470,21 @@ login input {
   font-size: 22px;
   color: #2f4550;
 }
-login button {
+login-register button {
   margin-top: 10px;
   background-color: #b8dbd9;
   border-radius: 6px;
 }
-login .button:hover {
+login-register back-button {
+  content: url("/assets/images/arrow.png");
+  display: block;
+  position: absolute;
+  height: 50px;
+  width: auto;
+  top: 10%;
+  left: 10%;
+}
+login-register .button:hover {
   background-color: #2f4550;
 }
 
