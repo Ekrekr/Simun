@@ -87,6 +87,10 @@ input {
   margin-bottom: 10px;
 }
 
+button {
+  box-shadow: 0 2px 4px #00000080;
+}
+
 img {
   image-rendering: auto;
 }
@@ -160,6 +164,7 @@ header {
   display: flex;
   justify-content: space-between;
   z-index: 3;
+  text-shadow: 0 2px 4px #00000080;
 }
 header logo {
   content: url("/assets/images/simun-logo.png");
@@ -444,6 +449,7 @@ login-register h1 {
   color: #b8dbd9;
   font-size: 100px;
   margin-bottom: 10px;
+  text-shadow: 0 2px 4px #00000080;
 }
 login-register holder {
   display: block;
@@ -490,7 +496,6 @@ login-register to-register p {
   text-align: left;
   margin-left: 4px;
   margin-bottom: -2px;
-  text-shadow: 0 2px 4px #00000080;
 }
 login-register to-login {
   position: absolute;
@@ -514,6 +519,7 @@ login-register p {
   color: #b8dbd9;
   font-size: 14px;
   margin-bottom: 2px;
+  text-shadow: 0 2px 4px #00000080;
 }
 login-register .button:hover {
   background-color: #2f4550;
@@ -551,6 +557,7 @@ send form box-input {
   background-repeat: no-repeat;
   background-size: cover;
   transition: all 0.4s;
+  box-shadow: 0 2px 4px #00000080;
 }
 send form box-input input {
   width: 380px;

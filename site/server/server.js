@@ -74,6 +74,11 @@ server.post('/create-snippet/', (req, res) => {
 // Page requests.
 /// ///////////////////////////////////////////////
 
+server.get('/', (req, res) => {
+  if (!isLoggedIn(req, res)) { return }
+  res.redirect('index')
+})
+
 server.get('/index', (req, res) => {
   if (!isLoggedIn(req, res)) { return }
   res.render('index')
