@@ -38,7 +38,9 @@ connectToServer()
 /// ///////////////////////////////////////////////
 
 function isLoggedIn (req, res) {
-  var cookie = Object.keys(req.cookies)['session']
+  console.log("Checking if logged in")
+  console.log(req.cookies['session'])
+  var cookie = req.cookies['session']
   if (cookie === undefined) {
     console.log('No cookie found')
     res.render('login')
@@ -83,7 +85,8 @@ server.get('/', (req, res) => {
 })
 
 server.get('/login', (req, res) => {
-  res.render('login')
+  if (!isLoggedIn(req, res)) { return }
+  res.render('index')
 })
 
 server.post('/login', async (req, res) => {
@@ -104,6 +107,11 @@ server.post('/login', async (req, res) => {
       res.render('login')
     }
   })
+})
+
+server.get('/logout', (req, res) => {
+  res.clearCookie('session')
+  res.render('login')
 })
 
 server.get('/register', (req, res) => {
