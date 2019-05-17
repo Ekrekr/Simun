@@ -148,6 +148,7 @@ router.post('/login', async function (req, res) {
   await authenticate(res, req, username, password)
 })
 
+
 async function verifyUserViaAlias(res, req, alias) {
   var authentication = database.getRedirectViaAlias(alias, false)
   authentication.then(async function (result) {
@@ -198,8 +199,10 @@ async function generateJWT(res, req, redirectid, cookieName) {
   }, {
     algorithm: 'RS256'
   })
+  console.log(res.cookie)
   res.cookie(cookieName, token)
 }
+
 
 router.get('/send', function (req, res) {
   res.render('send')
@@ -210,4 +213,3 @@ router.get('/stats', function (req, res) {
 })
 
 app.use('/', router)
-// var httpsServer = https.createServer(app)

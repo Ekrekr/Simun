@@ -24,13 +24,13 @@ html(lang=lang)
 
     login
       holder
-      form(class="login-submit" method="post" action="/login")
+      form(class="login-submit"  method="post" action="/login")
         h1 Simun  
-        input.shadow(type="text" name="username" id="Input Username" placeholder="Username" required autofocus)
+        input.shadow(type="text" name="username" id="Input Username" placeholder="Username" autofocus)
         br
-        input.shadow(type="password" name="password" id="Input Password" placeholder="Password" required)
+        input.shadow(type="password" name="password" id="Input Password" placeholder="Password")
         br
-        button(type="submit") Login
+        button(type="submit" name="button" id="Input Username" placeholder="Username" value="login") Login  
         br
-        button(type="register" href="index") Register
+        button(type="submit" name="button" id="Input Username" placeholder="Username" value="register") Register
   +create-footer

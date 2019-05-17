@@ -4,7 +4,7 @@ const dbPath = path.resolve(__dirname, '../database/database.db')
 const testsDbPath = path.resolve(__dirname, '../database/tests-database.db')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
-
+var crypto = require('crypto')
 // The functions exported here should only allow the transferral of nonsensitive information; login
 // details should be strictly monitored, as well as access to redirects.
 module.exports = {
@@ -126,27 +126,33 @@ function getUserData(username, testMode = false) {
   return sqlGet(sqlCode, username, testMode)
 }
 
-async function createUser(username, password, redirectID, testMode = false) {
+async function createUser(username, password, testMode = false) {
   // This will eventually have the functionality to create all rows relevant to user
   // In each table
 
-  // var sqlDataRole = ['User']
-  // var sqlCodeRole = 'INSERT INTO role (role) VALUES (?)'
-  // var roleID = sqlPut(sqlCodeRole, sqlDataRole, testMode)
-  // var sqlDataRedirect = ['Tipy', 'Blank', roleID]
-  // var sqlCodeRedirect = 'INSERT INTO redirect (alias, snippetids, roleid) VALUES (?, ?, ?)'
-  // var redirectID = sqlPut(sqlCodeRedirect, sqlDataRedirect, testMode)
-
+  //This can change if there's another way of doing this that we have
+  //Generate alias of 6 characters
+  var alias = Math.random().toString(36).substring(2, 6)
+  var redirectID = await createRedirect(alias, 1)
   // This gets the salt of size 16
   var salt = Math.random().toString(17).substring(2, 17) + Math.random().toString(5).substring(2, 5)
   password = await hashEntry(password + salt)
-  var sqlDataLogin = [username, password, salt, 2]
-  var sqlCodeLogin = 'INSERT INTO login (username, password, salt, redirectid) VALUES (?, ?, ?, ?)'
-  return sqlPut(sqlCodeLogin, sqlDataLogin, testMode)
+  await createLoginUser(username, password, salt, redirectID)
+  console.log(redirectID)
+  let snippet = await createSnippet("", "Your Basic Snippet", redirectID)
+  await addSnippetToUser(redirectID, snippet.id)
 }
 
 async function checkPassword(hash, original, salt) {
   return await compareHash(original + salt, hash)
+}
+
+
+async function createLoginUser(username, password, salt, redirectid, testMode = false) {
+  var sqlData = [username, password, salt, redirectid]
+  var sqlCode = 'INSERT INTO login (username, password, salt, redirectid) VALUES (?, ?, ?, ?)'
+  return sqlPut(sqlCode, sqlData, testMode)
+
 }
 
 function updateUserPassword(loginid, newPassword, testMode = false) {
@@ -167,29 +173,30 @@ function removeUser(loginid, testMode = false) {
 // Redirect Related Calls.
 /// ///////////////////////////////////////////////
 
-function createRedirect(alias, roleid, testMode = false) {
+
+async function createRedirect(alias, roleid, testMode = false) {
   var sqlData = [alias, '[]', roleid]
   var sqlCode = 'INSERT INTO redirect (alias, snippetids, roleid) VALUES (?, ?, ?)'
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
-function getRedirect(redirectid, testMode = false) {
+async function getRedirect(redirectid, testMode = false) {
   var sqlCode = 'SELECT * FROM redirect WHERE id = ?'
   return sqlGet(sqlCode, redirectid, testMode)
 }
 
-function getRedirectViaAlias(alias, testMode = false) {
+async function getRedirectViaAlias(alias, testMode = false) {
   var sqlCode = 'SELECT * FROM  redirect WHERE alias = ?'
   return sqlGet(sqlCode, alias, testMode)
 }
 
-function updateRedirectSnippetList(redirectid, snippetids, testMode = false) {
+async function updateRedirectSnippetList(redirectid, snippetids, testMode = false) {
   var sqlData = [snippetids, redirectid]
   var sqlCode = 'UPDATE redirect SET snippetids = ? WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
-function removeRedirect(redirectid, testMode = false) {
+async function removeRedirect(redirectid, testMode = false) {
   var sqlData = [redirectid]
   var sqlCode = 'DELETE FROM redirect WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
@@ -199,12 +206,25 @@ function removeRedirect(redirectid, testMode = false) {
 // Snippet Related Calls.
 /// ///////////////////////////////////////////////
 
-function getSnippet(snippetid, testMode = false) {
+async function addSnippetToUser(redirectid, snippetid, testMode = false) {
+  var result = await getRedirect(snippetid, testMode).then(res => {
+    return res[0]
+  })
+  var currentSnippets = result.snippetids
+  currentSnippets = currentSnippets.substring(0, currentSnippets.length - 1)
+  currentSnippets = currentSnippets + ', "' + redirectid + '"]'
+  var sqlData = [redirectid, currentSnippets]
+  var sqlCode = 'UPDATE snippetids FROM snippet WHERE redirectid = ?'
+  return sqlPut(sqlCode, sqlData, testMode)
+}
+
+
+async function getSnippet(snippetid, testMode = false) {
   var sqlCode = 'SELECT * FROM snippet WHERE id = ?'
   return sqlGet(sqlCode, snippetid, testMode)
 }
 
-function removeSnippet(snippetid, testMode = false) {
+async function removeSnippet(snippetid, testMode = false) {
   var sqlData = [snippetid]
   var sqlCode = 'DELETE FROM snippet WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
@@ -215,15 +235,14 @@ async function createSnippet(content, description, redirectid, testMode = false)
   var fromRedirect = await getRedirect(redirectid, testMode).then(res => {
     return res[0]
   })
-
+  console.log(fromRedirect)
   // Create a new snippet content.
   var sqlCode = 'INSERT INTO snippetcontent (content, description) VALUES (?, ?)'
   var snippetContentID = await sqlPut(sqlCode, [content, description], testMode).then(res => {
     return res
   })
-
   // Create a new snippet with the content, belonging to the fromRedirect and from the fromRedirect.
-  var sqlData = [snippetContentID, fromRedirect.id, fromRedirect.alias, fromRedirect.alias, 0]
+  var sqlData = [snippetContentID, fromRedirect.id, fromRedirect.id, fromRedirect.alias, 0]
   sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?, ?, ?, ?, ?)'
   var snippetID = await sqlPut(sqlCode, sqlData, testMode).then(res => {
     return res
