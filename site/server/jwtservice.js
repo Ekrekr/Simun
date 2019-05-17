@@ -20,9 +20,4 @@ module.exports = {
   verify: (token) => {
     try { return jwt.verify(token, publicKey, tokenOptions) } catch (err) { return false }
   }
-  // ,
-  // decode: (token) => {
-  //   // Note: Only use this if the token has been verified as secure.
-  //   return jwt.decode(token, { complete: true })
-  // }
 }

@@ -1,29 +1,32 @@
 var path = require('path')
 const express = require('express')
 var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
 var database = require('./database.js')
 var jwtservice = require('./jwtservice.js')
-var cookieParser = require('cookie-parser')
 var identifiers = require('./identifiers.js')
 
 /// ///////////////////////////////////////////////
 // Start app and express settings, then start the server.
 /// ///////////////////////////////////////////////
 
-const app = express()
+const server = express()
 var router = express.Router()
 
 // Enables REST communication with server.
-app.use(bodyParser.urlencoded({ extended: true }))
-app.set('views', path.join(__dirname, '../models/public'))
-app.set('view engine', 'pug')
-app.use(express.static(path.join(__dirname, '../public')))
-app.use(bodyParser.json())
-app.use(cookieParser())
-app.use('/', router)
+server.use(bodyParser.urlencoded({ extended: true }))
+server.use(bodyParser.json())
+server.use(cookieParser())
+server.use(express.static(path.join(__dirname, '../public')))
+server.set('views', path.join(__dirname, '../models/public'))
+server.set('view engine', 'pug')
+
+server.use((req, res, next) => {
+  next()
+})
 
 async function connectToServer () {
-  app.listen(7000, 'localhost', () => {
+  server.listen(7000, 'localhost', () => {
     console.log('server: Express running → localhost:7000')
   })
 }
@@ -31,24 +34,39 @@ async function connectToServer () {
 connectToServer()
 
 /// ///////////////////////////////////////////////
+// Generic functions.
+/// ///////////////////////////////////////////////
+
+function isLoggedIn (req, res) {
+  var cookie = Object.keys(req.cookies)['session']
+  if (cookie === undefined) {
+    console.log('No cookie found')
+    res.render('login')
+    return false
+  }
+  console.log('Cookie exists:', cookie)
+  return true
+}
+
+/// ///////////////////////////////////////////////
 // Non page requests.
 /// ///////////////////////////////////////////////
 
-router.get('/snippetcontent/:id', (req, res) => {
+server.get('/snippetcontent/:id', (req, res) => {
   console.log('server: Retrieving snippet content with id:', req.params.id)
   database.getSnippetContent(req.params.id).then(response => {
     res.send(JSON.stringify(response[0]))
   })
 })
 
-router.post('/forward-snippet/', (req, res) => {
+server.post('/forward-snippet/', (req, res) => {
   console.log('server: Forwarding snippet id:', req.body.snippetid)
   database.forwardSnippet(req.body.snippetid).then(res => {
     return res
   })
 })
 
-router.post('/create-snippet/', (req, res) => {
+server.post('/create-snippet/', (req, res) => {
   console.log('server: Creating snippet with content:', req.body.content, 'description:', req.body.description, 'redirectid:', req.body.redirectid)
   database.createSnippet(req.body.content, req.body.description, req.body.redirectid).then(res => {
     return res
@@ -59,22 +77,16 @@ router.post('/create-snippet/', (req, res) => {
 // Page requests.
 /// ///////////////////////////////////////////////
 
-router.get('/', (req, res) => {
-  // TODO: Update this to be the stats page for initial newcomers.
+server.get('/', (req, res) => {
+  if (!isLoggedIn(req, res)) { return }
   res.render('index')
 })
 
-router.get('/login', (req, res) => {
-  var cookie = req.cookies.cookieName
-  if (cookie !== undefined) {
-    console.log('Cookie exists:', cookie)
-    res.render('index')
-  }
-  console.log('No cookie found')
+server.get('/login', (req, res) => {
   res.render('login')
 })
 
-router.post('/login', async (req, res) => {
+server.post('/login', async (req, res) => {
   // TODO: This password should be encrypted before being received here.
   console.log('Attempting to log in with username', req.body.username, 'and password', req.body.password)
   database.getUserData(req.body.username).then(result => {
@@ -94,30 +106,37 @@ router.post('/login', async (req, res) => {
   })
 })
 
-router.get('/register', (req, res) => {
+server.get('/register', (req, res) => {
   res.render('register')
 })
 
-router.post('/register', async (req, res) => {
+server.post('/register', async (req, res) => {
   console.log('Attempting to register account with username', req.body.username + ', password', req.body.password, 'and alias', req.body.alias)
 
   // Create a redirect to attach to the user details.
   var redirectID = await database.createRedirect(req.body.alias, 1, true).then(res => { return res })
-  console.log('redirect created')
 
   // Create an account pointing to the redirect
-  await database.createUser(req.body.username, req.body.password, redirectID, true).then(res => { return res })
-  console.log('user created')
+  var userID = await database.createUser(req.body.username, req.body.password, redirectID, true).then(res => { return res })
+  if (userID === identifiers.duplicateID) {
+    console.log("duplicate ID found. TODO: Add graphic response here to say already taken.")
+    res.render('register')
+    return
+  }
 
   // Create a token so that the user doesn't have to log in again for a while.
   var token = await jwtservice.sign({ username: req.body.username })
-  console.log('token signed')
+  console.log('Account registered, sending cookie and returning to index.')
 
   // Return the token in a delicious cookie.
-  res.cookie(req.body.username, token)
+  res.cookie('session', token)
+
+  res.render('index')
 })
 
-router.get('/receive', (req, res) => {
+server.get('/receive', (req, res) => {
+  if (!isLoggedIn(req, res)) { return }
+  
   var clientVariables = {}
   clientVariables.snippetcontents = []
 
@@ -160,11 +179,13 @@ router.get('/receive', (req, res) => {
   })
 })
 
-router.get('/send', (req, res) => {
+server.get('/send', (req, res) => {
+  if (!isLoggedIn(req, res)) { return }
+
   console.log('Cookies: ', req.cookies.cookieName)
   res.render('send')
 })
 
-router.get('/stats', (req, res) => {
+server.get('/stats', (req, res) => {
   res.render('stats')
 })

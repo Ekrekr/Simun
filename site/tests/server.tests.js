@@ -27,10 +27,4 @@ describe('Token logic', () => {
     expect(fakeVerifiedToken.username).to.not.equal('test user 1')
     done()
   })
-//   ,
-//   it('Token can be decoded', (done) => {
-//     var payload = jwtservice.decode(token)
-//     expect(payload.username).to.equal('test user')
-//     done()
-//   })
 })
