@@ -2,8 +2,9 @@ var path = require('path')
 const express = require('express')
 var bodyParser = require('body-parser')
 var database = require('./database.js')
-var database = require('jwtservice.js')
-var identifier = require('identifier.js')
+var jwtservice = require('./jwtservice.js')
+var cookieParser = require('cookie-parser')
+var identifiers = require('./identifiers.js')
 
 /// ///////////////////////////////////////////////
 // Start app and express settings, then start the server.
@@ -18,6 +19,8 @@ app.set('views', path.join(__dirname, '../models/public'))
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, '../public')))
 app.use(bodyParser.json())
+app.use(express.cookieParser())
+app.use(cookieParser())
 app.use('/', router)
 
 async function connectToServer () {
@@ -151,6 +154,9 @@ router.get('/receive', (req, res) => {
 })
 
 router.get('/send', (req, res) => {
+  var testRead = req.cookies
+  console.log(testRead)
+
   res.render('send')
 })
 

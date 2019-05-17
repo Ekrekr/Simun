@@ -13,6 +13,7 @@
     "bootstrap": "^4.3.1",
     "browserify": "^16.2.3",
     "browserify-directory": "^1.0.2",
+    "cookie-parser": "^1.4.4",
     "css": "^2.2.4",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
@@ -46,7 +47,7 @@
     }
   },
   "scripts": {
-    "tests": "standard --fix 'models/**/*.js' 'server/**/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.tests.js'",
+    "test": "standard --fix 'models/**/*.js' 'server/**/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.tests.js'",
     "open-website": "open http://localhost:7000",
     "start-server": "nodemon server/server",
     "compile-css": "sass --watch models/public/style:public/style",
