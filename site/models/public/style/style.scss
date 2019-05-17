@@ -540,6 +540,7 @@ login-register {
     border-radius: 6px;
     color: $color-dark;
     font-size: 16px;
+    cursor: pointer;
   }
 
   to-register {
@@ -560,6 +561,7 @@ login-register {
       text-align: left;
       margin-left: 4px;
       margin-bottom: -2px;
+      text-shadow: 0 2px 4px $color-shadow;
     }
   }
 

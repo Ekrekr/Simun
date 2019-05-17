@@ -38,15 +38,10 @@ connectToServer()
 /// ///////////////////////////////////////////////
 
 function isLoggedIn (req, res) {
-  console.log("Checking if logged in")
-  console.log(req.cookies['session'])
-  var cookie = req.cookies['session']
-  if (cookie === undefined) {
-    console.log('No cookie found')
-    res.render('login')
+  if (req.cookies['session'] === undefined) {
+    res.redirect('login')
     return false
   }
-  console.log('Cookie exists:', cookie)
   return true
 }
 
@@ -79,39 +74,38 @@ server.post('/create-snippet/', (req, res) => {
 // Page requests.
 /// ///////////////////////////////////////////////
 
-server.get('/', (req, res) => {
+server.get('/index', (req, res) => {
   if (!isLoggedIn(req, res)) { return }
   res.render('index')
 })
 
 server.get('/login', (req, res) => {
-  if (!isLoggedIn(req, res)) { return }
-  res.render('index')
+  if (req.cookies['session'] !== undefined) {
+    res.redirect('index')
+  }
+  res.render('login')
 })
 
 server.post('/login', async (req, res) => {
-  // TODO: This password should be encrypted before being received here.
   console.log('Attempting to log in with username', req.body.username, 'and password', req.body.password)
-  database.getUserData(req.body.username).then(result => {
-    console.log('result back from server:', result)
-    if (result.length > 0) {
-      if (
-        result[0].username === req.body.username &&
-        result[0].password === req.body.password
-      ) {
-        res.render('index')
-      } else {
-        res.render('login')
-      }
-    } else {
-      res.render('login')
-    }
-  })
+
+  var isValid = await database.authenticateUser(req.body.username, req.body.password).then(res => { return res })
+  if (isValid) {
+    // Create a token so that the user doesn't have to log in again for a while,
+    // return the token in a delicios cookie.
+    var token = await jwtservice.sign({ username: req.body.username })
+    res.cookie('session', token)
+    res.redirect('index')
+  } else {
+    // TODO: Update this with notification of incorrect credentials.
+    console.log("Incorrect password. TODO: Add graphic response here to say already taken.")
+    res.render('login')
+  }
 })
 
 server.get('/logout', (req, res) => {
   res.clearCookie('session')
-  res.render('login')
+  res.redirect('login')
 })
 
 server.get('/register', (req, res) => {
@@ -122,24 +116,22 @@ server.post('/register', async (req, res) => {
   console.log('Attempting to register account with username', req.body.username + ', password', req.body.password, 'and alias', req.body.alias)
 
   // Create a redirect to attach to the user details.
-  var redirectID = await database.createRedirect(req.body.alias, 1, true).then(res => { return res })
+  var redirectID = await database.createRedirect(req.body.alias, 1).then(res => { return res })
 
   // Create an account pointing to the redirect
-  var userID = await database.createUser(req.body.username, req.body.password, redirectID, true).then(res => { return res })
+  var userID = await database.createUser(req.body.username, req.body.password, redirectID).then(res => { return res })
   if (userID === identifiers.duplicateID) {
     console.log("duplicate ID found. TODO: Add graphic response here to say already taken.")
     res.render('register')
     return
   }
 
-  // Create a token so that the user doesn't have to log in again for a while.
+  // Create a token so that the user doesn't have to log in again for a while,
+  // return the token in a delicios cookie.
   var token = await jwtservice.sign({ username: req.body.username })
-  console.log('Account registered, sending cookie and returning to index.')
-
-  // Return the token in a delicious cookie.
   res.cookie('session', token)
 
-  res.render('index')
+  res.redirect('index')
 })
 
 server.get('/receive', (req, res) => {

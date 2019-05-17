@@ -471,6 +471,7 @@ login-register button {
   border-radius: 6px;
   color: #2f4550;
   font-size: 16px;
+  cursor: pointer;
 }
 login-register to-register {
   position: absolute;
@@ -489,6 +490,7 @@ login-register to-register p {
   text-align: left;
   margin-left: 4px;
   margin-bottom: -2px;
+  text-shadow: 0 2px 4px #00000080;
 }
 login-register to-login {
   position: absolute;

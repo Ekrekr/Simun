@@ -53,11 +53,13 @@ function hashPassword (password) {
   })
 }
 
-function comparePassword (password, hash) {
+function comparePassword (password, userData) {
   return new Promise((resolve, reject) => {
-    bcrypt.compare(password, hash, (err, isPasswordMatch) => {
+    if (userData === undefined)
+      resolve(false)
+    bcrypt.compare(password, userData.password, (err, isPasswordMatch) => {
       if (err) reject(err)
-      else resolve(isPasswordMatch)
+      resolve(isPasswordMatch)
     })
   })
 }
@@ -119,7 +121,7 @@ async function sqlGetRandom (table, testMode = false) {
 async function authenticateUser (username, password, testMode = false) {
   var sqlCode = 'SELECT * FROM Login WHERE username = ?'
   var userData = await sqlGet(sqlCode, username, testMode).then(res => { return res[0] })
-  return comparePassword(password, userData.password)
+  return comparePassword(password, userData)
 }
 
 async function createUser (username, password, redirectid, testMode = false) {
