@@ -23,17 +23,21 @@ html(lang=lang)
 
 
     login-register
-      a(href="login")
-        back-button
+      to-login
+        p Login
+        a(href="login")
+          arrow
 
       holder
         form(class="login-submit" method="post" action="/register")
           h1 Simun  
+          p These are your login credentials
           input.shadow(type="text" name="username" id="Input Username" placeholder="Username" required autofocus)
           br
           input.shadow(type="password" name="password" id="Input Password" placeholder="Password" required)
           br
           p This is the name that will be shown to other users
-          input.shadow(type="text" name="username" id="Input Username" placeholder="Alias" required autofocus)
-        button(href="index") Register
+          input.shadow(type="text" name="alias" id="Input Alias" placeholder="Alias" required autofocus)
+          br
+          button(type="register" href="index") Register
   +create-footer

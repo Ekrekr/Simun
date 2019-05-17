@@ -516,19 +516,11 @@ login-register {
     display: block;
     position: absolute;
     left: 50%;
-    top: 15%;
+    top: 12%;
     transform: translate(-50%, -50%);
     height: 20%;
     width: auto;
     z-index: 5;
-
-    form {
-      p {
-        color: $color-light;
-        font-size: 14px;
-        margin-bottom: 2px;
-      }
-    }
   }
 
   input {
@@ -546,16 +538,56 @@ login-register {
     margin-top: 10px;
     background-color: $color-light;
     border-radius: 6px;
+    color: $color-dark;
+    font-size: 16px;
   }
 
-  back-button {
-    content: url("/assets/images/arrow.png");
-    display: block;
+  to-register {
     position: absolute;
-    height: 50px;
     width: auto;
-    top: 10%;
+    height: auto;
+    top: 70%;
+    left: 70%;
+
+    arrow {
+      content: url("/assets/images/arrow-right.png");
+      display: block;
+      height: 30px;
+      width: auto;
+    }
+
+    p {
+      text-align: left;
+      margin-left: 4px;
+      margin-bottom: -2px;
+    }
+  }
+
+  to-login {
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 70%;
     left: 10%;
+
+    arrow {
+      content: url("/assets/images/arrow-left.png");
+      display: block;
+      height: 30px;
+      width: auto;
+    }
+
+    p {
+      text-align: right;
+      margin-right: 4px;
+      margin-bottom: -2px;
+    }
+  }
+
+  p {
+    color: $color-light;
+    font-size: 14px;
+    margin-bottom: 2px;
   }
 
   .button:hover {
