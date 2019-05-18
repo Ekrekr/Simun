@@ -39,14 +39,26 @@ html(lang=lang)
         //-   description(id="selected-description")
         //-   br
         //-   from(id="selected-author")
+
         img(id="selected-content")
         control-box
-          a(id="report" title="Report")
-            trash-it
-          a(id="trash-it" title="Trash it")
-            trash-it
-          a(id="forward-it" title="Forward it")
-            forward-it
+          expand-snippet-list-button
+          a(id="menu-button-clickable", onclick="openNav()")
+            expand-snippet-list-icon(id="menu-button-visual")
+          action-holder
+            a(id="forward-it" title="Forward it")
+              forward-it
+            a(id="trash-it" title="Trash it")
+              trash-it
+            a(id="report" title="Report")
+              report-it
+        comments
+          comment
+            h1 FirstAlias #[small Eli]
+            p Cheers Imgur
+          comment
+            h1 SecondAlias
+            p Cheers Imgur
 
   +create-footer
   

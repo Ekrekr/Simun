@@ -30,13 +30,13 @@
      inkscape:measure-start="980,320"
      inkscape:snap-global="true"
      inkscape:snap-grids="true"
-     inkscape:current-layer="layer6"
+     inkscape:current-layer="layer2"
      inkscape:window-maximized="1"
      inkscape:window-y="1"
      inkscape:window-x="0"
-     inkscape:cy="232.731"
-     inkscape:cx="-126.06223"
-     inkscape:zoom="0.65461936"
+     inkscape:cy="188.27921"
+     inkscape:cx="155.34324"
+     inkscape:zoom="0.92577158"
      showgrid="true"
      id="namedview3844"
      inkscape:window-height="767"
@@ -69,6 +69,14 @@
   </metadata>
   <defs
      id="defs3846">
+    <linearGradient
+       id="linearGradient927"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop922" />
+    </linearGradient>
     <linearGradient
        id="linearGradient956"
        osb:paint="solid">
@@ -499,6 +507,15 @@
        x2="-244.10197"
        y2="339.16547"
        gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient927"
+       id="linearGradient930"
+       x1="-1176.5455"
+       y1="339.00516"
+       x2="236.56715"
+       y2="339.00516"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <g
      inkscape:groupmode="layer"
@@ -531,7 +548,7 @@
        sodipodi:cx="-440"
        sodipodi:sides="3"
        id="path960"
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#586f7c;stroke-width:962.84564209;stroke-linejoin:round;stroke-miterlimit:4.5;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       style="opacity:1;fill:url(#linearGradient930);fill-opacity:1.0;stroke:#586f7c;stroke-width:962.84564209;stroke-linejoin:round;stroke-miterlimit:4.5;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
        sodipodi:type="star" />
   </g>
   <g

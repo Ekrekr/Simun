@@ -323,7 +323,7 @@ receive {
 receive snippet-list {
   margin: 78px 4px 0px 0px;
   display: table;
-  width: 280px;
+  width: 0;
   background-color: #2f4550;
   border-collapse: separate;
   border-spacing: 1.5px 1.5px;
@@ -336,7 +336,7 @@ receive snippet-list row {
 }
 receive snippet-list snippet {
   display: table-cell;
-  width: 260px;
+  width: 0;
   background-color: #586f7c;
   padding: 10px;
   border-radius: 6px;
@@ -363,79 +363,111 @@ receive snippet-list snippet img {
   float: right;
   display: block;
 }
-receive snippet-selected {
+receive control-box {
+  display: block;
+  position: fixed;
+  background-color: #586f7c;
+  top: 80px;
+  left: 4px;
+  width: 56px;
+  bottom: 4px;
+  border-radius: 6px;
+}
+receive control-box a {
+  cursor: pointer;
+}
+receive control-box expand-snippet-list-icon {
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  content: url("../assets/images/chevron-right.png");
+  height: 50px;
+  width: 50px;
+  z-index: 4;
+  border-radius: 100%;
+  transition: 0.2s;
+}
+receive control-box action-holder {
   display: block;
   position: absolute;
-  top: 0;
-  left: 28%;
-  right: 0;
-  bottom: 0;
-  margin: 80px 3px 3px 3px;
-  background-color: #b8dbd9;
-  border-radius: 6px;
-  padding: 10px;
+  height: 144px;
+  width: 42px;
+  top: 50%;
+  left: 8px;
+  transform: translate(0%, -50%);
 }
-receive snippet-selected img-holder {
-  display: table;
-}
-receive snippet-selected img-holder img {
+receive control-box action-holder forward-it {
+  content: url("/assets/images/plane-mail.png");
   display: block;
   position: relative;
   width: 100%;
   height: auto;
-  max-height: 60%;
+  margin-bottom: 10px;
 }
-receive snippet-selected control-box {
-  display: block;
-  position: relative;
-  background-color: #586f7c;
-  height: 40px;
-  width: 100px;
-  border-radius: 12px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px;
-}
-receive snippet-selected control-box a {
-  cursor: pointer;
-}
-receive snippet-selected control-box report-it {
-  content: url("/assets/images/report.png");
-  display: block;
-  position: absolute;
-  height: 70%;
-  width: auto;
-  top: 50%;
-  left: 10%;
-  transform: translate(0%, -50%);
-}
-receive snippet-selected control-box trash-it {
+receive control-box action-holder trash-it {
   content: url("/assets/images/bin.png");
   display: block;
-  position: absolute;
-  height: 70%;
-  width: auto;
-  top: 50%;
-  left: 10%;
-  transform: translate(0%, -50%);
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
 }
-receive snippet-selected control-box forward-it {
-  content: url("/assets/images/plane-mail.png");
+receive control-box action-holder report-it {
+  content: url("/assets/images/report.png");
   display: block;
-  height: 70%;
-  width: auto;
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+receive snippet-selected {
+  display: block;
   position: absolute;
-  top: 50%;
-  right: 10%;
-  transform: translate(0%, -50%);
-  cursor: pointer;
+  top: 0;
+  left: 60px;
+  right: 0;
+  height: 100%;
+  margin: 80px 3px 3px 3px;
+  background-color: #b8dbd9;
+  border-radius: 6px;
+  padding: 10px;
+  max-width: 600px;
+}
+receive snippet-selected img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
 }
 receive snippet-selected comments {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-top: 4px;
+  width: 100%;
+  height: auto;
+}
+receive snippet-selected comments comment {
   display: block;
-  position: absolute;
-  right: 6px;
-  top: 6px;
-  bottom: 6px;
+  flex: 1;
+  border-radius: 4px;
+  background-color: #2f4550;
+  text-align: left;
+  margin-top: 4px;
+  padding: 4px;
+}
+receive snippet-selected comments comment h1 {
+  color: #b8dbd9;
+  font-size: 20px;
+  margin: 0px;
+}
+receive snippet-selected comments comment small {
+  color: #586f7c;
+  margin-left: 0px;
+}
+receive snippet-selected comments comment p {
+  margin: 0;
+  color: #b8dbd9;
 }
 
 login-register {
