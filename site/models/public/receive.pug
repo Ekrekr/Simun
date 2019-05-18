@@ -23,7 +23,10 @@ html(lang=lang)
 
     receive
 
-      snippet-list
+      a(id="expand-icon")
+        expand-snippet-list-icon(id="expand-icon-visual")
+
+      snippet-list(id='snippet-list')
         for snippetcontent, index in snippetcontents
           row 
             a(id="select-"+index)
@@ -33,25 +36,18 @@ html(lang=lang)
                   br
                   from jhon
                 img(src=snippetcontent.content)
+
+      control-box
+        action-holder(id="action-holder")
+          a(id="forward-it" title="Forward it")
+            forward-it
+          a(id="trash-it" title="Trash it")
+            trash-it
+          a(id="report" title="Report")
+            report-it
       
       snippet-selected
-        //- info
-        //-   description(id="selected-description")
-        //-   br
-        //-   from(id="selected-author")
-
         img(id="selected-content")
-        control-box
-          expand-snippet-list-button
-          a(id="menu-button-clickable", onclick="openNav()")
-            expand-snippet-list-icon(id="menu-button-visual")
-          action-holder
-            a(id="forward-it" title="Forward it")
-              forward-it
-            a(id="trash-it" title="Trash it")
-              trash-it
-            a(id="report" title="Report")
-              report-it
         comments
           comment
             h1 FirstAlias #[small Eli]

@@ -5,6 +5,22 @@ var currentlyActive = 0
 // Shorthand for getting elements by ID.
 var $ = function (id) { return document.getElementById(id) }
 
+// Open the snippet selector bar on the left.
+function openSelect() {
+    // $("sidenav").style.width = "250px"
+    $('expand-icon').onclick = () => {  closeSelect() }
+    $('expand-icon-visual').style.transform = 'rotate(180deg)'
+    $('snippet-list').style.width = '280px';
+}
+
+// Close the snippet selector bar.
+function closeSelect() {
+    // $("sidenav").style.width = "0"
+    $('expand-icon').onclick = () => {  openSelect() }
+    $('expand-icon-visual').style.transform = ''
+    $('snippet-list').style.width = '0';
+}
+
 // Make a snippet highlighted and fill the selected snippet content with.
 function setActive (counter) {
   var rowItem = $('select-' + counter)
@@ -74,3 +90,4 @@ if ($('select-0') !== null) {
   // $('selected-author').innerHTML = 'Example author'
 }
 
+$('expand-icon').onclick = () => {  openSelect() }

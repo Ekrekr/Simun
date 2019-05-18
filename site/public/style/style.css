@@ -320,13 +320,29 @@ index text-box arrow-left {
 receive {
   background-color: #2f4550;
 }
+receive expand-snippet-list-icon {
+  content: url("../assets/images/chevron-right.png");
+  position: absolute;
+  top: 85px;
+  left: 12px;
+  height: 42px;
+  width: 42px;
+  z-index: 5;
+  border-radius: 100%;
+  transition: 0.2s;
+  cursor: pointer;
+}
 receive snippet-list {
-  margin: 78px 4px 0px 0px;
+  position: fixed;
   display: table;
-  width: 0;
-  background-color: #2f4550;
-  border-collapse: separate;
-  border-spacing: 1.5px 1.5px;
+  top: 74px;
+  left: 0px;
+  width: 0px;
+  height: 100%;
+  overflow-x: hidden;
+  transition: 0.3s;
+  z-index: 1;
+  background-color: #f4f4f9;
 }
 receive snippet-list row {
   cursor: pointer;
@@ -336,7 +352,7 @@ receive snippet-list row {
 }
 receive snippet-list snippet {
   display: table-cell;
-  width: 0;
+  width: 260px;
   background-color: #586f7c;
   padding: 10px;
   border-radius: 6px;
@@ -376,17 +392,6 @@ receive control-box {
 receive control-box a {
   cursor: pointer;
 }
-receive control-box expand-snippet-list-icon {
-  position: absolute;
-  top: 5px;
-  left: 4px;
-  content: url("../assets/images/chevron-right.png");
-  height: 50px;
-  width: 50px;
-  z-index: 4;
-  border-radius: 100%;
-  transition: 0.2s;
-}
 receive control-box action-holder {
   display: block;
   position: absolute;
@@ -395,6 +400,7 @@ receive control-box action-holder {
   top: 50%;
   left: 8px;
   transform: translate(0%, -50%);
+  transition: 0.2s;
 }
 receive control-box action-holder forward-it {
   content: url("/assets/images/plane-mail.png");
@@ -453,7 +459,7 @@ receive snippet-selected comments comment {
   border-radius: 4px;
   background-color: #2f4550;
   text-align: left;
-  margin-top: 4px;
+  margin-top: 8px;
   padding: 4px;
 }
 receive snippet-selected comments comment h1 {
