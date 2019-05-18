@@ -164,7 +164,6 @@ header {
   display: flex;
   justify-content: space-between;
   z-index: 3;
-  text-shadow: 0 2px 4px #00000080;
 }
 header logo {
   content: url("/assets/images/simun-logo.png");
@@ -177,20 +176,36 @@ header logo {
 }
 header ul {
   list-style: none;
-  margin-right: 48px;
 }
-header li {
-  font-family: GlacialIndifferenceBold;
-  text-align: center;
-  float: left;
-  margin: 8px 24px 8px 24px;
+@media (min-width: 0px) {
+  header li {
+    font-family: GlacialIndifferenceBold;
+    text-align: center;
+    float: left;
+    margin: 10px 8px 10px 8px;
+  }
+  header li a {
+    font-size: 18px;
+    color: #586f7c;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+  }
 }
-header li a {
-  font-size: 22px;
-  color: #586f7c;
-  display: inline-block;
-  position: relative;
-  text-decoration: none;
+@media (min-width: 600px) {
+  header li {
+    font-family: GlacialIndifferenceBold;
+    text-align: center;
+    float: left;
+    margin: 8px 24px 8px 24px;
+  }
+  header li a {
+    font-size: 22px;
+    color: #586f7c;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+  }
 }
 
 footer small {
@@ -308,7 +323,7 @@ receive {
 receive snippet-list {
   margin: 78px 4px 0px 0px;
   display: table;
-  width: 28%;
+  width: 280px;
   background-color: #2f4550;
   border-collapse: separate;
   border-spacing: 1.5px 1.5px;
@@ -321,7 +336,7 @@ receive snippet-list row {
 }
 receive snippet-list snippet {
   display: table-cell;
-  width: 26%;
+  width: 260px;
   background-color: #586f7c;
   padding: 10px;
   border-radius: 6px;
@@ -360,58 +375,39 @@ receive snippet-selected {
   border-radius: 6px;
   padding: 10px;
 }
-receive snippet-selected info description {
-  display: block;
-  position: absolute;
-  text-align: center;
-  left: 50%;
-  top: 10%;
-  transform: translate(-50%, -50%);
-  font-size: 30px;
-  font-family: GlacialIndifferenceBold;
+receive snippet-selected img-holder {
+  display: table;
 }
-receive snippet-selected info from {
+receive snippet-selected img-holder img {
   display: block;
-  position: absolute;
-  text-align: center;
-  left: 50%;
-  top: 79%;
-  transform: translate(-50%, -50%);
-  font-size: 16px;
-  font-family: GlacialIndifferenceItalic;
-}
-receive snippet-selected img {
-  display: block;
-  position: absolute;
-  top: 46%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: 60%;
-  width: auto;
-  max-width: 95%;
-}
-receive snippet-selected report {
-  content: url("/assets/images/report.png");
-  display: block;
-  position: absolute;
-  height: 5%;
-  width: auto;
-  right: 6px;
-  top: 6px;
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-height: 60%;
 }
 receive snippet-selected control-box {
   display: block;
-  position: absolute;
+  position: relative;
   background-color: #586f7c;
-  height: 8%;
-  width: 20%;
-  top: 88%;
-  left: 50%;
+  height: 40px;
+  width: 100px;
   border-radius: 12px;
-  transform: translate(-50%, -50%);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
 }
 receive snippet-selected control-box a {
   cursor: pointer;
+}
+receive snippet-selected control-box report-it {
+  content: url("/assets/images/report.png");
+  display: block;
+  position: absolute;
+  height: 70%;
+  width: auto;
+  top: 50%;
+  left: 10%;
+  transform: translate(0%, -50%);
 }
 receive snippet-selected control-box trash-it {
   content: url("/assets/images/bin.png");
@@ -433,6 +429,13 @@ receive snippet-selected control-box forward-it {
   right: 10%;
   transform: translate(0%, -50%);
   cursor: pointer;
+}
+receive snippet-selected comments {
+  display: block;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  bottom: 6px;
 }
 
 login-register {

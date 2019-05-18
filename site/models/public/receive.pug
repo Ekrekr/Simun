@@ -35,14 +35,14 @@ html(lang=lang)
                 img(src=snippetcontent.content)
       
       snippet-selected
-        info
-          description(id="selected-description")
-          br
-          from(id="selected-author")
+        //- info
+        //-   description(id="selected-description")
+        //-   br
+        //-   from(id="selected-author")
         img(id="selected-content")
-        a(href="" title="Report")
-          report
         control-box
+          a(id="report" title="Report")
+            trash-it
           a(id="trash-it" title="Trash it")
             trash-it
           a(id="forward-it" title="Forward it")

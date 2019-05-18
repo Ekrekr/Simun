@@ -64,6 +64,13 @@ function assignButtons () {
   }
 }
 
-assignButtons()
+// If no snippets then place bin.
+if ($('select-0') !== null) {
+  assignButtons()
+  setActive(0)
+} else {
+  $('selected-content').src = 'https://i.imgur.com/DccRRP7.jpg'
+  // $('selected-description').innerHTML = 'Example description'
+  // $('selected-author').innerHTML = 'Example author'
+}
 
-setActive(0)
