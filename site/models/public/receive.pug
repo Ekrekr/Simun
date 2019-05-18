@@ -37,24 +37,25 @@ html(lang=lang)
                   from jhon
                 img(src=snippetcontent.content)
 
-      control-box
-        action-holder(id="action-holder")
-          a(id="forward-it" title="Forward it")
-            forward-it
-          a(id="trash-it" title="Trash it")
-            trash-it
-          a(id="report" title="Report")
-            report-it
-      
-      snippet-selected
-        img(id="selected-content")
-        comments
-          comment
-            h1 FirstAlias #[small Eli]
-            p Cheers Imgur
-          comment
-            h1 SecondAlias
-            p Cheers Imgur
+      center-column
+        control-box(id="control-box")
+          action-holder(id="action-holder")
+            a(id="forward-it" title="Forward it")
+              forward-it
+            a(id="trash-it" title="Trash it")
+              trash-it
+            a(id="report" title="Report")
+              report-it
+        
+        snippet-selected
+          img(id="selected-content")
+          comments
+            comment
+              h1 FirstAlias #[small Eli]
+              p Cheers Imgur
+            comment
+              h1 SecondAlias
+              p Cheers Imgur
 
   +create-footer
   

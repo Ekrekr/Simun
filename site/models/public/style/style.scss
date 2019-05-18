@@ -373,7 +373,7 @@ receive {
 
   expand-snippet-list-icon {
     content: url("../assets/images/chevron-right.png");
-    position: absolute;
+    position: fixed;
     top: 85px;
     left: 12px;
     height: 42px;
@@ -438,108 +438,115 @@ receive {
     }
   }
 
-  control-box {
+  center-column {
     display: block;
-    position: fixed;
-    background-color: $color-primary;
-    top: 80px;
-    left: 4px;
-    width: 56px;
-    bottom: 4px;
-    border-radius: 6px;
+    position: relative;
+    height: 100vh;
+    max-width: 660px;
+    margin-left: auto;
+    margin-right: auto;
 
-    a {
-      cursor: pointer;
-    }
-
-    action-holder {
+    control-box {
       display: block;
       position: absolute;
-      height: 144px;
-      width: 42px;
-      top: 50%;
-      left: 8px;
-      transform: translate(0%, -50%);
-      transition: 0.2s;
+      background-color: $color-primary;
+      top: 80px;
+      width: 56px;
+      height: calc(100vh - 84px);
+      border-radius: 6px;
+      margin-left: 4px;
 
-      forward-it {
-        content: url("/assets/images/plane-mail.png");
-        display: block;
-        position: relative;
-        width: 100%;
-        height: auto;
-        margin-bottom: 10px;
+      a {
+        cursor: pointer;
       }
 
-      trash-it {
-        content: url("/assets/images/bin.png");
+      action-holder {
         display: block;
-        position: relative;
-        width: 100%;
-        height: auto;
-        margin-bottom: 10px;
-      }
+        position: absolute;
+        height: 144px;
+        width: 42px;
+        top: 50%;
+        left: 8px;
+        transform: translate(0%, -50%);
+        transition: 0.2s;
 
-      report-it {
-        content: url("/assets/images/report.png");
-        display: block;
-        position: relative;
-        width: 100%;
-        height: auto;
-        margin-bottom: 10px;
+        forward-it {
+          content: url("/assets/images/plane-mail.png");
+          display: block;
+          position: relative;
+          width: 100%;
+          height: auto;
+          margin-bottom: 10px;
+        }
+
+        trash-it {
+          content: url("/assets/images/bin.png");
+          display: block;
+          position: relative;
+          width: 100%;
+          height: auto;
+          margin-bottom: 10px;
+        }
+
+        report-it {
+          content: url("/assets/images/report.png");
+          display: block;
+          position: relative;
+          width: 100%;
+          height: auto;
+          margin-bottom: 10px;
+        }
       }
     }
-  }
 
-  snippet-selected {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 60px;
-    right: 0;
-    height: 100%;
-    margin: 80px 3px 3px 3px;
-    background-color: $color-light;
-    border-radius: 6px;
-    padding: 10px;
-    max-width: 600px;
-
-    img {
+    snippet-selected {
       display: block;
-      width: 100%;
+      position: absolute;
       height: auto;
-      border-radius: 4px;
-    }
+      top: 80px;
+      left: 64px;
+      background-color: $color-light;
+      border-radius: 6px;
+      padding: 10px;
+      margin-right: 4px;
 
-    comments {
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: column;
-      margin-top: 4px;
-      width: 100%;
-      height: auto;
-
-      comment {
+      img {
         display: block;
-        flex: 1;
+        width: 100%;
+        height: auto;
         border-radius: 4px;
-        background-color: $color-dark;
-        text-align: left;
-        margin-top: 8px;
-        padding: 4px;
+      }
 
-        h1 {
-          color: $color-light;
-          font-size: 20px;
-          margin: 0px;
-        }
-        small {
-          color: $color-primary;
-          margin-left: 0px;
-        }
-        p {
-          margin: 0;
-          color: $color-light;
+      comments {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        margin-top: 4px;
+        width: 100%;
+        height: auto;
+
+        comment {
+          display: block;
+          flex: 1;
+          border-radius: 4px;
+          background-color: $color-dark;
+          text-align: left;
+          margin-top: 8px;
+          padding: 4px;
+
+          h1 {
+            color: $color-light;
+            font-size: 20px;
+            margin: 0px;
+          }
+          small {
+            color: $color-primary;
+            margin-left: 0px;
+          }
+          p {
+            margin: 0;
+            color: $color-light;
+          }
         }
       }
     }

@@ -322,7 +322,7 @@ receive {
 }
 receive expand-snippet-list-icon {
   content: url("../assets/images/chevron-right.png");
-  position: absolute;
+  position: fixed;
   top: 85px;
   left: 12px;
   height: 42px;
@@ -379,20 +379,28 @@ receive snippet-list snippet img {
   float: right;
   display: block;
 }
-receive control-box {
+receive center-column {
   display: block;
-  position: fixed;
+  position: relative;
+  height: 100vh;
+  max-width: 660px;
+  margin-left: auto;
+  margin-right: auto;
+}
+receive center-column control-box {
+  display: block;
+  position: absolute;
   background-color: #586f7c;
   top: 80px;
-  left: 4px;
   width: 56px;
-  bottom: 4px;
+  height: calc(100vh - 84px);
   border-radius: 6px;
+  margin-left: 4px;
 }
-receive control-box a {
+receive center-column control-box a {
   cursor: pointer;
 }
-receive control-box action-holder {
+receive center-column control-box action-holder {
   display: block;
   position: absolute;
   height: 144px;
@@ -402,7 +410,7 @@ receive control-box action-holder {
   transform: translate(0%, -50%);
   transition: 0.2s;
 }
-receive control-box action-holder forward-it {
+receive center-column control-box action-holder forward-it {
   content: url("/assets/images/plane-mail.png");
   display: block;
   position: relative;
@@ -410,7 +418,7 @@ receive control-box action-holder forward-it {
   height: auto;
   margin-bottom: 10px;
 }
-receive control-box action-holder trash-it {
+receive center-column control-box action-holder trash-it {
   content: url("/assets/images/bin.png");
   display: block;
   position: relative;
@@ -418,7 +426,7 @@ receive control-box action-holder trash-it {
   height: auto;
   margin-bottom: 10px;
 }
-receive control-box action-holder report-it {
+receive center-column control-box action-holder report-it {
   content: url("/assets/images/report.png");
   display: block;
   position: relative;
@@ -426,26 +434,24 @@ receive control-box action-holder report-it {
   height: auto;
   margin-bottom: 10px;
 }
-receive snippet-selected {
+receive center-column snippet-selected {
   display: block;
   position: absolute;
-  top: 0;
-  left: 60px;
-  right: 0;
-  height: 100%;
-  margin: 80px 3px 3px 3px;
+  height: auto;
+  top: 80px;
+  left: 64px;
   background-color: #b8dbd9;
   border-radius: 6px;
   padding: 10px;
-  max-width: 600px;
+  margin-right: 4px;
 }
-receive snippet-selected img {
+receive center-column snippet-selected img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 4px;
 }
-receive snippet-selected comments {
+receive center-column snippet-selected comments {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -453,7 +459,7 @@ receive snippet-selected comments {
   width: 100%;
   height: auto;
 }
-receive snippet-selected comments comment {
+receive center-column snippet-selected comments comment {
   display: block;
   flex: 1;
   border-radius: 4px;
@@ -462,16 +468,16 @@ receive snippet-selected comments comment {
   margin-top: 8px;
   padding: 4px;
 }
-receive snippet-selected comments comment h1 {
+receive center-column snippet-selected comments comment h1 {
   color: #b8dbd9;
   font-size: 20px;
   margin: 0px;
 }
-receive snippet-selected comments comment small {
+receive center-column snippet-selected comments comment small {
   color: #586f7c;
   margin-left: 0px;
 }
-receive snippet-selected comments comment p {
+receive center-column snippet-selected comments comment p {
   margin: 0;
   color: #b8dbd9;
 }

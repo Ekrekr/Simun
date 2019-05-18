@@ -92,6 +92,13 @@ if ($('select-0') !== null) {
 }
 
 $('expand-icon').onclick = () => {  openSelect() }
+
+var controlBox = document.getElementById("control-box");
+// while(true) {
+//   var y = document.body.scrollHeight
+//   // console.log("Current height:", y)
+//   controlBox.style.top = y;
+// }
 },{"./tools.js":2}],2:[function(require,module,exports){
 const request = require('request')
 
