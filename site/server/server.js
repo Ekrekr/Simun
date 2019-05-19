@@ -175,7 +175,7 @@ server.get('/receive', async (req, res) => {
 
   // For each snippet, retrieve the snippet content ID.
   await snippets.forEach(async (entry, index) => {
-    var snippet = await database.getSnippet(snippetID0).then(res => { return res[0] })
+    var snippet = await database.getSnippet(index).then(res => { return res[0] })
     console.log('selecting snippet:', snippet)
 
     // Retrieve the snippet content.
