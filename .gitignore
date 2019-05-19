@@ -65,3 +65,5 @@ typings/
  
 # Css map files
 *.css.map
+
+site/server/keys

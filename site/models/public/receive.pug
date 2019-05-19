@@ -41,11 +41,11 @@ html(lang=lang)
         control-box(id="control-box")
           action-holder(id="action-holder")
             a(id="forward-it" title="Forward it")
-              forward-it
+              forward-it.circular-border
             a(id="trash-it" title="Trash it")
-              trash-it
+              trash-it.circular-border
             a(id="report" title="Report")
-              report-it
+              report-it.circular-border
         
         snippet-selected(id="snippet-selected")
           img(id="selected-content")
@@ -71,6 +71,12 @@ html(lang=lang)
             comment
               h1 SecondAlias
               p Cheers Imgur
+            form(method='post' action='/send')
+            br
+            input.shadow(type="text" name="new-comment" placeholder="Would you like to contribute?" required)
+            br
+            button(type="send")
+
 
   +create-footer
   

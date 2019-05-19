@@ -34,9 +34,9 @@
      inkscape:window-maximized="1"
      inkscape:window-y="1"
      inkscape:window-x="0"
-     inkscape:cy="146.31659"
-     inkscape:cx="238.33004"
-     inkscape:zoom="0.92577158"
+     inkscape:cy="232.731"
+     inkscape:cx="442.61033"
+     inkscape:zoom="0.32730968"
      showgrid="true"
      id="namedview3844"
      inkscape:window-height="767"
@@ -78,14 +78,6 @@
   </metadata>
   <defs
      id="defs3846">
-    <linearGradient
-       id="linearGradient921"
-       osb:paint="solid">
-      <stop
-         style="stop-color:#000000;stop-opacity:1;"
-         offset="0"
-         id="stop919" />
-    </linearGradient>
     <linearGradient
        id="linearGradient956"
        osb:paint="solid">
@@ -496,39 +488,13 @@
        x2="300"
        y2="430"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.29999998,0,0,0.92307686,385.00002,-596.92301)" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#dark"
-       id="linearGradient923"
-       x1="0"
-       y1="460"
-       x2="400"
-       y2="460"
-       gradientUnits="userSpaceOnUse" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#light"
-       id="linearGradient934"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.29999998,0,0,0.92307686,125.00002,63.07699)"
-       x1="200"
-       y1="430"
-       x2="300"
-       y2="430" />
+       gradientTransform="matrix(0.39999997,0,0,0.92307686,100.00002,63.076991)" />
   </defs>
   <g
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="Shadow"
-     transform="translate(0,-260)">
-    <circle
-       style="opacity:1;fill:url(#linearGradient923);fill-opacity:1"
-       id="path917"
-       cx="200"
-       cy="460"
-       r="200" />
-  </g>
+     transform="translate(0,-260)" />
   <g
      inkscape:groupmode="layer"
      id="layer8"
@@ -546,20 +512,19 @@
      transform="translate(0,-260)"
      style="opacity:1">
     <ellipse
-       style="opacity:1;fill:url(#linearGradient1007);fill-opacity:1;stroke-width:0.52623475"
+       style="opacity:1;fill:url(#linearGradient1007);fill-opacity:1;stroke-width:0.60764354"
        id="path929"
-       cx="460"
-       cy="-200"
-       rx="15"
-       ry="120"
-       transform="rotate(90)" />
+       cx="200"
+       cy="460"
+       rx="20"
+       ry="120" />
     <ellipse
        ry="120"
-       rx="15"
+       rx="20"
        cy="460"
        cx="200"
-       id="ellipse932"
-       style="opacity:1;fill:url(#linearGradient934);fill-opacity:1;stroke-width:0.52623475" />
+       id="ellipse923"
+       style="opacity:1;fill:url(#linearGradient1007);fill-opacity:1;stroke-width:0.60764354" />
   </g>
   <g
      inkscape:groupmode="layer"

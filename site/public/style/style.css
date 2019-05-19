@@ -116,6 +116,15 @@ img {
   box-shadow: 0 2px 4px #00000080;
 }
 
+.circular-border {
+  border-radius: 100%;
+  border: 2px solid #586f7c;
+}
+
+.circular-border:hover {
+  border: 2px solid #b8dbd9;
+}
+
 /* Animations --------------------------------------------------------------- */
 @keyframes shake {
   0% {
@@ -415,7 +424,7 @@ receive center-column control-box action-holder forward-it {
   content: url("/assets/images/button-plane-mail.png");
   display: block;
   position: relative;
-  width: 100%;
+  width: calc(100% - 4px);
   height: auto;
   margin-bottom: 10px;
 }
@@ -423,7 +432,7 @@ receive center-column control-box action-holder trash-it {
   content: url("/assets/images/button-bin.png");
   display: block;
   position: relative;
-  width: 100%;
+  width: calc(100% - 4px);
   height: auto;
   margin-bottom: 10px;
 }
@@ -431,7 +440,7 @@ receive center-column control-box action-holder report-it {
   content: url("/assets/images/button-report.png");
   display: block;
   position: relative;
-  width: 100%;
+  width: calc(100% - 4px);
   height: auto;
   margin-bottom: 10px;
 }
@@ -484,7 +493,19 @@ receive center-column snippet-selected comments comment p {
   margin: 0;
   color: #b8dbd9;
 }
-
+receive center-column snippet-selected comments input {
+  width: auto;
+  min-height: 50px;
+  margin-bottom: 10px;
+  background-color: #f4f4f9;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 18px;
+  color: #2f4550;
+  text-align: left;
+  margin-top: 0px;
+  padding-top: 0px;
+}
 login-register {
   display: block;
   position: absolute;

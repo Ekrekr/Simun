@@ -134,6 +134,15 @@ img {
   box-shadow: 0 2px 4px $color-shadow;
 }
 
+.circular-border {
+  border-radius: 100%;
+  border: 2px solid $color-primary;
+}
+
+.circular-border:hover {
+  border: 2px solid $color-light;
+}
+
 /* Animations --------------------------------------------------------------- */
 
 @keyframes shake {
@@ -475,7 +484,7 @@ receive {
           content: url("/assets/images/button-plane-mail.png");
           display: block;
           position: relative;
-          width: 100%;
+          width: calc(100% - 4px);
           height: auto;
           margin-bottom: 10px;
         }
@@ -484,7 +493,7 @@ receive {
           content: url("/assets/images/button-bin.png");
           display: block;
           position: relative;
-          width: 100%;
+          width: calc(100% - 4px);
           height: auto;
           margin-bottom: 10px;
         }
@@ -493,7 +502,7 @@ receive {
           content: url("/assets/images/button-report.png");
           display: block;
           position: relative;
-          width: 100%;
+          width: calc(100% - 4px);
           height: auto;
           margin-bottom: 10px;
         }
@@ -542,14 +551,37 @@ receive {
             font-size: 20px;
             margin: 0px;
           }
+
           small {
             color: $color-primary;
             margin-left: 0px;
           }
+
           p {
             margin: 0;
             color: $color-light;
           }
+        }
+
+        form {
+        }
+
+        input {
+          width: auto;
+          min-height: 50px;
+          margin-bottom: 10px;
+          background-color: $color-white;
+          border-radius: 6px;
+          padding: 10px;
+          font-size: 18px;
+          color: $color-dark;
+          text-align: left;
+          margin-top: 0px;
+          padding-top: 0px;
+        }
+
+        button {
+
         }
       }
     }
