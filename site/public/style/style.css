@@ -372,10 +372,10 @@ receive {
 receive expand-snippet-list-icon {
   content: url("../assets/images/button-chevron.png");
   position: fixed;
-  top: 85px;
-  left: 10px;
-  height: 42px;
-  width: 42px;
+  top: 86px;
+  left: 12px;
+  height: 38px;
+  width: 38px;
   z-index: 5;
   border-radius: 100%;
   transition: 0.2s;
@@ -384,44 +384,49 @@ receive expand-snippet-list-icon {
 receive snippet-list {
   position: fixed;
   display: table;
-  top: 74px;
+  top: 72px;
   left: 0px;
-  width: 0px;
-  height: 100%;
+  width: 280px;
+  height: auto;
   overflow-x: hidden;
+  border-collapse: separate;
+  border-spacing: 2px 2px;
   transition: 0.3s;
-  z-index: 1;
+  z-index: 2;
   background-color: #2f4550;
+  padding-top: 66px;
+  border-radius: 4px;
+  box-shadow: 2px 0 4px #00000080;
 }
 receive snippet-list row {
   cursor: pointer;
   display: table-row;
   column-span: 2;
-  margin-bottom: 10x;
+  margin-bottom: 10px;
 }
-receive snippet-list snippet {
+receive snippet-list row snippet {
   display: table-cell;
-  width: 260px;
+  width: 280px;
   background-color: #586f7c;
   padding: 10px;
   border-radius: 6px;
 }
-receive snippet-list snippet info {
+receive snippet-list row snippet info {
   width: 55%;
   float: left;
   text-align: left;
   display: block;
   overflow: auto;
 }
-receive snippet-list snippet info description {
+receive snippet-list row snippet info description {
   position: relative;
   font-size: 20px;
 }
-receive snippet-list snippet info from {
+receive snippet-list row snippet info from {
   font-size: 14px;
   font-family: GlacialIndifferenceItalic;
 }
-receive snippet-list snippet img {
+receive snippet-list row snippet img {
   width: 40%;
   height: auto;
   max-height: 200px;

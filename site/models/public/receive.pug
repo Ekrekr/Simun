@@ -24,9 +24,10 @@ html(lang=lang)
     receive
 
       a(id="expand-icon")
-        expand-snippet-list-icon(id="expand-icon-visual")
+        expand-snippet-list-icon.circular-border(id="expand-icon-visual")
 
-      snippet-list(id='snippet-list')
+      snippet-list-background(id="snippet-list-background")
+      snippet-list(id="snippet-list")
         for snippetcontent, index in snippetcontents
           row 
             a(id="select-"+index)

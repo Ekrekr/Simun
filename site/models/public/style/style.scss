@@ -422,66 +422,75 @@ receive {
   expand-snippet-list-icon {
     content: url("../assets/images/button-chevron.png");
     position: fixed;
-    top: 85px;
-    left: 10px;
-    height: 42px;
-    width: 42px;
+    top: 86px;
+    left: 12px;
+    height: 38px;
+    width: 38px;
     z-index: 5;
     border-radius: 100%;
     transition: 0.2s;
     cursor: pointer;
   }
 
+  snippet-list-background {
+
+  }
+
   snippet-list {
     position: fixed;
     display: table;
-    top: 74px;
+    top: 72px;
     left: 0px;
-    width: 0px;
-    height: 100%;
+    width: 280px; 
+    height: auto;
     overflow-x: hidden;
+    border-collapse: separate;
+    border-spacing: 2px 2px;
     transition: 0.3s;
-    z-index: 1;
+    z-index: 2;
     background-color: $color-dark;
+    padding-top: 66px;
+    border-radius: 4px;
+    box-shadow: 2px 0 4px $color-shadow;
 
     row {
       cursor: pointer;
       display: table-row;
       column-span: 2;
-      margin-bottom: 10x;
-    }
+      margin-bottom: 10px;
 
-    snippet {
-      display: table-cell;
-      width: 260px; // Goes from 0 to 260px
-      background-color: $color-primary;
-      padding: 10px;
-      border-radius: 6px;
-
-      info {
-        width: 55%;
-        float: left;
-        text-align: left;
-        display: block;
-        overflow: auto;
-
-        description {
-          position: relative;
-          font-size: 20px;
+      snippet {
+        display: table-cell;
+        width: 280px; // Goes from 0 to 260px
+        background-color: $color-primary;
+        padding: 10px;
+        border-radius: 6px;
+  
+        info {
+          width: 55%;
+          float: left;
+          text-align: left;
+          display: block;
+          overflow: auto;
+  
+          description {
+            position: relative;
+            font-size: 20px;
+          }
+  
+          from {
+            font-size: 14px;
+            font-family: GlacialIndifferenceItalic;
+          }
         }
-
-        from {
-          font-size: 14px;
-          font-family: GlacialIndifferenceItalic;
+  
+        img {
+          width: 40%;
+          height: auto;
+          max-height: 200px;
+          float: right;
+          display: block;
         }
-      }
-
-      img {
-        width: 40%;
-        height: auto;
-        max-height: 200px;
-        float: right;
-        display: block;
       }
     }
   }
