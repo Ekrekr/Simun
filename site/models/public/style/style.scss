@@ -372,10 +372,10 @@ receive {
   background-color: $color-dark;
 
   expand-snippet-list-icon {
-    content: url("../assets/images/chevron-right.png");
+    content: url("../assets/images/button-chevron.png");
     position: fixed;
     top: 85px;
-    left: 12px;
+    left: 10px;
     height: 42px;
     width: 42px;
     z-index: 5;
@@ -394,7 +394,7 @@ receive {
     overflow-x: hidden;
     transition: 0.3s;
     z-index: 1;
-    background-color: $color-white;
+    background-color: $color-dark;
 
     row {
       cursor: pointer;
@@ -455,6 +455,7 @@ receive {
       height: calc(100vh - 84px);
       border-radius: 6px;
       margin-left: 4px;
+      overflow: auto;
 
       a {
         cursor: pointer;
@@ -471,7 +472,7 @@ receive {
         transition: 0.2s;
 
         forward-it {
-          content: url("/assets/images/plane-mail.png");
+          content: url("/assets/images/button-plane-mail.png");
           display: block;
           position: relative;
           width: 100%;
@@ -480,7 +481,7 @@ receive {
         }
 
         trash-it {
-          content: url("/assets/images/bin.png");
+          content: url("/assets/images/button-bin.png");
           display: block;
           position: relative;
           width: 100%;
@@ -489,7 +490,7 @@ receive {
         }
 
         report-it {
-          content: url("/assets/images/report.png");
+          content: url("/assets/images/button-report.png");
           display: block;
           position: relative;
           width: 100%;
@@ -505,16 +506,18 @@ receive {
       height: auto;
       top: 80px;
       left: 64px;
-      background-color: $color-light;
+      background-color: $color-primary;
       border-radius: 6px;
       padding: 10px;
       margin-right: 4px;
+      overflow: auto;
 
       img {
         display: block;
         width: 100%;
         height: auto;
         border-radius: 4px;
+        box-shadow: 0 2px 4px $color-shadow;
       }
 
       comments {

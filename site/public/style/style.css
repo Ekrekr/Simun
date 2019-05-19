@@ -321,10 +321,10 @@ receive {
   background-color: #2f4550;
 }
 receive expand-snippet-list-icon {
-  content: url("../assets/images/chevron-right.png");
+  content: url("../assets/images/button-chevron.png");
   position: fixed;
   top: 85px;
-  left: 12px;
+  left: 10px;
   height: 42px;
   width: 42px;
   z-index: 5;
@@ -342,7 +342,7 @@ receive snippet-list {
   overflow-x: hidden;
   transition: 0.3s;
   z-index: 1;
-  background-color: #f4f4f9;
+  background-color: #2f4550;
 }
 receive snippet-list row {
   cursor: pointer;
@@ -396,6 +396,7 @@ receive center-column control-box {
   height: calc(100vh - 84px);
   border-radius: 6px;
   margin-left: 4px;
+  overflow: auto;
 }
 receive center-column control-box a {
   cursor: pointer;
@@ -411,7 +412,7 @@ receive center-column control-box action-holder {
   transition: 0.2s;
 }
 receive center-column control-box action-holder forward-it {
-  content: url("/assets/images/plane-mail.png");
+  content: url("/assets/images/button-plane-mail.png");
   display: block;
   position: relative;
   width: 100%;
@@ -419,7 +420,7 @@ receive center-column control-box action-holder forward-it {
   margin-bottom: 10px;
 }
 receive center-column control-box action-holder trash-it {
-  content: url("/assets/images/bin.png");
+  content: url("/assets/images/button-bin.png");
   display: block;
   position: relative;
   width: 100%;
@@ -427,7 +428,7 @@ receive center-column control-box action-holder trash-it {
   margin-bottom: 10px;
 }
 receive center-column control-box action-holder report-it {
-  content: url("/assets/images/report.png");
+  content: url("/assets/images/button-report.png");
   display: block;
   position: relative;
   width: 100%;
@@ -440,16 +441,18 @@ receive center-column snippet-selected {
   height: auto;
   top: 80px;
   left: 64px;
-  background-color: #b8dbd9;
+  background-color: #586f7c;
   border-radius: 6px;
   padding: 10px;
   margin-right: 4px;
+  overflow: auto;
 }
 receive center-column snippet-selected img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 4px;
+  box-shadow: 0 2px 4px #00000080;
 }
 receive center-column snippet-selected comments {
   display: flex;
