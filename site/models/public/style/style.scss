@@ -1,36 +1,3 @@
-/* Colours ------------------------------------------------------------------ */
-
-$color-black: #000000;
-$color-dark: #2f4550;
-$color-primary: #586f7c;
-$color-light: #b8dbd9;
-$color-white: #f4f4f9;
-$color-shadow: #00000080;
-
-.color-black {
-  color: $color-black;
-}
-
-.color-dark {
-  color: $color-dark;
-}
-
-.color-primary {
-  color: $color-primary;
-}
-
-.color-light {
-  color: $color-light;
-}
-
-.color-white {
-  color: $color-white;
-}
-
-.color-shadow {
-  color: $color-shadow;
-}
-
 /* Fonts -------------------------------------------------------------------- */
 
 @font-face {
@@ -65,6 +32,79 @@ $color-shadow: #00000080;
   font-family: 'OpenSansItalic';
   src: url("fonts/open-sans/OpenSans-Italic.ttf") format("truetype");
   font-weight: italic;
+}
+
+/* Colours and Generic Classes ------------------------------------------------- */
+
+$color-black: #000000;
+$color-dark: #2f4550;
+$color-primary: #586f7c;
+$color-light: #b8dbd9;
+$color-white: #f4f4f9;
+$color-shadow: #00000080;
+
+.color-black {
+  color: $color-black;
+}
+
+.color-dark {
+  color: $color-dark;
+}
+
+.color-primary {
+  color: $color-primary;
+}
+
+.color-light {
+  color: $color-light;
+}
+
+.color-white {
+  color: $color-white;
+}
+
+.color-shadow {
+  color: $color-shadow;
+}
+
+.active {
+  background-color: $color-light;
+}
+
+.inactive {
+  background-color: $color-primary;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.shadow {
+  box-shadow: 0 2px 4px $color-shadow;
+}
+
+.circular-border {
+  border-radius: 100%;
+  border: 2px solid $color-primary;
+  box-shadow: 0px 2px 4px $color-shadow;
+}
+
+.circular-border:hover {
+  border: 2px solid $color-light;
+}
+
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Text styles -------------------------------------------------------------- */
@@ -127,49 +167,19 @@ input {
 textarea {
   width: auto;
   min-height: 100px;
-  margin-bottom: 10px;
   background-color: $color-white;
   border-radius: 6px;
   padding: 10px;
   font-size: 16px;
   color: $color-dark;
   border: 2px solid $color-primary;
+  resize: none;
+  overflow: auto;
 }
 
 img {
   image-rendering: auto;
   // image-rendering: pixelated;
-}
-
-/* Generic Classes -------------------------------------------------- */
-
-.active {
-  background-color: $color-light;
-}
-
-.inactive {
-  background-color: $color-primary;
-}
-
-.left {
-  float: left;
-}
-
-.right {
-  float: right;
-}
-
-.shadow {
-  box-shadow: 0 2px 4px $color-shadow;
-}
-
-.circular-border {
-  border-radius: 100%;
-  border: 2px solid $color-primary;
-}
-
-.circular-border:hover {
-  border: 2px solid $color-light;
 }
 
 /* Animations --------------------------------------------------------------- */
@@ -590,6 +600,22 @@ receive {
             margin: 0;
             color: $color-light;
           }
+        }
+
+        button {
+          background-image: url("/assets/images/button-plus.png");
+          background-position: 50% 50%;
+          background-size: 52px 52px;
+          display: block;
+          position: relative;
+          width: 50px;
+          height: 50px;
+          margin-top: 0px;
+          margin-bottom: 10px;
+          margin-left: auto;
+          margin-right: auto;
+          border-radius: 100%;
+          border: 2px solid $color-white;
         }
       }
     }
