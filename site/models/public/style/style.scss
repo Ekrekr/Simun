@@ -105,6 +105,35 @@ input {
 
 button {
   box-shadow: 0 2px 4px $color-shadow;
+  margin-top: 10px;
+  background-color: $color-light;
+  border-radius: 6px;
+  color: $color-dark;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input {
+  width: 200px;
+  height: 14px;
+  margin-bottom: 10px;
+  background-color: $color-white;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 22px;
+  color: $color-dark;
+}
+
+textarea {
+  width: auto;
+  min-height: 100px;
+  margin-bottom: 10px;
+  background-color: $color-white;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+  color: $color-dark;
+  border: 2px solid $color-primary;
 }
 
 img {
@@ -562,27 +591,6 @@ receive {
             color: $color-light;
           }
         }
-
-        form {
-        }
-
-        input {
-          width: auto;
-          min-height: 50px;
-          margin-bottom: 10px;
-          background-color: $color-white;
-          border-radius: 6px;
-          padding: 10px;
-          font-size: 18px;
-          color: $color-dark;
-          text-align: left;
-          margin-top: 0px;
-          padding-top: 0px;
-        }
-
-        button {
-
-        }
       }
     }
   }
@@ -614,26 +622,6 @@ login-register {
     height: 20%;
     width: auto;
     z-index: 5;
-  }
-
-  input {
-    width: 200px;
-    height: 14px;
-    margin-bottom: 10px;
-    background-color: $color-white;
-    border-radius: 6px;
-    padding: 10px;
-    font-size: 22px;
-    color: $color-dark;
-  }
-
-  button {
-    margin-top: 10px;
-    background-color: $color-light;
-    border-radius: 6px;
-    color: $color-dark;
-    font-size: 16px;
-    cursor: pointer;
   }
 
   to-register {

@@ -73,7 +73,7 @@ html(lang=lang)
               p Cheers Imgur
             form(method='post' action='/send')
             br
-            input.shadow(type="text" name="new-comment" placeholder="Would you like to contribute?" required)
+            textarea.shadow(type="textarea" name="new-comment" minLength=1 maxlength=1024 placeholder="Would you like to contribute?" required)
             br
             button(type="send")
 

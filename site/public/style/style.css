@@ -89,6 +89,35 @@ input {
 
 button {
   box-shadow: 0 2px 4px #00000080;
+  margin-top: 10px;
+  background-color: #b8dbd9;
+  border-radius: 6px;
+  color: #2f4550;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input {
+  width: 200px;
+  height: 14px;
+  margin-bottom: 10px;
+  background-color: #f4f4f9;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 22px;
+  color: #2f4550;
+}
+
+textarea {
+  width: auto;
+  min-height: 100px;
+  margin-bottom: 10px;
+  background-color: #f4f4f9;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+  color: #2f4550;
+  border: 2px solid #586f7c;
 }
 
 img {
@@ -493,19 +522,7 @@ receive center-column snippet-selected comments comment p {
   margin: 0;
   color: #b8dbd9;
 }
-receive center-column snippet-selected comments input {
-  width: auto;
-  min-height: 50px;
-  margin-bottom: 10px;
-  background-color: #f4f4f9;
-  border-radius: 6px;
-  padding: 10px;
-  font-size: 18px;
-  color: #2f4550;
-  text-align: left;
-  margin-top: 0px;
-  padding-top: 0px;
-}
+
 login-register {
   display: block;
   position: absolute;
@@ -531,24 +548,6 @@ login-register holder {
   height: 20%;
   width: auto;
   z-index: 5;
-}
-login-register input {
-  width: 200px;
-  height: 14px;
-  margin-bottom: 10px;
-  background-color: #f4f4f9;
-  border-radius: 6px;
-  padding: 10px;
-  font-size: 22px;
-  color: #2f4550;
-}
-login-register button {
-  margin-top: 10px;
-  background-color: #b8dbd9;
-  border-radius: 6px;
-  color: #2f4550;
-  font-size: 16px;
-  cursor: pointer;
 }
 login-register to-register {
   position: absolute;
