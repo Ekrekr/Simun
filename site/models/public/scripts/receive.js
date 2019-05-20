@@ -6,21 +6,21 @@ var currentlyActive = 0
 var $ = function (id) { return document.getElementById(id) }
 
 // Open the snippet selector bar on the left.
-function openSelect() {
-    // $("sidenav").style.width = "250px"
-    $('expand-icon').onclick = () => {  closeSelect() }
-    $('expand-icon-visual').style.transform = 'rotate(180deg)'
-    $('snippet-list').style.left = '0px';
-    $('snippet-list-background').style.left = '0px';
+function openSelect () {
+  // $("sidenav").style.width = "250px"
+  $('expand-icon').onclick = () => { closeSelect() }
+  $('expand-icon-visual').style.transform = 'rotate(180deg)'
+  $('snippet-list').style.left = '0px'
+  $('snippet-list-background').style.left = '0px'
 }
 
 // Close the snippet selector bar.
-function closeSelect() {
-    // $("sidenav").style.width = "0"
-    $('expand-icon').onclick = () => {  openSelect() }
-    $('expand-icon-visual').style.transform = ''
-    $('snippet-list').style.left = '-288px';
-    $('snippet-list-background').style.left = '-288px';
+function closeSelect () {
+  // $("sidenav").style.width = "0"
+  $('expand-icon').onclick = () => { openSelect() }
+  $('expand-icon-visual').style.transform = ''
+  $('snippet-list').style.left = '-288px'
+  $('snippet-list-background').style.left = '-288px'
 }
 
 // Make a snippet highlighted and fill the selected snippet content with.
@@ -92,4 +92,4 @@ if ($('select-0') !== null) {
   // $('selected-author').innerHTML = 'Example author'
 }
 
-$('expand-icon').onclick = () => {  openSelect() }
+$('expand-icon').onclick = () => { openSelect() }
