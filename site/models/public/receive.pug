@@ -28,10 +28,10 @@ html(lang=lang)
 
       snippet-list-background(id="snippet-list-background")
       snippet-list(id="snippet-list")
-        for snippetcontent, index in snippetcontents
+        for snippetcontent, index in snippets
           row
             a(id="select-"+index)
-              snippet(href="index" id=snippetcontent.id)
+              snippet(href="index" contentid=snippetcontent.id snippetid=snippet.id)
                 info
                   description #{snippetcontent.description}
                   br

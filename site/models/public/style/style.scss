@@ -783,11 +783,11 @@ send {
   display: table;
   position: relative;
   width: 100%;
-  height:100vh;
+  height: 100vh;
   background-image: radial-gradient(circle, $color-dark 70%, $color-light, $color-dark, $color-dark);
 
   form {
-    padding-top:100px;
+    padding-top: 100px;
     display: table-cell;
     vertical-align: middle;
     text-align: center;

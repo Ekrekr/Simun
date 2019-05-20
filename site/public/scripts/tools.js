@@ -8,18 +8,31 @@ module.exports = {
   colorlight: '#b8dbd9',
   colorwhite: '#f4f4f9',
   colorshadow: '#00000080',
+  retrieveSnippet: retrieveSnippet,
   retrieveSnippetContent: retrieveSnippetContent,
   forwardSnippet: forwardSnippet,
   createSnippet: createSnippet
 }
 
-function retrieveSnippetContent (id, _callback) {
-  request('http://localhost:7000/snippetcontent/' + id, { json: true }, (err, res, body) => {
+function retrieveSnippet (id) {
+  request('http://localhost:7000/snippet/' + id, { json: true }, (err, res, body) => {
     if (err) {
-      console.log('tools: error retrieving snippet content')
-      return _callback(err)
+      console.log('tools: error retrieving snippet')
+      return err
     }
-    return _callback(null, JSON.parse(JSON.stringify(body)))
+    return JSON.parse(JSON.stringify(body))
+  })
+}
+
+function retrieveSnippetContent (id) {
+  return new Promise((resolve, reject) => {
+    request('http://localhost:7000/snippetcontent/' + id, { json: true }, (err, res, body) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(JSON.parse(JSON.stringify(body)))
+      }
+    })
   })
 }
 

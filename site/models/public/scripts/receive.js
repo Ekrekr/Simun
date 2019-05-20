@@ -16,7 +16,6 @@ function openSelect () {
 
 // Close the snippet selector bar.
 function closeSelect () {
-  // $("sidenav").style.width = "0"
   $('expand-icon').onclick = () => { openSelect() }
   $('expand-icon-visual').style.transform = ''
   $('snippet-list').style.left = '-288px'
@@ -24,33 +23,32 @@ function closeSelect () {
 }
 
 // Make a snippet highlighted and fill the selected snippet content with.
-function setActive (counter) {
+async function setActive (counter) {
   var rowItem = $('select-' + counter)
 
   // Need to find the child of the current row as its child snippet contains the actual id.
   var contentID = rowItem.children[0].id
+  console.log("rowItem:", rowItem.children[0])
 
   // Need to retrieve the content from the server to populate the selected box.
-  tools.retrieveSnippetContent(contentID, (err, snippet) => {
-    if (err) {
-      console.log('Error retrieving snippetcontent from server:', err)
-      return
-    }
-    $('selected-content').src = snippet.content
-    $('selected-description').innerHTML = snippet.description
+  var snippetContent = await tools.retrieveSnippetContent(contentID).then(res => { return res })
+  console.log('snippetContent retrieved:', snippetContent)
+  $('selected-content').src = snippetContent.content
+  $('selected-description').innerHTML = snippetContent.description
 
-    // Update trash it and forward it buttons.
-    $('forward-it').onclick = () => {
-      console.log('trash-it button pressed')
-      tools.forwardSnippet(snippet.id, (err, response) => {
-        if (err) {
-          console.log('Error forwarding snippet', err)
-          return
-        }
-        console.log('Snippet successfully forwarded')
-      })
-    }
-  })
+  // Update trash it and forward it buttons.
+  $('forward-it').onclick = () => {
+    console.log('trash-it button pressed')
+    tools.forwardSnippet(snippet.id, (err, response) => {
+      if (err) {
+        console.log('Error forwarding snippet', err)
+        return
+      }
+      console.log('Snippet successfully forwarded')
+    })
+  }
+
+  // snippet = await tools.retrieveSnippet(contentID)
 
   // Unhighlight the current selector and highlight the selected
   var prevRowItem = $('select-' + currentlyActive)

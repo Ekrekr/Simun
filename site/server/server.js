@@ -161,7 +161,7 @@ server.get('/receive', async (req, res) => {
   var redirectID = decodedCookie.redirectid
 
   var clientVariables = {}
-  clientVariables.snippetcontents = []
+  clientVariables.snippets = []
 
   // Need to load snippet data from the database to display on the page.
   var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
@@ -182,11 +182,12 @@ server.get('/receive', async (req, res) => {
     var snippetcontent = await database.getSnippetContent(snippet.contentid).then(res => { return res[0] })
     console.log('server: Rendering receive, snippetcontent.id: ', snippetcontent.id)
 
-    clientVariables.snippetcontents.push({
+    clientVariables.snippets.push({
       'description': snippetcontent.description,
       'content': snippetcontent.content,
       'id': snippetcontent.id,
-      'parentid': snippet.id
+      'parentid': snippet.id,
+      'comments': snippet.comments
     })
 
     // Only return final source if it's final iteration to prevent loss.
