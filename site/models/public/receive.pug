@@ -29,7 +29,7 @@ html(lang=lang)
       snippet-list-background(id="snippet-list-background")
       snippet-list(id="snippet-list")
         for snippetcontent, index in snippetcontents
-          row 
+          row
             a(id="select-"+index)
               snippet(href="index" id=snippetcontent.id)
                 info
@@ -49,28 +49,30 @@ html(lang=lang)
               report-it.circular-border
         
         snippet-selected(id="snippet-selected")
+          title-holder
+            h1(id="selected-description") When you have web tech due in 8 days
           img(id="selected-content")
           comments
             comment
               h1 FirstAlias #[small Eli]
               p Cheers Imgur
             comment
-              h1 SecondAlias
+              h1 SecondAlias #[small Eli]
               p Cheers Imgur
             comment
-              h1 SecondAlias
+              h1 SecondAlias #[small Eli]
               p Cheers Imgur
             comment
-              h1 SecondAlias
+              h1 SecondAlias #[small Eli]
               p Cheers Imgur
             comment
-              h1 SecondAlias
+              h1 SecondAlias #[small Eli]
+              p The cerebral cortex (plural cortices), also known as the cerebral mantle,[1] is the outer layer of neural tissue of the cerebrum of the brain, in humans and other mammals. It is separated into two cortices, by the longitudinal fissure that divides the cerebrum into the left and right cerebral hemispheres. The two hemispheres are joined beneath the cortex by the corpus callosum. The cerebral cortex is the largest site of neural integration in the central nervous system.[2] It plays a key role in memory, attention, perception, awareness, thought, language, and consciousness.
+            comment
+              h1 SecondAlias #[small Eli]
               p Cheers Imgur
             comment
-              h1 SecondAlias
-              p Cheers Imgur
-            comment
-              h1 SecondAlias
+              h1 SecondAlias #[small Eli]
               p Cheers Imgur
             form(method='post' action='/send')
             br

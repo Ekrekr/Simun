@@ -101,6 +101,7 @@ body {
   height: 100%;
   margin: 0;
   background-color: #2f4550;
+  transition: 0.2s;
 }
 
 h1,
@@ -134,7 +135,12 @@ button {
   border-radius: 6px;
   color: #2f4550;
   font-size: 16px;
+  transition: 0.2s;
   cursor: pointer;
+}
+
+button:focus {
+  outline: none;
 }
 
 input {
@@ -142,10 +148,15 @@ input {
   height: 14px;
   margin-bottom: 10px;
   background-color: #f4f4f9;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 10px;
   font-size: 22px;
   color: #2f4550;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid #586f7c;
 }
 
 textarea {
@@ -156,9 +167,14 @@ textarea {
   padding: 10px;
   font-size: 16px;
   color: #2f4550;
-  border: 2px solid #586f7c;
+  border: 2px solid #2f4550;
   resize: none;
   overflow: auto;
+}
+
+textarea:focus {
+  outline: none;
+  border: 2px solid #586f7c;
 }
 
 img {
@@ -215,23 +231,26 @@ header {
   z-index: 3;
 }
 header logo {
-  content: url("/assets/images/simun-logo.png");
+  content: url("/assets/images/button-simun-logo.png");
   display: block;
-  height: 48px;
-  margin: 12px;
-  width: 48px;
+  height: 60px;
+  margin: 6px;
+  width: 60px;
+  border: 2px solid #2f4550;
+  border-radius: 100%;
   box-sizing: border-box;
   z-index: 3;
 }
 header ul {
   list-style: none;
+  margin-left: -30px;
 }
 @media (min-width: 0px) {
   header li {
     font-family: GlacialIndifferenceBold;
     text-align: center;
     float: left;
-    margin: 10px 8px 10px 8px;
+    margin: 10px 16px 10px 0px;
   }
   header li a {
     font-size: 18px;
@@ -281,7 +300,7 @@ index {
   padding: 10px;
 }
 index house {
-  content: url("/assets/images/simun-logo.png");
+  content: url("/assets/images/simun-logo-house.png");
   display: block;
   position: absolute;
   left: 50%;
@@ -381,11 +400,23 @@ receive expand-snippet-list-icon {
   transition: 0.2s;
   cursor: pointer;
 }
+receive snippet-list-background {
+  position: fixed;
+  display: block;
+  top: 72px;
+  left: -288px;
+  width: 280px;
+  height: 100%;
+  transition: 0.3s;
+  z-index: 1;
+  background-color: #2f4550;
+  box-shadow: 2px 0 4px #00000080;
+}
 receive snippet-list {
   position: fixed;
   display: table;
   top: 72px;
-  left: 0px;
+  left: -288px;
   width: 280px;
   height: auto;
   overflow-x: hidden;
@@ -393,10 +424,8 @@ receive snippet-list {
   border-spacing: 2px 2px;
   transition: 0.3s;
   z-index: 2;
-  background-color: #2f4550;
   padding-top: 66px;
   border-radius: 4px;
-  box-shadow: 2px 0 4px #00000080;
 }
 receive snippet-list row {
   cursor: pointer;
@@ -443,8 +472,9 @@ receive center-column {
 }
 receive center-column control-box {
   display: block;
-  position: absolute;
+  position: fixed;
   background-color: #586f7c;
+  left: 0;
   top: 80px;
   width: 56px;
   height: calc(100vh - 84px);
@@ -472,6 +502,7 @@ receive center-column control-box action-holder forward-it {
   width: calc(100% - 4px);
   height: auto;
   margin-bottom: 10px;
+  transition: 0.2s;
 }
 receive center-column control-box action-holder trash-it {
   content: url("/assets/images/button-bin.png");
@@ -480,6 +511,7 @@ receive center-column control-box action-holder trash-it {
   width: calc(100% - 4px);
   height: auto;
   margin-bottom: 10px;
+  transition: 0.2s;
 }
 receive center-column control-box action-holder report-it {
   content: url("/assets/images/button-report.png");
@@ -488,6 +520,7 @@ receive center-column control-box action-holder report-it {
   width: calc(100% - 4px);
   height: auto;
   margin-bottom: 10px;
+  transition: 0.2s;
 }
 receive center-column snippet-selected {
   display: block;
@@ -499,7 +532,23 @@ receive center-column snippet-selected {
   border-radius: 6px;
   padding: 10px;
   margin-right: 4px;
+  margin-bottom: 4px;
   overflow: auto;
+}
+receive center-column snippet-selected title-holder {
+  display: block;
+  border-radius: 4px;
+  background-color: #b8dbd9;
+  text-align: left;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+receive center-column snippet-selected title-holder h1 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 26px;
+  color: #2f4550;
+  text-align: center;
 }
 receive center-column snippet-selected img {
   display: block;
@@ -527,7 +576,7 @@ receive center-column snippet-selected comments comment {
 }
 receive center-column snippet-selected comments comment h1 {
   color: #b8dbd9;
-  font-size: 20px;
+  font-size: 18px;
   margin: 0px;
 }
 receive center-column snippet-selected comments comment small {
@@ -537,6 +586,11 @@ receive center-column snippet-selected comments comment small {
 receive center-column snippet-selected comments comment p {
   margin: 0;
   color: #b8dbd9;
+  line-height: 30px;
+  font-size: 16px;
+}
+receive center-column snippet-selected comments textarea {
+  margin-top: -8px;
 }
 receive center-column snippet-selected comments button {
   background-image: url("/assets/images/button-plus.png");
@@ -689,7 +743,6 @@ send form button {
   border: none;
   border-radius: 12px;
   border: 4px solid #2f4550;
-  transition: all 0.4s;
   cursor: pointer;
 }
 send form button:hover {

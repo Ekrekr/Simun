@@ -19,8 +19,8 @@ function closeSelect() {
     // $("sidenav").style.width = "0"
     $('expand-icon').onclick = () => {  openSelect() }
     $('expand-icon-visual').style.transform = ''
-    $('snippet-list').style.left = '-280px';
-    $('snippet-list-background').style.left = '-280px';
+    $('snippet-list').style.left = '-288px';
+    $('snippet-list-background').style.left = '-288px';
 }
 
 // Make a snippet highlighted and fill the selected snippet content with.
