@@ -120,6 +120,11 @@ body {
   transition: 0.2s;
 }
 
+html {
+
+  -webkit-tap-highlight-color:transparent;
+}
+
 h1,
 h2,
 h3,

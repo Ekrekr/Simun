@@ -36,8 +36,24 @@ async function setActive (counter) {
   $('selected-content').src = snippetContent.content
   $('selected-description').innerHTML = snippetContent.description
 
-  var comments = tools.standardise(snippet.comments)
+  // Select the comments, empty the current comments and iterate through displaying the new ones.
+  var comments = JSON.parse(snippet.comments)
   console.log('comments:', comments)
+  var snippetComments = []
+  comments.forEach((entry, index) => {
+    console.log('comment found:', entry)
+    snippetComments.push([
+      '<comment>',
+        '<h1>' + entry.alias + '<small>&nbsp&nbsp' + entry.timestamp + '</small>' + '</h1>',
+        '<p>' + entry.comment + '</p>',
+      '</comment>'
+    ].join("\n"))
+  })
+  $('comments').innerHTML = snippetComments
+
+  // Return to top of page.
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 
   // Update trash it and forward it buttons to respond for this snippet in particular.
   $('forward-it').onclick = () => {
