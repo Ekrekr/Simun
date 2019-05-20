@@ -27,25 +27,27 @@ function closeSelect () {
 async function setActive (counter) {
   var rowItem = $('select-' + counter)
 
-  // Need to find the child of the current row as its child snippet contains the actual id.
-  var contentID = rowItem.children[0].id
-  console.log("rowItem:", rowItem.children[0])
+  // Need to find the child of the current row as its child snippet contains the snippet id.
+  var snippetID = rowItem.children[0].id
 
-  // Need to retrieve the content from the server to populate the selected box.
-  var snippetContent = await tools.retrieveSnippetContent(contentID).then(res => { return res })
-  console.log('snippetContent retrieved:', snippetContent)
+  // Retrieve the actual snippet, then use that value to retrieve the snippet content.
+  var snippet = await tools.retrieveSnippet(snippetID).then(res => { return res })
+  var snippetContent = await tools.retrieveSnippetContent(snippet.contentid).then(res => { return res })
   $('selected-content').src = snippetContent.content
   $('selected-description').innerHTML = snippetContent.description
 
-  // Update trash it and forward it buttons.
+  var comments = tools.standardise(snippet.comments)
+  console.log('comments:', comments)
+
+  // Update trash it and forward it buttons to respond for this snippet in particular.
   $('forward-it').onclick = () => {
     console.log('trash-it button pressed')
-    tools.forwardSnippet(snippet.id, (err, response) => {
+    tools.forwardSnippet(snippetID, (err, response) => {
       if (err) {
         console.log('Error forwarding snippet', err)
         return
       }
-      console.log('Snippet successfully forwarded')
+      console.log('Snippet successfully forwarded, response:', response)
     })
   }
 
@@ -103,19 +105,26 @@ module.exports = {
   colorlight: '#b8dbd9',
   colorwhite: '#f4f4f9',
   colorshadow: '#00000080',
+  standardise: standardise,
   retrieveSnippet: retrieveSnippet,
   retrieveSnippetContent: retrieveSnippetContent,
   forwardSnippet: forwardSnippet,
   createSnippet: createSnippet
 }
 
+function standardise (data) {
+  return JSON.parse(JSON.stringify(data))
+}
+
 function retrieveSnippet (id) {
-  request('http://localhost:7000/snippet/' + id, { json: true }, (err, res, body) => {
-    if (err) {
-      console.log('tools: error retrieving snippet')
-      return err
-    }
-    return JSON.parse(JSON.stringify(body))
+  return new Promise((resolve, reject) => {
+    request('http://localhost:7000/snippet/' + id, { json: true }, (err, res, body) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(standardise(body))
+      }
+    })
   })
 }
 
@@ -125,7 +134,7 @@ function retrieveSnippetContent (id) {
       if (err) {
         reject(err)
       } else {
-        resolve(JSON.parse(JSON.stringify(body)))
+        resolve(standardise(body))
       }
     })
   })

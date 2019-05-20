@@ -8,19 +8,26 @@ module.exports = {
   colorlight: '#b8dbd9',
   colorwhite: '#f4f4f9',
   colorshadow: '#00000080',
+  standardise: standardise,
   retrieveSnippet: retrieveSnippet,
   retrieveSnippetContent: retrieveSnippetContent,
   forwardSnippet: forwardSnippet,
   createSnippet: createSnippet
 }
 
+function standardise (data) {
+  return JSON.parse(JSON.stringify(data))
+}
+
 function retrieveSnippet (id) {
-  request('http://localhost:7000/snippet/' + id, { json: true }, (err, res, body) => {
-    if (err) {
-      console.log('tools: error retrieving snippet')
-      return err
-    }
-    return JSON.parse(JSON.stringify(body))
+  return new Promise((resolve, reject) => {
+    request('http://localhost:7000/snippet/' + id, { json: true }, (err, res, body) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(standardise(body))
+      }
+    })
   })
 }
 
@@ -30,7 +37,7 @@ function retrieveSnippetContent (id) {
       if (err) {
         reject(err)
       } else {
-        resolve(JSON.parse(JSON.stringify(body)))
+        resolve(standardise(body))
       }
     })
   })

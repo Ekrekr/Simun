@@ -64,6 +64,13 @@ async function sendSessionCookie (req, res, username, redirectID) {
 // Non page requests.
 /// ///////////////////////////////////////////////
 
+server.get('/snippet/:id', (req, res) => {
+  console.log('server: Retrieving snippet with id:', req.params.id)
+  database.getSnippet(req.params.id).then(response => {
+    res.send(JSON.stringify(response[0]))
+  })
+})
+
 server.get('/snippetcontent/:id', (req, res) => {
   console.log('server: Retrieving snippet content with id:', req.params.id)
   database.getSnippetContent(req.params.id).then(response => {
@@ -166,27 +173,24 @@ server.get('/receive', async (req, res) => {
   // Need to load snippet data from the database to display on the page.
   var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
   var snippets = JSON.parse(redirect.snippetids)
-  console.log('SNIPPETS FOUND:', snippets)
 
   // If no snippets found, then render an empty receive page.
   if (snippets.length === 0) {
     res.render('receive', clientVariables)
+    return
   }
 
   // For each snippet, retrieve the snippet content ID.
   await snippets.forEach(async (entry, index) => {
-    var snippet = await database.getSnippet(index).then(res => { return res[0] })
-    console.log('selecting snippet:', snippet)
+    var snippet = await database.getSnippet(entry).then(res => { return res[0] })
 
-    // Retrieve the snippet content.
     var snippetcontent = await database.getSnippetContent(snippet.contentid).then(res => { return res[0] })
-    console.log('server: Rendering receive, snippetcontent.id: ', snippetcontent.id)
+    console.log("Entry:", entry, 'server: Rendering receive, snippetcontent.id: ', snippetcontent.id)
 
     clientVariables.snippets.push({
       'description': snippetcontent.description,
       'content': snippetcontent.content,
-      'id': snippetcontent.id,
-      'parentid': snippet.id,
+      'snippetid': snippet.id,
       'comments': snippet.comments
     })
 

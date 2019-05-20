@@ -28,15 +28,15 @@ html(lang=lang)
 
       snippet-list-background(id="snippet-list-background")
       snippet-list(id="snippet-list")
-        for snippetcontent, index in snippets
+        for snippet, index in snippets
           row
             a(id="select-"+index)
-              snippet(href="index" contentid=snippetcontent.id snippetid=snippet.id)
+              snippet(href="index" id=snippet.snippetid)
                 info
-                  description #{snippetcontent.description}
+                  description #{snippet.description}
                   br
                   from jhon
-                img(src=snippetcontent.content)
+                img(src=snippet.content)
 
       center-column
         control-box(id="control-box")
