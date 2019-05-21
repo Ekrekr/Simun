@@ -84,8 +84,6 @@ async function forwardSnippet (snippetid, _callback) {
       console.log('tools: error forwarding snippet')
       return false
     }
-    console.log('tools: error to client: ', err)
-    console.log('tools: body response to client: ', res.body)
     return res.body
   })
 }
@@ -106,8 +104,6 @@ async function createSnippet (content, description, redirectid, _callback) {
       console.log('tools: error creating snippet')
       return false
     }
-    console.log('tools: error to client: ', err)
-    console.log('tools: body response to client: ', res.body)
     return res.body
   })
 }

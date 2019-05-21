@@ -4,8 +4,6 @@ var cookies = require('../models/cookies.js')
 var database = require('../models/database.js')
 
 router.get('/', async (req, res) => {
-  console.log('Loading inbox page.')
-
   var decodedCookie = cookies.verifySessionCookie(req, res)
   if (!decodedCookie) { return }
 
@@ -29,7 +27,6 @@ router.get('/', async (req, res) => {
     var snippet = await database.getSnippet(entry).then(res => { return res[0] })
 
     var snippetcontent = await database.getSnippetContent(snippet.contentid).then(res => { return res[0] })
-    console.log("Entry:", entry, 'server: Rendering inbox, snippetcontent.id: ', snippetcontent.id)
 
     clientVariables.snippets.push({
       'description': snippetcontent.description,
@@ -49,26 +46,11 @@ router.get('/', async (req, res) => {
   })
 })
 
-router.get('/snippet/:id', (req, res) => {
-  console.log('server: Retrieving snippet with id:', req.params.id)
-  database.getSnippet(req.params.id).then(response => {
-    res.send(JSON.stringify(response[0]))
-  })
-})
-
-router.get('/snippetcontent/:id', (req, res) => {
-  console.log('server: Retrieving snippet content with id:', req.params.id)
-  database.getSnippetContent(req.params.id).then(response => {
-    res.send(JSON.stringify(response[0]))
-  })
-})
-
 router.post('/comment', async (req, res) => {
-  var decodedCookie = checkSessionCookie(req, res)
+  var decodedCookie = cookies.verifySessionCookie(req, res)
   if (!decodedCookie) { return }
 
   var valid = await database.addSnippetComment(req.body.snippetid, decodedCookie.alias, req.body.comment).then(res => { return res })
-  console.log('response:', valid)
 
   res.send({success: true})
 })

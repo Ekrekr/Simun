@@ -38,10 +38,8 @@ async function setActive (counter) {
 
   // Select the comments, empty the current comments and iterate through displaying the new ones.
   var comments = JSON.parse(snippet.comments)
-  console.log('comments:', comments)
   var snippetComments = []
   comments.forEach((entry, index) => {
-    console.log('comment found:', entry)
     // Get the time from the timestamp on the comment.
     var timeDif = moment(entry.timestamp).fromNow()
     snippetComments.push([
@@ -61,10 +59,8 @@ async function setActive (counter) {
 
   // Add functionality to add comment button.
   $('comment-button').onclick = async () => {
-    console.log('adding comment')
     var comment = $('comment-text').value
     var response = await tools.commentSnippet(snippet.id, comment).then(res => { return res })
-    console.log('receive: response:', response)
   }
 
   // Update trash it and forward it buttons to respond for this snippet in particular.

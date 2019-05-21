@@ -4,6 +4,7 @@ const dbPath = path.resolve(__dirname, '../database/database.db')
 const testsDbPath = path.resolve(__dirname, '../database/tests-database.db')
 const bcrypt = require('bcrypt')
 var identifiers = require('./identifiers.js')
+var moment = require('moment')
 
 // The functions exported here should only allow the transferral of nonsensitive information; login
 // details should be strictly monitored, as well as access to redirects.
@@ -274,10 +275,9 @@ async function addSnippetComment (snippetid, alias, comment, testMode = false) {
   var commentList = JSON.parse(currentSnippet.comments)
 
   // Form a new comment and push it to the comment list.
-  var today = new Date()
-  var date = today.getFullYear() + '-' + ((today.getMonth() < 9) ? '0' : '') + (today.getMonth() + 1) + '-' + today.getDate()
-  var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-  var newComment = { alias: alias, timestamp: date + ' ' + time, comment: comment }
+  var timestamp = moment().toISOString();
+  console.log('Adding comment with timestap', timestamp)
+  var newComment = { alias: alias, timestamp: timestamp, comment: comment }
   commentList.push(newComment)
 
   // Serialize the comments list, update the snippet comments.

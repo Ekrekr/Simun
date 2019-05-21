@@ -11,15 +11,12 @@ router.get('/login', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-  console.log('Attempting to log in with username', req.body.username, 'and password', req.body.password)
-
   var isValid = await database.authenticateUser(req.body.username, req.body.password).then(res => { return res })
   if (isValid) {
     // Create a token so that the user doesn't have to log in again for a while,
     // return the token in a delicios cookie.
     var redirectID = await database.getUserRedirectID(req.body.username).then(res => { return res })
     var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
-    console.log('Successful login. Here, have a cookie.')
     await cookies.sendSessionCookie(req, res, redirect.alias, redirectID)
     res.redirect('/home')
   } else {
@@ -30,8 +27,6 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
-  console.log('Attempting to register account with username', req.body.username + ', password', req.body.password, 'and alias', req.body.alias)
-
   // Create a redirect to attach to the user details.
   var redirectID = await database.createRedirect(req.body.alias, 1).then(res => { return res })
 

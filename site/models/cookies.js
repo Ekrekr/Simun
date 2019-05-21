@@ -29,8 +29,6 @@ function verify (token) {
 
 function verifySessionCookie (req, res) {
   // If there is no cookie, then send to login page.
-  console.log('verifying cookies')
-  console.log('req.cookies:', req.cookies)
   if (req.cookies === undefined) {
     res.redirect('/')
     return false
@@ -55,7 +53,6 @@ async function sendSessionCookie (req, res, alias, redirectID) {
   // Create a token so that the user doesn't have to log in again for a while,
   // return the token in a delicious cookie.
   var token = await sign({ alias: alias, redirectid: redirectID })
-  console.log('sending session cookie:', token)
   res.cookie('session', token)
 }
 
