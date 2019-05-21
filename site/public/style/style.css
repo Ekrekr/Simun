@@ -576,6 +576,7 @@ receive center-column snippet-selected comments comment {
   background-color: #2f4550;
   text-align: left;
   margin-top: 8px;
+  margin-bottom: 0px;
   padding: 4px;
 }
 receive center-column snippet-selected comments comment h1 {

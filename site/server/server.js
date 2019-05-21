@@ -1,5 +1,6 @@
 var path = require('path')
 const express = require('express')
+const router = require('express').Router()
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var database = require('./database.js')
@@ -13,12 +14,12 @@ var identifiers = require('./identifiers.js')
 const server = express()
 
 // Enables REST communication with server.
+server.set('views', path.join(__dirname, '../models/public'))
+server.set('view engine', 'pug')
 server.use(bodyParser.urlencoded({ extended: true }))
 server.use(bodyParser.json())
 server.use(cookieParser())
 server.use(express.static(path.join(__dirname, '../public')))
-server.set('views', path.join(__dirname, '../models/public'))
-server.set('view engine', 'pug')
 
 server.use((req, res, next) => {
   next()
@@ -53,10 +54,10 @@ function checkSessionCookie (req, res) {
   return decodedCookie
 }
 
-async function sendSessionCookie (req, res, username, redirectID) {
+async function sendSessionCookie (req, res, alias, redirectID) {
   // Create a token so that the user doesn't have to log in again for a while,
   // return the token in a delicious cookie.
-  var token = await jwtservice.sign({ username: username, redirectid: redirectID })
+  var token = await jwtservice.sign({ alias: alias, redirectid: redirectID })
   res.cookie('session', token)
 }
 
@@ -120,8 +121,11 @@ server.post('/login', async (req, res) => {
   if (isValid) {
     // Create a token so that the user doesn't have to log in again for a while,
     // return the token in a delicios cookie.
-    var redirectID = await database.getUserRedirectID(req.body.username)
-    await sendSessionCookie(req, res, req.body.username, redirectID)
+    var redirectID = await database.getUserRedirectID(req.body.username).then(res => { return res })
+    console.log('login redirectID:', redirectID)
+    var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
+    console.log('login redirect:', redirect)
+    await sendSessionCookie(req, res, redirect.alias, redirectID)
     res.redirect('index')
   } else {
     // TODO: Update this with notification of incorrect credentials.
@@ -203,6 +207,16 @@ server.get('/receive', async (req, res) => {
       }, 100)
     }
   })
+})
+
+server.post('/comment', async (req, res) => {
+  var decodedCookie = checkSessionCookie(req, res)
+  if (!decodedCookie) { return }
+
+  var valid = await database.addSnippetComment(req.body.snippetid, decodedCookie.alias, req.body.comment).then(res => { return res })
+  console.log('response:', valid)
+
+  res.send({success: true})
 })
 
 server.get('/send', (req, res) => {

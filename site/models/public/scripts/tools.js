@@ -43,13 +43,13 @@ function retrieveSnippetContent (id) {
   })
 }
 
-async function commentSnippet (snippetid, alias, comment, _callback) {
-  console.log('tools: commenting on snippet', snippetid, 'by, alias', alias, 'with comment', comment)
+function commentSnippet (snippetid, comment) {
+  console.log('tools: commenting on snippet', snippetid, 'with', comment)
 
   return new Promise((resolve, reject) => {
     var requestInfo = {
       uri: 'http://localhost:7000/comment/',
-      body: JSON.stringify({ snippetid: snippetid, alias: alias, comment: comment }),
+      body: JSON.stringify({ snippetid: snippetid, comment: comment }),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

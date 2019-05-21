@@ -47,18 +47,26 @@ async function setActive (counter) {
     var timeDif = moment(entry.timestamp).fromNow()
     snippetComments.push([
       '<comment>',
-        '<h1>' + entry.alias + '<small>&nbsp&nbsp' + entry.timestamp + '</small>' + '</h1>',
+        '<h1>' + entry.alias + '<small>&nbsp&nbsp' + timeDif + '</small>' + '</h1>',
         '<p>' + entry.comment + '</p>',
-      '</comment>',
-      '<textarea class="shadow" id="comment-text" minLength=1 maxLength=1024 placeholder="would you like to contribute?" required></textarea>',
-      '<button class="circular-border"></button>'
+      '</comment>'
     ].join("\n"))
   })
-  $('comments').innerHTML = snippetComments
 
-  // Return to top of page.
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
+  // Add the text area and button for user to submit their own comment, concatenate list, then display all.
+  snippetComments.push([
+    '<textarea id="comment-text" class="shadow" minLength=1 maxLength=1024 placeholder="would you like to contribute?" required></textarea>',
+    '<button id="comment-button" class="circular-border"></button>'
+  ].join("\n"))
+  $('comments').innerHTML = snippetComments.join('')
+
+  // Add functionality to add comment button.
+  $('comment-button').onclick = async () => {
+    console.log("adding comment")
+    var comment = $('comment-text').value
+    var response = await tools.commentSnippet(snippet.id, comment).then(res => { return res })
+    console.log("receive: response:", response)
+  }
 
   // Update trash it and forward it buttons to respond for this snippet in particular.
   $('forward-it').onclick = () => {
@@ -72,13 +80,15 @@ async function setActive (counter) {
     })
   }
 
-  // snippet = await tools.retrieveSnippet(contentID)
-
-  // Unhighlight the current selector and highlight the selected
+  // Unhighlight the current selector and highlight the selected.
   var prevRowItem = $('select-' + currentlyActive)
   prevRowItem.children[0].style.backgroundColor = tools.colorprimary
   currentlyActive = counter
   rowItem.children[0].style.backgroundColor = tools.colorlight
+
+  // Return to top of page to make snippet immediately visible.
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
 
 // Finds all row items and adds their onclick listener.
@@ -162,13 +172,13 @@ function retrieveSnippetContent (id) {
   })
 }
 
-async function commentSnippet (snippetid, alias, comment, _callback) {
-  console.log('tools: commenting on snippet', snippetid, 'by, alias', alias, 'with comment', comment)
+function commentSnippet (snippetid, comment) {
+  console.log('tools: commenting on snippet', snippetid, 'with', comment)
 
   return new Promise((resolve, reject) => {
     var requestInfo = {
       uri: 'http://localhost:7000/comment/',
-      body: JSON.stringify({ snippetid: snippetid, alias: alias, comment: comment }),
+      body: JSON.stringify({ snippetid: snippetid, comment: comment }),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
