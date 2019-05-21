@@ -4,6 +4,7 @@ const dbPath = path.resolve(__dirname, '../database/database.db')
 const testsDbPath = path.resolve(__dirname, '../database/tests-database.db')
 const bcrypt = require('bcrypt')
 var identifiers = require('./identifiers.js')
+var moment = require('moment')
 
 // The functions exported here should only allow the transferral of nonsensitive information; login
 // details should be strictly monitored, as well as access to redirects.
@@ -22,6 +23,7 @@ module.exports = {
   removeSnippet: removeSnippet,
   createSnippet: createSnippet,
   forwardSnippet: forwardSnippet,
+  addSnippetComment: addSnippetComment,
 
   getSnippetContent: getSnippetContent,
   removeSnippetContent: removeSnippetContent
@@ -208,8 +210,8 @@ async function createSnippet (content, description, redirectid, testMode = false
   var snippetContentID = await sqlPut(sqlCode, [content, description], testMode).then(res => { return res })
 
   // Create a new snippet with the content, belonging to the fromRedirect and from the fromRedirect.
-  var sqlData = [snippetContentID, fromRedirect.id, fromRedirect.alias, fromRedirect.alias, 0]
-  sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?, ?, ?, ?, ?)'
+  var sqlData = [snippetContentID, fromRedirect.id, fromRedirect.alias, fromRedirect.alias, 0, '[]']
+  sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount, comments) VALUES (?, ?, ?, ?, ?, ?)'
   var snippetID = await sqlPut(sqlCode, sqlData, testMode).then(res => { return res })
 
   // Append the snippet ID to the redirects list of owned redirect IDs.
@@ -236,8 +238,8 @@ async function forwardSnippet (snippetid, testMode = false) {
 
   // Create two new snippets with the same content, belonging to the two different
   // toRedirects and from the fromRedirect.
-  var sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount) VALUES (?, ?, ?, ?, ?)'
-  var sqlData = [currentSnippet.contentid, toRedirect0.id, currentSnippet.firstowner, fromRedirect.alias, currentSnippet.forwardcount + 1]
+  var sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount, comments) VALUES (?, ?, ?, ?, ?, ?)'
+  var sqlData = [currentSnippet.contentid, toRedirect0.id, currentSnippet.firstowner, fromRedirect.alias, currentSnippet.forwardcount + 1, currentSnippet.comments]
   var newSnippetID0 = await sqlPut(sqlCode, sqlData, testMode).then(res => { return res })
   sqlData = [currentSnippet.contentid, toRedirect1.id, currentSnippet.firstowner, fromRedirect.alias, currentSnippet.forwardcount + 1]
   var newSnippetID1 = await sqlPut(sqlCode, sqlData, testMode).then(res => { return res })
@@ -263,6 +265,26 @@ async function forwardSnippet (snippetid, testMode = false) {
   await removeSnippet(currentSnippet.id, testMode).then(res => { return res })
 
   return [newSnippetID0, newSnippetID1]
+}
+
+async function addSnippetComment (snippetid, alias, comment, testMode = false) {
+  // Retrieve the desired snippet.
+  var currentSnippet = await getSnippet(snippetid, testMode).then(res => { return res[0] })
+
+  // Decode existing list.
+  var commentList = JSON.parse(currentSnippet.comments)
+
+  // Form a new comment and push it to the comment list.
+  var timestamp = moment().toISOString();
+  console.log('Adding comment with timestap', timestamp)
+  var newComment = { alias: alias, timestamp: timestamp, comment: comment }
+  commentList.push(newComment)
+
+  // Serialize the comments list, update the snippet comments.
+  commentList = JSON.stringify(commentList)
+  var sqlData = [commentList, snippetid]
+  var sqlCode = 'UPDATE snippet SET comments = ? WHERE id = ?'
+  return sqlPut(sqlCode, sqlData, testMode)
 }
 
 /// ///////////////////////////////////////////////

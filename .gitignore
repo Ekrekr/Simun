@@ -65,3 +65,6 @@ typings/
  
 # Css map files
 *.css.map
+
+# Uncomment before making public and refresh keys.
+# site/models/keys

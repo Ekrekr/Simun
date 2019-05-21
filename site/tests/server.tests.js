@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 var expect = require('chai').expect
-var jwtservice = require('../server/jwtservice.js')
+var jwtservice = require('../models/jwtservice.js')
 const jwt = require('jsonwebtoken')
 
 var legitToken = null

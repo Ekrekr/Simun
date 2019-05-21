@@ -15,7 +15,7 @@
    inkscape:export-xdpi="96"
    inkscape:export-filename="/Users/eliaskassellraymond/Desktop/simon_logo_v1_expanded.png"
    inkscape:version="0.92.2 5c3e80d, 2017-08-06"
-   sodipodi:docname="report.svg"
+   sodipodi:docname="plus.svg"
    viewBox="0 0 400 400"
    height="400"
    width="400"
@@ -34,9 +34,9 @@
      inkscape:window-maximized="1"
      inkscape:window-y="1"
      inkscape:window-x="0"
-     inkscape:cy="232.731"
-     inkscape:cx="-126.06223"
-     inkscape:zoom="0.65461936"
+     inkscape:cy="146.31659"
+     inkscape:cx="238.33004"
+     inkscape:zoom="0.92577158"
      showgrid="true"
      id="namedview3844"
      inkscape:window-height="767"
@@ -50,7 +50,16 @@
      bordercolor="#666666"
      pagecolor="#ffffff"
      inkscape:snap-intersection-paths="true"
-     inkscape:object-paths="true">
+     inkscape:object-paths="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="false"
+     inkscape:snap-center="false"
+     inkscape:snap-text-baseline="false">
     <inkscape:grid
        id="grid3861"
        type="xygrid" />
@@ -69,6 +78,14 @@
   </metadata>
   <defs
      id="defs3846">
+    <linearGradient
+       id="linearGradient921"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop919" />
+    </linearGradient>
     <linearGradient
        id="linearGradient956"
        osb:paint="solid">
@@ -479,32 +496,39 @@
        x2="300"
        y2="430"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2446153,0,0,0.35869708,139.84228,287.756)" />
+       gradientTransform="matrix(0.29999998,0,0,0.92307686,385.00002,-596.92301)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#dark"
+       id="linearGradient923"
+       x1="0"
+       y1="460"
+       x2="400"
+       y2="460"
+       gradientUnits="userSpaceOnUse" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#light"
-       id="linearGradient1011"
+       id="linearGradient934"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.28369864,0,0,0.1080391,129.51182,472.50431)"
+       gradientTransform="matrix(0.29999998,0,0,0.92307686,125.00002,63.07699)"
        x1="200"
        y1="430"
        x2="300"
        y2="430" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#light"
-       id="linearGradient958"
-       x1="-696.12286"
-       y1="339.16547"
-       x2="-244.10197"
-       y2="339.16547"
-       gradientUnits="userSpaceOnUse" />
   </defs>
   <g
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="Shadow"
-     transform="translate(0,-260)" />
+     transform="translate(0,-260)">
+    <circle
+       style="opacity:1;fill:url(#linearGradient923);fill-opacity:1"
+       id="path917"
+       cx="200"
+       cy="460"
+       r="200" />
+  </g>
   <g
      inkscape:groupmode="layer"
      id="layer8"
@@ -514,26 +538,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="S"
-     transform="translate(0,-260)">
-    <path
-       transform="matrix(-0.25279009,-0.05927686,0.05927686,-0.25279009,71.11159,526.90238)"
-       inkscape:transform-center-y="-12.046912"
-       inkscape:transform-center-x="14.279464"
-       d="M -380.00001,560 -537.58331,390.98076 -695.1666,221.96152 -469.99999,170 l 225.1666,-51.96152 -67.58331,220.98077 z"
-       inkscape:randomized="0"
-       inkscape:rounded="0"
-       inkscape:flatsided="false"
-       sodipodi:arg2="2.3911951"
-       sodipodi:arg1="1.3439975"
-       sodipodi:r2="133.41664"
-       sodipodi:r1="266.83328"
-       sodipodi:cy="300"
-       sodipodi:cx="-440"
-       sodipodi:sides="3"
-       id="path960"
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#586f7c;stroke-width:962.84564209;stroke-linejoin:round;stroke-miterlimit:4.5;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       sodipodi:type="star" />
-  </g>
+     transform="translate(0,-260)" />
   <g
      inkscape:groupmode="layer"
      id="layer6"
@@ -541,37 +546,20 @@
      transform="translate(0,-260)"
      style="opacity:1">
     <ellipse
-       style="opacity:1;fill:url(#linearGradient1007);fill-opacity:1;stroke-width:0.29621407"
+       style="opacity:1;fill:url(#linearGradient1007);fill-opacity:1;stroke-width:0.52623475"
        id="path929"
-       cx="200.99609"
-       cy="441.99576"
-       rx="12.230764"
-       ry="46.630627" />
+       cx="460"
+       cy="-200"
+       rx="15"
+       ry="120"
+       transform="rotate(90)" />
     <ellipse
-       ry="14.045085"
-       rx="14.184933"
-       cy="518.96112"
-       cx="200.43648"
-       id="ellipse1009"
-       style="opacity:1;fill:url(#linearGradient1011);fill-opacity:1;stroke-width:0.17507298" />
-    <path
-       sodipodi:type="star"
-       style="opacity:1;fill:none;fill-opacity:1;stroke:url(#linearGradient958);stroke-width:29.71066632;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path918"
-       sodipodi:sides="3"
-       sodipodi:cx="-440"
-       sodipodi:cy="300"
-       sodipodi:r1="266.83328"
-       sodipodi:r2="133.41664"
-       sodipodi:arg1="1.3439975"
-       sodipodi:arg2="2.3911951"
-       inkscape:flatsided="false"
-       inkscape:rounded="0"
-       inkscape:randomized="0"
-       d="M -380.00001,560 -537.58331,390.98076 -695.1666,221.96152 -469.99999,170 l 225.1666,-51.96152 -67.58331,220.98077 z"
-       inkscape:transform-center-x="33.318749"
-       inkscape:transform-center-y="-28.109469"
-       transform="matrix(-0.58984352,-0.13831267,0.13831267,-0.58984352,-100.73961,594.3219)" />
+       ry="120"
+       rx="15"
+       cy="460"
+       cx="200"
+       id="ellipse932"
+       style="opacity:1;fill:url(#linearGradient934);fill-opacity:1;stroke-width:0.52623475" />
   </g>
   <g
      inkscape:groupmode="layer"

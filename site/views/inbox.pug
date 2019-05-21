@@ -1,0 +1,67 @@
+doctype html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
+
+include tools.pug
+
+html(lang=lang)
+  +create-head
+
+  body.index-bg(scroll="no")
+
+    // Big bar on top with navigation utilities.
+    header
+      a(href="/")
+        logo
+      ul
+        li
+          a(href="/account/logout") Logout
+        li
+          a.color-light(href="/inbox") Inbox
+        li
+          a(href="/outbox") Outbox
+        li.nav-item
+          a(href="/global") Global
+
+    receive
+
+      a(id="expand-icon")
+        expand-snippet-list-icon.circular-border(id="expand-icon-visual")
+
+      snippet-list-background(id="snippet-list-background")
+      snippet-list(id="snippet-list")
+        for snippet, index in snippets
+          row
+            a(id="select-"+index)
+              snippet(href="index" id=snippet.snippetid)
+                info
+                  description #{snippet.description}
+                  br
+                  from jhon
+                img(src=snippet.content)
+
+      center-column
+        control-box(id="control-box")
+          action-holder(id="action-holder")
+            a(id="forward-it" title="Forward it")
+              forward-it.circular-border
+            a(id="trash-it" title="Trash it")
+              trash-it.circular-border
+            a(id="report" title="Report")
+              report-it.circular-border
+        
+        snippet-selected(id="snippet-selected")
+          title-holder
+            h1(id="selected-description") When you have web tech due in 8 days
+          img(id="selected-content")
+          comments(id='comments')
+            comment
+              h1 FirstAlias #[small Eli]
+              p Cheers Imgur
+            comment
+              h1 SecondAlias #[small Eli]
+              p Cheers Imgur
+
+
+  +create-footer
+  
+  script(type="text/javascript" src="/scripts/inbox.js")
+  script(type="text/javascript" src="/scripts/tools.js")

@@ -9,14 +9,13 @@ html(lang=lang)
 
     // Big bar on top with navigation utilities.
     header
-      a(href="index")
+      a(href="/")
         logo
       ul
         li
-          a.color-light(href="login") Login
+          a.color-light(href="/account/login") Login
         li.nav-item
-          a(href="stats") Stats
-
+          a(href="/global") Global
 
     login-register
       to-register
@@ -25,7 +24,7 @@ html(lang=lang)
           arrow
       
       holder
-        form(class="login-submit" method="post" action="/login")
+        form(class="login-submit" method="post" action="/account/login")
           h1 Simun  
           p 
           input.shadow(type="text" name="username" id="Input Username" placeholder="Username" required autofocus)
@@ -33,4 +32,6 @@ html(lang=lang)
           input.shadow(type="password" name="password" id="Input Password" placeholder="Password" required)
           br
           button(type="submit") Login
+
+          
   +create-footer

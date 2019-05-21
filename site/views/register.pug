@@ -9,13 +9,13 @@ html(lang=lang)
 
     // Big bar on top with navigation utilities.
     header
-      a(href="index")
+      a(href="/")
         logo
       ul
         li
-          a.color-light(href="login") Login
+          a.color-light(href="/login") Login
         li.nav-item
-          a(href="stats") Stats
+          a(href="/global") Global
 
 
     login-register
@@ -36,4 +36,6 @@ html(lang=lang)
           input.shadow(type="text" name="alias" id="Input Alias" placeholder="Alias" required autofocus)
           br
           button(type="register" href="index") Register
+
+          
   +create-footer

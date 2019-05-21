@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 var expect = require('chai').expect
-var database = require('../server/database.js')
-var identifiers = require('../server/identifiers.js')
+var database = require('../models/database.js')
+var identifiers = require('../models/identifiers.js')
 
 var redirect = null
 var userID = null
@@ -39,20 +39,40 @@ describe('Account authentication and utility.', async function () {
   })
 })
 
-describe('Snippet Creation, Retrieval, Forwarding and Deletion.', async function () {
-  it('Snippets can be created, retrieved, and forwarded (Forwarding done by default in creation).', async function () {
+describe('Snippet and Snippet Comment Creation, Retrieval, Forwarding and Deletion.', async function () {
+  var snippetIDs = null
+  var snippetID0 = null
+  var snippetID1 = null
+  it('Snippets can be created with content and forwarded.', async function () {
     // Create new snippet that forwards to two users.
-    var snippetIDs = await database.createSnippet('https://i.imgur.com/DccRRP7.jpg', 'Example Snippet', redirect.id, true).then(res => { return res })
+    snippetIDs = await database.createSnippet('https://i.imgur.com/DccRRP7.jpg', 'Example Snippet', redirect.id, true).then(res => { return res })
     expect(snippetIDs).to.not.equal(null)
-    var snippetID0 = snippetIDs[0]
-    var snippetID1 = snippetIDs[1]
+    snippetID0 = snippetIDs[0]
+    snippetID1 = snippetIDs[1]
     expect(snippetID0).to.not.equal(snippetID1)
+  })
 
+  var snippetComment = 'This snippet really sucks'
+  it('Snippets can have comments appended', async function () {
+    var commentSnippetID = await database.addSnippetComment(snippetID0, redirect.alias, snippetComment, true).then(res => { return res })
+    expect(commentSnippetID).to.not.equal(null)
+  })
+
+  var snippet0 = null
+  var snippet1 = null
+  it('Snippets can be retrieved.', async function () {
     // Retrieve the first snippet for checking the content
-    var snippet0 = await database.getSnippet(snippetID0, true).then(res => { return res[0] })
-    var snippet1 = await database.getSnippet(snippetID1, true).then(res => { return res[0] })
+    snippet0 = await database.getSnippet(snippetID0, true).then(res => { return res[0] })
+    snippet1 = await database.getSnippet(snippetID1, true).then(res => { return res[0] })
     expect(snippet0.contentid).to.equal(snippet1.contentid)
+  })
 
+  it('Snippets comments are stored correctly after having comment appended', async function () {
+    var parsedComments = JSON.parse(snippet0.comments)
+    expect(parsedComments[0].comment).to.equal(snippetComment)
+  })
+
+  it('Snippets and snippet content can be removed.', async function () {
     // Remove the snippet content first as snippets point to it.
     var contentID0 = await database.removeSnippetContent(snippet0.contentid, true).then(res => { return res })
     // TODO: try retrieving snippet and fail if successfully retrieves.
