@@ -9,17 +9,17 @@ html(lang=lang)
 
     // Big bar on top with navigation utilities.
     header
-      a(href="index")
+      a(href="/")
         logo
       ul
         li
-          a(href="logout") Logout
+          a(href="/account/logout") Logout
         li
-          a(href="inbox") Inbox
+          a(href="/inbox") Inbox
         li
-          a.color-light(href="outbox") Outbox
+          a.color-light(href="/outbox") Outbox
         li.nav-item
-          a(href="global") Global
+          a(href="/global") Global
 
     send
       form(method='post' action='/send')
@@ -34,5 +34,5 @@ html(lang=lang)
   
   +create-footer
   
-  script(type="text/javascript" src="scripts/send.js")
-  script(type="text/javascript" src="scripts/tools.js")
+  script(type="text/javascript" src="/scripts/send.js")
+  script(type="text/javascript" src="/scripts/tools.js")

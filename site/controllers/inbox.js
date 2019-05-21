@@ -1,11 +1,12 @@
 var express = require('express')
 var router = require('express').Router()
+var cookies = require('../models/cookies.js')
+var database = require('../models/database.js')
 
 router.get('/', async (req, res) => {
-  if (!checkSessionCookie(req, res)) { return }
-  console.log('Loading receive page.')
+  console.log('Loading inbox page.')
 
-  var decodedCookie = checkSessionCookie(req, res)
+  var decodedCookie = cookies.verifySessionCookie(req, res)
   if (!decodedCookie) { return }
 
   var redirectID = decodedCookie.redirectid
@@ -17,9 +18,9 @@ router.get('/', async (req, res) => {
   var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
   var snippets = JSON.parse(redirect.snippetids)
 
-  // If no snippets found, then render an empty receive page.
+  // If no snippets found, then render an empty inbox page.
   if (snippets.length === 0) {
-    res.render('receive', clientVariables)
+    res.render('inbox', clientVariables)
     return
   }
 
@@ -28,7 +29,7 @@ router.get('/', async (req, res) => {
     var snippet = await database.getSnippet(entry).then(res => { return res[0] })
 
     var snippetcontent = await database.getSnippetContent(snippet.contentid).then(res => { return res[0] })
-    console.log("Entry:", entry, 'server: Rendering receive, snippetcontent.id: ', snippetcontent.id)
+    console.log("Entry:", entry, 'server: Rendering inbox, snippetcontent.id: ', snippetcontent.id)
 
     clientVariables.snippets.push({
       'description': snippetcontent.description,
@@ -42,7 +43,7 @@ router.get('/', async (req, res) => {
       // Send the created page back to user after loading all the variables,
       // with a slight delay to prevent further problems.
       setTimeout(function () {
-        res.render('receive', clientVariables)
+        res.render('inbox', clientVariables)
       }, 100)
     }
   })

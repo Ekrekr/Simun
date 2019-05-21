@@ -1,5 +1,7 @@
 var express = require('express')
 var router = require('express').Router()
+var cookies = require('../models/cookies.js')
+var database = require('../models/database.js')
 
 router.get('/login', async (req, res) => {
   // if (req.cookies['session'] !== undefined) {
@@ -16,11 +18,10 @@ router.post('/login', async (req, res) => {
     // Create a token so that the user doesn't have to log in again for a while,
     // return the token in a delicios cookie.
     var redirectID = await database.getUserRedirectID(req.body.username).then(res => { return res })
-    console.log('login redirectID:', redirectID)
     var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
-    console.log('login redirect:', redirect)
-    await sendSessionCookie(req, res, redirect.alias, redirectID)
-    res.redirect('index')
+    console.log('Successful login. Here, have a cookie.')
+    await cookies.sendSessionCookie(req, res, redirect.alias, redirectID)
+    res.redirect('/home')
   } else {
     // TODO: Update this with notification of incorrect credentials.
     console.log('Incorrect password. TODO: Add graphic response here to say already taken.')
@@ -42,14 +43,14 @@ router.post('/register', async (req, res) => {
     return
   }
 
-  await sendSessionCookie(req, res, req.body.username, redirectID)
+  await cookies.sendSessionCookie(req, res, req.body.username, redirectID)
 
-  res.redirect('index')
+  res.redirect('/')
 })
 
 router.get('/logout', (req, res) => {
   res.clearCookie('session')
-  res.redirect('login')
+  res.redirect('/account/login')
 })
 
 router.get('/register', (req, res) => {

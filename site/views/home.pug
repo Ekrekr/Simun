@@ -9,17 +9,17 @@ html(lang=lang)
 
     // Big bar on top with navigation utilities.
     header
-      a(href="index")
+      a(href="/")
         logo
       ul
         li
-          a.color-light(href="logout") Logout
+          a.color-light(href="/account/logout") Logout
         li
-          a.color-light(href="inbox") Inbox
+          a.color-light(href="/inbox") Inbox
         li
-          a.color-light(href="outbox") Outbox
+          a.color-light(href="/outbox") Outbox
         li.nav-item
-          a.color-light(href="global") Global
+          a.color-light(href="/global") Global
 
     index
       house
@@ -32,4 +32,4 @@ html(lang=lang)
   
   +create-footer
 
-  script(type="text/javascript" src="scripts/index.js")
+  script(type="text/javascript" src="/scripts/home.js")

@@ -150,7 +150,7 @@ function standardise (data) {
 
 function retrieveSnippet (id) {
   return new Promise((resolve, reject) => {
-    request('http://localhost:7000/inbox/snippet/' + id, { json: true }, (err, res, body) => {
+    request('http://localhost:7000/snippet/' + id, { json: true }, (err, res, body) => {
       if (err) {
         reject(err)
       } else {
@@ -162,7 +162,7 @@ function retrieveSnippet (id) {
 
 function retrieveSnippetContent (id) {
   return new Promise((resolve, reject) => {
-    request('http://localhost:7000/snippetcontent/' + id, { json: true }, (err, res, body) => {
+    request('http://localhost:7000/snippet/content/' + id, { json: true }, (err, res, body) => {
       if (err) {
         reject(err)
       } else {
@@ -177,7 +177,7 @@ function commentSnippet (snippetid, comment) {
 
   return new Promise((resolve, reject) => {
     var requestInfo = {
-      uri: 'http://localhost:7000/comment/',
+      uri: 'http://localhost:7000/inbox/comment/',
       body: JSON.stringify({ snippetid: snippetid, comment: comment }),
       method: 'POST',
       headers: {
@@ -201,7 +201,7 @@ async function forwardSnippet (snippetid, _callback) {
   console.log('tools: forwarding snippet', snippetid)
 
   var requestInfo = {
-    uri: 'http://localhost:7000/forward-snippet/',
+    uri: 'http://localhost:7000/inbox/forward-snippet/',
     body: JSON.stringify({ snippetid: snippetid }),
     method: 'POST',
     headers: {
@@ -223,7 +223,7 @@ async function createSnippet (content, description, redirectid, _callback) {
   console.log('tools: creating snippet content', content, 'with description', description, 'from redirect id', redirectid)
 
   var requestInfo = {
-    uri: 'http://localhost:7000/create-snippet/',
+    uri: 'http://localhost:7000/outbox/create-snippet/',
     body: JSON.stringify({ content: content, description: description, redirectid: redirectid }),
     method: 'POST',
     headers: {

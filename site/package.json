@@ -54,7 +54,7 @@
     "open-website": "open http://localhost:7000",
     "start-server": "nodemon app",
     "compile-css": "sass --watch models/public/style:public/style",
-    "compile-scripts": "concurrently \"watchify models/public/scripts/inbox.js -o public/scripts/inbox.js\" \"watchify models/public/scripts/tools.js -o public/scripts/tools.js\" \"watchify models/public/scripts/index.js -o public/scripts/index.js\" \"watchify models/public/scripts/outbox.js -o public/scripts/outbox.js\"",
+    "compile-scripts": "concurrently \"watchify models/public/scripts/inbox.js -o public/scripts/inbox.js\" \"watchify models/public/scripts/tools.js -o public/scripts/tools.js\" \"watchify models/public/scripts/home.js -o public/scripts/home.js\" \"watchify models/public/scripts/outbox.js -o public/scripts/outbox.js\"",
     "dev": "npm run open-website; concurrently --kill-others \"npm run compile-css\" \"npm run compile-scripts\" \"npm run start-server\""
   },
   "repository": {

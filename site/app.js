@@ -9,11 +9,11 @@ const app = express()
 app.set('views', './views')
 app.set('view engine', 'pug')
 
+app.use(cookieParser())
 app.use(express.static('./public'))
 app.use('style', express.static('public/style'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(require('./controllers'))
-app.use(cookieParser())
 
 app.listen(7000, 'localhost', () => {console.log('server: Express running → localhost:7000')})
