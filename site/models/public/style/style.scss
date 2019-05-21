@@ -677,26 +677,28 @@ receive {
             font-size: 16px;
           }
         }
+      }
 
-        textarea {
-          margin-top: -8px;
-        }
+      textarea {
+        width: auto;
+        height: auto;
+        margin-top: 8px;
+      }
 
-        button {
-          background-image: url("/assets/images/button-plus.png");
-          background-position: 50% 50%;
-          background-size: 52px 52px;
-          display: block;
-          position: relative;
-          width: 50px;
-          height: 50px;
-          margin-top: 0px;
-          margin-bottom: 10px;
-          margin-left: auto;
-          margin-right: auto;
-          border-radius: 100%;
-          border: 2px solid $color-white;
-        }
+      button {
+        background-image: url("/assets/images/button-plus.png");
+        background-position: 50% 50%;
+        background-size: 52px 52px;
+        display: block;
+        position: relative;
+        width: 50px;
+        height: 50px;
+        margin-top: 8px;
+        margin-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 100%;
+        border: 2px solid $color-white;
       }
     }
   }

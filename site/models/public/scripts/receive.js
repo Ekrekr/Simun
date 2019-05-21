@@ -1,4 +1,5 @@
 var tools = require('./tools.js')
+var moment = require('moment');
 
 var currentlyActive = 0
 
@@ -41,11 +42,15 @@ async function setActive (counter) {
   var snippetComments = []
   comments.forEach((entry, index) => {
     console.log('comment found:', entry)
+    // Get the time from the timestamp on the comment.
+    var timeDif = moment(entry.timestamp).fromNow()
     snippetComments.push([
       '<comment>',
         '<h1>' + entry.alias + '<small>&nbsp&nbsp' + entry.timestamp + '</small>' + '</h1>',
         '<p>' + entry.comment + '</p>',
-      '</comment>'
+      '</comment>',
+      '<textarea class="shadow" id="comment-text" minLength=1 maxLength=1024 placeholder="would you like to contribute?" required></textarea>',
+      '<button class="circular-border"></button>'
     ].join("\n"))
   })
   $('comments').innerHTML = snippetComments

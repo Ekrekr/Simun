@@ -275,7 +275,7 @@ async function addSnippetComment (snippetid, alias, comment, testMode = false) {
 
   // Form a new comment and push it to the comment list.
   var today = new Date()
-  var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+  var date = today.getFullYear() + '-' + ((today.getMonth() < 9) ? '0' : '') + (today.getMonth() + 1) + '-' + today.getDate()
   var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
   var newComment = { alias: alias, timestamp: date + ' ' + time, comment: comment }
   commentList.push(newComment)

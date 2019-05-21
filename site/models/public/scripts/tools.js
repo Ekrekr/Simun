@@ -9,6 +9,7 @@ module.exports = {
   colorshadow: '#00000080',
   standardise: standardise,
   retrieveSnippet: retrieveSnippet,
+  commentSnippet: commentSnippet,
   retrieveSnippetContent: retrieveSnippetContent,
   forwardSnippet: forwardSnippet,
   createSnippet: createSnippet
@@ -37,6 +38,31 @@ function retrieveSnippetContent (id) {
         reject(err)
       } else {
         resolve(standardise(body))
+      }
+    })
+  })
+}
+
+async function commentSnippet (snippetid, alias, comment, _callback) {
+  console.log('tools: commenting on snippet', snippetid, 'by, alias', alias, 'with comment', comment)
+
+  return new Promise((resolve, reject) => {
+    var requestInfo = {
+      uri: 'http://localhost:7000/comment/',
+      body: JSON.stringify({ snippetid: snippetid, alias: alias, comment: comment }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    request(requestInfo, function (err, res) {
+      if (err) {
+        console.log('tools: error commenting on snippet')
+        reject(false)
+      } else {
+        console.log('tools: error to client: ', err)
+        console.log('tools: body response to client: ', res.body)
+        resolve(res.body)
       }
     })
   })
