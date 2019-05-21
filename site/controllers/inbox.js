@@ -48,6 +48,20 @@ router.get('/', async (req, res) => {
   })
 })
 
+router.get('/snippet/:id', (req, res) => {
+  console.log('server: Retrieving snippet with id:', req.params.id)
+  database.getSnippet(req.params.id).then(response => {
+    res.send(JSON.stringify(response[0]))
+  })
+})
+
+router.get('/snippetcontent/:id', (req, res) => {
+  console.log('server: Retrieving snippet content with id:', req.params.id)
+  database.getSnippetContent(req.params.id).then(response => {
+    res.send(JSON.stringify(response[0]))
+  })
+})
+
 router.post('/comment', async (req, res) => {
   var decodedCookie = checkSessionCookie(req, res)
   if (!decodedCookie) { return }
@@ -56,6 +70,13 @@ router.post('/comment', async (req, res) => {
   console.log('response:', valid)
 
   res.send({success: true})
+})
+
+router.post('/forward-snippet/', (req, res) => {
+  console.log('server: Forwarding snippet id:', req.body.snippetid)
+  database.forwardSnippet(req.body.snippetid).then(res => {
+    return res
+  })
 })
 
 module.exports = router

@@ -1,5 +1,5 @@
 var tools = require('./tools.js')
-var moment = require('moment');
+var moment = require('moment')
 
 var currentlyActive = 0
 
@@ -46,25 +46,25 @@ async function setActive (counter) {
     var timeDif = moment(entry.timestamp).fromNow()
     snippetComments.push([
       '<comment>',
-        '<h1>' + entry.alias + '<small>&nbsp&nbsp' + timeDif + '</small>' + '</h1>',
-        '<p>' + entry.comment + '</p>',
+      '<h1>' + entry.alias + '<small>&nbsp&nbsp' + timeDif + '</small>' + '</h1>',
+      '<p>' + entry.comment + '</p>',
       '</comment>'
-    ].join("\n"))
+    ].join('\n'))
   })
 
   // Add the text area and button for user to submit their own comment, concatenate list, then display all.
   snippetComments.push([
     '<textarea id="comment-text" class="shadow" minLength=1 maxLength=1024 placeholder="would you like to contribute?" required></textarea>',
     '<button id="comment-button" class="circular-border"></button>'
-  ].join("\n"))
+  ].join('\n'))
   $('comments').innerHTML = snippetComments.join('')
 
   // Add functionality to add comment button.
   $('comment-button').onclick = async () => {
-    console.log("adding comment")
+    console.log('adding comment')
     var comment = $('comment-text').value
     var response = await tools.commentSnippet(snippet.id, comment).then(res => { return res })
-    console.log("receive: response:", response)
+    console.log('receive: response:', response)
   }
 
   // Update trash it and forward it buttons to respond for this snippet in particular.
@@ -86,8 +86,8 @@ async function setActive (counter) {
   rowItem.children[0].style.backgroundColor = tools.colorlight
 
   // Return to top of page to make snippet immediately visible.
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0
+  document.documentElement.scrollTop = 0
 }
 
 // Finds all row items and adds their onclick listener.

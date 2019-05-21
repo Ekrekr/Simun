@@ -13,27 +13,23 @@ html(lang=lang)
         logo
       ul
         li
-          a.color-light(href="login") Login
+          a.color-light(href="/login") Login
         li.nav-item
-          a(href="stats") Stats
-
+          a(href="/global") Global
 
     login-register
-      to-login
-        p Login
-        a(href="login")
+      to-register
+        p Register
+        a(href="register")
           arrow
-
+      
       holder
-        form(class="login-submit" method="post" action="/register")
+        form(class="login-submit" method="post" action="/login")
           h1 Simun  
-          p These are your login credentials
+          p 
           input.shadow(type="text" name="username" id="Input Username" placeholder="Username" required autofocus)
           br
           input.shadow(type="password" name="password" id="Input Password" placeholder="Password" required)
           br
-          p This is the name that will be shown to other users
-          input.shadow(type="text" name="alias" id="Input Alias" placeholder="Alias" required autofocus)
-          br
-          button(type="register" href="index") Register
+          button(type="submit") Login
   +create-footer

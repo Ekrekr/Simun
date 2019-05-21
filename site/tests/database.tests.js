@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 var expect = require('chai').expect
-var database = require('../server/database.js')
-var identifiers = require('../server/identifiers.js')
+var database = require('../models/database.js')
+var identifiers = require('../models/identifiers.js')
 
 var redirect = null
 var userID = null

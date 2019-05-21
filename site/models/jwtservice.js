@@ -1,9 +1,10 @@
 
 const fs = require('fs')
 const jwt = require('jsonwebtoken')
+const path = require('path')
 
-var privateKey = fs.readFileSync('./server/keys/private.key', 'utf8')
-var publicKey = fs.readFileSync('./server/keys/public.key', 'utf8')
+var privateKey = fs.readFileSync(path.join(__dirname, '/keys/private.key'), 'utf8')
+var publicKey = fs.readFileSync(path.join(__dirname, '/keys/public.key'), 'utf8')
 
 var tokenOptions = {
   issuer: 'Simun',

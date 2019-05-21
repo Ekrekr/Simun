@@ -21,7 +21,7 @@ function standardise (data) {
 
 function retrieveSnippet (id) {
   return new Promise((resolve, reject) => {
-    request('http://localhost:7000/snippet/' + id, { json: true }, (err, res, body) => {
+    request('http://localhost:7000/inbox/snippet/' + id, { json: true }, (err, res, body) => {
       if (err) {
         reject(err)
       } else {

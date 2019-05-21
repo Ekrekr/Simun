@@ -54,8 +54,7 @@
     "open-website": "open http://localhost:7000",
     "start-server": "nodemon app",
     "compile-css": "sass --watch models/public/style:public/style",
-    "compile-html": "pug --watch models/public -o public",
-    "compile-scripts": "concurrently \"watchify models/public/scripts/receive.js -o public/scripts/receive.js\" \"watchify models/public/scripts/tools.js -o public/scripts/tools.js\" \"watchify models/public/scripts/index.js -o public/scripts/index.js\" \"watchify models/public/scripts/send.js -o public/scripts/send.js\"",
+    "compile-scripts": "concurrently \"watchify models/public/scripts/inbox.js -o public/scripts/inbox.js\" \"watchify models/public/scripts/tools.js -o public/scripts/tools.js\" \"watchify models/public/scripts/index.js -o public/scripts/index.js\" \"watchify models/public/scripts/outbox.js -o public/scripts/outbox.js\"",
     "dev": "npm run open-website; concurrently --kill-others \"npm run compile-css\" \"npm run compile-scripts\" \"npm run start-server\""
   },
   "repository": {
@@ -63,7 +62,6 @@
     "url": "git+https://github.com/Ekrekr/Simon.git"
   },
   "author": "Elias Kassell Raymond and James Adams",
-  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/Ekrekr/Simon/issues"
   },

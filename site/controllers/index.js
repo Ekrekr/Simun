@@ -18,11 +18,21 @@ function checkSessionCookie (req, res) {
   return decodedCookie
 }
 
-router.use('/receive', require('./receive'))
-router.use('/send', require('./send'))
+async function sendSessionCookie (req, res, alias, redirectID) {
+  // Create a token so that the user doesn't have to log in again for a while,
+  // return the token in a delicious cookie.
+  var token = await jwtservice.sign({ alias: alias, redirectid: redirectID })
+  res.cookie('session', token)
+}
+
+router.use('/account', require('./account'))
+router.use('/home', require('./home'))
+router.use('/inbox', require('./inbox'))
+router.use('/outbox', require('./outbox'))
+router.use('/global', require('./global'))
 
 router.get('/', (req, res) => {
-  res.render('login')
+  res.redirect('account/login')
 })
 
 module.exports = router

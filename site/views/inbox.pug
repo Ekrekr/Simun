@@ -15,11 +15,11 @@ html(lang=lang)
         li
           a(href="logout") Logout
         li
-          a.color-light(href="receive") Receive
+          a.color-light(href="inbox") Inbox
         li
-          a(href="send") Send
+          a(href="outbox") Outbox
         li.nav-item
-          a(href="stats") Stats
+          a(href="global") Global
 
     receive
 
@@ -63,5 +63,5 @@ html(lang=lang)
 
   +create-footer
   
-  script(type="text/javascript" src="../scripts/receive.js")
+  script(type="text/javascript" src="../scripts/inbox.js")
   script(type="text/javascript" src="../scripts/tools.js")
