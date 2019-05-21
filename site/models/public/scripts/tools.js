@@ -68,7 +68,7 @@ function commentSnippet (snippetid, comment) {
   })
 }
 
-async function forwardSnippet (snippetid, _callback) {
+async function forwardSnippet (snippetid) {
   console.log('tools: forwarding snippet', snippetid)
 
   var requestInfo = {
@@ -88,22 +88,26 @@ async function forwardSnippet (snippetid, _callback) {
   })
 }
 
-async function createSnippet (content, description, redirectid, _callback) {
-  console.log('tools: creating snippet content', content, 'with description', description, 'from redirect id', redirectid)
+async function createSnippet (file, title) {
+  console.log('tools: creating snippet content', file, 'with title', title)
 
-  var requestInfo = {
-    uri: 'http://localhost:7000/outbox/create-snippet/',
-    body: JSON.stringify({ content: content, description: description, redirectid: redirectid }),
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
+  return new Promise((resolve, reject) => {
+    var requestInfo = {
+      uri: 'http://localhost:7000/outbox/create-snippet/',
+      body: { file: file, title: title },
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }
-  }
-  request(requestInfo, function (err, res) {
-    if (err) {
-      console.log('tools: error creating snippet')
-      return false
-    }
-    return res.body
+    request(requestInfo, (err, res) => {
+      if (err) {
+        console.log('tools: error creating snippet')
+        reject(false)
+      } else {
+        console.log("Success!", res.body)
+        resolve(res.body)
+      }
+    })
   })
 }

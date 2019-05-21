@@ -688,24 +688,25 @@ login-register .button:hover {
   background-color: #2f4550;
 }
 
-send {
+outbox {
   display: table;
   position: relative;
   width: 100%;
   height: 100vh;
   background-image: radial-gradient(circle, #2f4550 70%, #b8dbd9, #2f4550, #2f4550);
 }
-send form {
-  padding-top: 100px;
+outbox holder {
+  padding-top: 76px;
   display: table-cell;
   vertical-align: middle;
   text-align: center;
 }
-send form p {
+outbox holder p {
   color: #b8dbd9;
   font-family: OpenSansItalic;
+  margin-bottom: 0px;
 }
-send form box-input {
+outbox holder box-input {
   display: block;
   width: 400px;
   height: 200px;
@@ -722,29 +723,29 @@ send form box-input {
   transition: all 0.4s;
   box-shadow: 0 2px 4px #00000080;
 }
-send form box-input input {
+outbox holder box-input input {
   width: 380px;
   height: 180px;
   opacity: 0;
   cursor: pointer;
 }
-send form box-input:hover {
+outbox holder box-input:hover {
   border: 8px dashed #b8dbd9;
 }
-send form input {
+outbox holder input {
   width: 200px;
   height: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   background-color: #f4f4f9;
   border-radius: 6px;
   padding: 10px;
   font-size: 22px;
   color: #2f4550;
 }
-send form button {
+outbox holder button {
   background-image: url("/assets/images/send-button.png");
   background-position: 50% 50%;
-  background-size: cover;
+  background-size: 98% 98%;
   width: 100px;
   height: 60px;
   box-sizing: border-box;
@@ -753,7 +754,7 @@ send form button {
   border: 4px solid #2f4550;
   cursor: pointer;
 }
-send form button:hover {
+outbox holder button:hover {
   border: 4px solid #b8dbd9;
 }
 

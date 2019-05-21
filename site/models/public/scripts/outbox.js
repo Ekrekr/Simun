@@ -1,8 +1,11 @@
+var tools = require('./tools.js')
+
 // Shorthand for getting elements by ID.
 var $ = function (id) { return document.getElementById(id) }
 
-var fileField = $('snippet-file-input')
+var fileField = $('snippet-file')
 var fileBackground = $('snippet-file-container')
+var sendButton = $('send-button')
 
 // When someone uploads a file, select the file being uploaded.
 fileField.addEventListener('change', (e) => {
@@ -32,3 +35,23 @@ fileField.addEventListener('change', (e) => {
     }
   }
 })
+
+sendButton.onclick = () => {
+  var title = $('snippet-title').value
+  var file = $('snippet-file').value
+
+  var files = fileInput.files
+  console.log('files:', files)
+
+  var data = files[0].getAsBinary();
+  
+  var fileTypes = {
+    binary : ["image/png", "image/jpeg"],
+    text   : ["text/plain", "text/css", "application/xml", "text/html"]
+  }
+
+  console.log("file:", file, "title:", title)
+  if (title !== null && file !== null) {
+    tools.createSnippet(file, title)
+  }
+}

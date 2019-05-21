@@ -55,7 +55,7 @@ router.post('/comment', async (req, res) => {
   res.send({success: true})
 })
 
-router.post('/forward-snippet/', (req, res) => {
+router.post('/forward-snippet', (req, res) => {
   console.log('server: Forwarding snippet id:', req.body.snippetid)
   database.forwardSnippet(req.body.snippetid).then(res => {
     return res
