@@ -4,6 +4,7 @@ var tools = require('./tools.js')
 // Shorthand for getting elements by ID.
 var $ = function (id) { return document.getElementById(id) }
 
+var titleField = $('snippet-title')
 var fileField = $('snippet-file')
 var fileBackground = $('snippet-file-container')
 var sendButton = $('send-button')
@@ -13,7 +14,7 @@ fileField.addEventListener('change', (e) => {
   // The multiple field is not allowed, so the file will always be at the 0th index.
   var selectedFile = fileField.files[0]
 
-  // Once the file has loaded, read it.
+  // Once the file has loaded, read it in as an url in order to display.
   var reader = new window.FileReader()
   reader.readAsDataURL(selectedFile)
   reader.onload = (e) => {
@@ -38,23 +39,19 @@ fileField.addEventListener('change', (e) => {
 })
 
 sendButton.onclick = () => {
-  var title = $('snippet-title').value
-  var file = $('snippet-file').value
+  console.log("sendButton clicked.")
+  var title = titleField.value
+  var file = fileField.files[0]
 
-  var files = fileInput.files
-  console.log('files:', files)
+  // Reject if title or file are not present.
+  if (title === null || file === null) { return }
 
-  var data = files[0].getAsBinary();
-  
-  var fileTypes = {
-    binary : ["image/png", "image/jpeg"],
-    text   : ["text/plain", "text/css", "application/xml", "text/html"]
+  // Read in the image a a binary string to prep for upload, then upload.
+  var reader = new FileReader();
+  reader.onload = (e) => {
+    tools.createSnippet(e.target.result, title)
   }
-
-  console.log("file:", file, "title:", title)
-  if (title !== null && file !== null) {
-    tools.createSnippet(file, title)
-  }
+  reader.readAsBinaryString(file)
 }
 },{"./tools.js":2}],2:[function(require,module,exports){
 const request = require('request')
