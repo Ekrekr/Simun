@@ -1,29 +1,24 @@
-var path = require('path')
+const path = require('path')
 const express = require('express')
-const router = require('express').Router()
-var bodyParser = require('body-parser')
-var cookieParser = require('cookie-parser')
-var database = require('./database.js')
-var jwtservice = require('./jwtservice.js')
-var identifiers = require('./identifiers.js')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const database = require('./database.js')
+const jwtservice = require('./jwtservice.js')
+const identifiers = require('./identifiers.js')
 
-/// ///////////////////////////////////////////////
-// Start app and express settings, then start the server.
-/// ///////////////////////////////////////////////
-
-const server = express()
+const app = express()
 
 // Enables REST communication with server.
-server.set('views', path.join(__dirname, '../models/public'))
-server.set('view engine', 'pug')
-server.use(bodyParser.urlencoded({ extended: true }))
-server.use(bodyParser.json())
-server.use(cookieParser())
-server.use(express.static(path.join(__dirname, '../public')))
+app.set('views', path.join(__dirname, './views'))
+app.set('view engine', 'pug')
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(cookieParser())
+app.use(express.static(path.join(__dirname, '../public')))
 
-server.use((req, res, next) => {
-  next()
-})
+app.use(require('./controllers'))
+
+app.listen(7000, 'localhost', () => {})
 
 async function connectToServer () {
   server.listen(7000, 'localhost', () => {
@@ -34,25 +29,12 @@ async function connectToServer () {
 connectToServer()
 
 /// ///////////////////////////////////////////////
-// Generic functions.
+// Link the server to different routes.
 /// ///////////////////////////////////////////////
 
-function checkSessionCookie (req, res) {
-  // If there is no cookie, then send to login page.
-  if (req.cookies['session'] === undefined) {
-    res.redirect('login')
-    return false
-  }
-
-  // Verify the cookie, if it is not valid then delete the cookie and return to the login page.
-  var decodedCookie = jwtservice.verify(req.cookies['session'])
-  if (decodedCookie === false) {
-    res.clearCookie('session')
-    res.redirect('login')
-    return false
-  }
-  return decodedCookie
-}
+/// ///////////////////////////////////////////////
+// Generic functions.
+/// ///////////////////////////////////////////////
 
 async function sendSessionCookie (req, res, alias, redirectID) {
   // Create a token so that the user doesn't have to log in again for a while,
@@ -160,63 +142,6 @@ server.post('/register', async (req, res) => {
   await sendSessionCookie(req, res, req.body.username, redirectID)
 
   res.redirect('index')
-})
-
-server.get('/receive', async (req, res) => {
-  if (!checkSessionCookie(req, res)) { return }
-  console.log('Loading receive page.')
-
-  var decodedCookie = checkSessionCookie(req, res)
-  if (!decodedCookie) { return }
-
-  var redirectID = decodedCookie.redirectid
-
-  var clientVariables = {}
-  clientVariables.snippets = []
-
-  // Need to load snippet data from the database to display on the page.
-  var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
-  var snippets = JSON.parse(redirect.snippetids)
-
-  // If no snippets found, then render an empty receive page.
-  if (snippets.length === 0) {
-    res.render('receive', clientVariables)
-    return
-  }
-
-  // For each snippet, retrieve the snippet content ID.
-  await snippets.forEach(async (entry, index) => {
-    var snippet = await database.getSnippet(entry).then(res => { return res[0] })
-
-    var snippetcontent = await database.getSnippetContent(snippet.contentid).then(res => { return res[0] })
-    console.log("Entry:", entry, 'server: Rendering receive, snippetcontent.id: ', snippetcontent.id)
-
-    clientVariables.snippets.push({
-      'description': snippetcontent.description,
-      'content': snippetcontent.content,
-      'snippetid': snippet.id,
-      'comments': snippet.comments
-    })
-
-    // Only return final source if it's final iteration to prevent loss.
-    if (index === snippets.length - 1) {
-      // Send the created page back to user after loading all the variables,
-      // with a slight delay to prevent further problems.
-      setTimeout(function () {
-        res.render('receive', clientVariables)
-      }, 100)
-    }
-  })
-})
-
-server.post('/comment', async (req, res) => {
-  var decodedCookie = checkSessionCookie(req, res)
-  if (!decodedCookie) { return }
-
-  var valid = await database.addSnippetComment(req.body.snippetid, decodedCookie.alias, req.body.comment).then(res => { return res })
-  console.log('response:', valid)
-
-  res.send({success: true})
 })
 
 server.get('/send', (req, res) => {

@@ -2,7 +2,7 @@
   "name": "simun",
   "version": "1.0.0",
   "description": "A website for experimenting with agent sharing, client and server side.",
-  "main": "server.js",
+  "main": "app.js",
   "directories": {
     "test": "test"
   },
@@ -50,9 +50,9 @@
     }
   },
   "scripts": {
-    "test": "standard --fix 'models/**/*.js' 'server/**/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.tests.js'",
+    "test": "standard --fix 'models/**/*.js' 'controller/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.tests.js'",
     "open-website": "open http://localhost:7000",
-    "start-server": "nodemon server/server",
+    "start-server": "nodemon app",
     "compile-css": "sass --watch models/public/style:public/style",
     "compile-html": "pug --watch models/public -o public",
     "compile-scripts": "concurrently \"watchify models/public/scripts/receive.js -o public/scripts/receive.js\" \"watchify models/public/scripts/tools.js -o public/scripts/tools.js\" \"watchify models/public/scripts/index.js -o public/scripts/index.js\" \"watchify models/public/scripts/send.js -o public/scripts/send.js\"",
