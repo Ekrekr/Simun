@@ -24,7 +24,7 @@ module.exports = {
   createSnippet: createSnippet,
   forwardSnippet: forwardSnippet,
   addSnippetComment: addSnippetComment,
-  getTopTenSnippetIDs: getTopTenSnippetIDs,
+  getTopTenSnippets: getTopTenSnippets,
 
   getSnippetContent: getSnippetContent,
   removeSnippetContent: removeSnippetContent
@@ -287,7 +287,7 @@ async function addSnippetComment (snippetid, alias, comment, testMode = false) {
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
-function getTopTenSnippetIDs (testMode = false) {
+function getTopTenSnippets (testMode = false) {
   var sqlCode = 'SELECT * FROM snippet ORDER BY forwardcount DESC LIMIT 10'
   let db = connectDatabase(testMode)
   return new Promise((resolve, reject) => {

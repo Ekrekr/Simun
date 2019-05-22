@@ -833,7 +833,7 @@ global center-column snippet {
   text-align: center;
   margin-top: 8px;
   margin-bottom: 0px;
-  padding: 4px;
+  padding: 8px;
   height: auto;
 }
 global center-column snippet title-holder {
@@ -842,7 +842,6 @@ global center-column snippet title-holder {
   background-color: #b8dbd9;
   text-align: left;
   padding: 8px;
-  margin: 4px;
 }
 global center-column snippet title-holder h1 {
   margin-top: 0px;
@@ -853,11 +852,11 @@ global center-column snippet title-holder h1 {
 }
 global center-column snippet img {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
   border-radius: 4px;
+  width: 100%;
+  height: auto;
   box-shadow: 0 2px 4px #00000080;
-  margin-top: 4px;
+  margin-top: 8px;
   margin-bottom: 4px;
 }
 

@@ -23,20 +23,18 @@ html(lang=lang)
 
     global
       center-column
-        //- for snippet, index in snippets
-        //-   row
-        //-     snippet(href="index" id=snippet.snippetid)
-        //-       info
-        //-         description #{snippet.description}
-        //-         from #{snippet.alias}
-        //-       img(src=snippet.content)
-        snippet(href="index" id='1')
-          title-holder
-            h1 Description 1
-          img(src='https://i.imgur.com/DccRRP7.jpg')
-        snippet(href="index" id='2')
-          title-holder
-            h1 Description 2
-          img(src='https://i.imgur.com/DccRRP7.jpg')
+        for snippet, index in snippets
+          snippet(id=snippet.snippetid)
+            title-holder
+              h1 #{snippetContents[index].description}
+            img(src=snippetContents[index].content)
+        //- snippet(href="index" id='1')
+        //-   title-holder
+        //-     h1 Description 1
+        //-   img(src='https://i.imgur.com/DccRRP7.jpg')
+        //- snippet(href="index" id='2')
+        //-   title-holder
+        //-     h1 Description 2
+        //-   img(src='https://i.imgur.com/DccRRP7.jpg')
   
   +create-footer

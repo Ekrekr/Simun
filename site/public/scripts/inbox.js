@@ -62,6 +62,7 @@ async function setActive (counter) {
   $('comment-button').onclick = async () => {
     var comment = $('comment-text').value
     var response = await tools.commentSnippet(snippet.id, comment).then(res => { return res })
+    // TODO: add fail check for adding comment, then forward snippet.
   }
 
   // Update trash it and forward it buttons to respond for this snippet in particular.
@@ -121,7 +122,7 @@ $('expand-icon').onclick = () => { openSelect() }
 },{"./tools.js":2,"moment":136}],2:[function(require,module,exports){
 const request = require('request')
 const imgur = require('imgur')
-const imgurUploader = require('imgur-uploader');
+const imgurUploader = require('imgur-uploader')
 
 module.exports = {
   colorblack: '#000000',
@@ -220,7 +221,7 @@ async function createSnippet (file, title) {
   // fd.append("authorization", "546c25a59c58ad7")
   // var xhr = new XMLHttpRequest()
   // xhr.open("POST", "https://api.imgur.com/3/image")
-  // xhr.onload = () => { 
+  // xhr.onload = () => {
   //   var imgUrl = JSON.parse(xhr.responseText).upload.links.imgur_page;
   //   console.log('imgUrl:', imgUrl)
   // }
@@ -281,6 +282,7 @@ async function createSnippet (file, title) {
   //   })
   // })
 }
+
 },{"imgur":114,"imgur-uploader":109,"request":153}],3:[function(require,module,exports){
 'use strict';
 

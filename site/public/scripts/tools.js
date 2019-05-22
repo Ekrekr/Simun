@@ -1,7 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const request = require('request')
 const imgur = require('imgur')
-const imgurUploader = require('imgur-uploader');
+const imgurUploader = require('imgur-uploader')
 
 module.exports = {
   colorblack: '#000000',
@@ -100,7 +100,7 @@ async function createSnippet (file, title) {
   // fd.append("authorization", "546c25a59c58ad7")
   // var xhr = new XMLHttpRequest()
   // xhr.open("POST", "https://api.imgur.com/3/image")
-  // xhr.onload = () => { 
+  // xhr.onload = () => {
   //   var imgUrl = JSON.parse(xhr.responseText).upload.links.imgur_page;
   //   console.log('imgUrl:', imgUrl)
   // }
@@ -161,6 +161,7 @@ async function createSnippet (file, title) {
   //   })
   // })
 }
+
 },{"imgur":113,"imgur-uploader":108,"request":151}],2:[function(require,module,exports){
 'use strict';
 

@@ -9,7 +9,6 @@ var fileField = $('snippet-file')
 var fileBackground = $('snippet-file-container')
 var sendButton = $('send-button')
 
-
 // When someone uploads a file, select the file being uploaded.
 fileField.addEventListener('change', (e) => {
   // The multiple field is not allowed, so the file will always be at the 0th index.
@@ -40,7 +39,7 @@ fileField.addEventListener('change', (e) => {
 })
 
 sendButton.onclick = async () => {
-  console.log("sendButton clicked.")
+  console.log('sendButton clicked.')
   var title = titleField.value
   var file = fileField.files[0]
 
@@ -48,17 +47,18 @@ sendButton.onclick = async () => {
   if (title === null || file === null) { return }
 
   // Read in the image a a binary string to prep for upload, then upload.
-  var reader = new FileReader();
+  var reader = new FileReader()
   reader.readAsBinaryString(file)
   reader.onload = (e) => {
-    console.log("string read, now creating snippet")
+    console.log('string read, now creating snippet')
     tools.createSnippet(e.target.result, title)
   }
 }
+
 },{"./tools.js":2}],2:[function(require,module,exports){
 const request = require('request')
 const imgur = require('imgur')
-const imgurUploader = require('imgur-uploader');
+const imgurUploader = require('imgur-uploader')
 
 module.exports = {
   colorblack: '#000000',
@@ -157,7 +157,7 @@ async function createSnippet (file, title) {
   // fd.append("authorization", "546c25a59c58ad7")
   // var xhr = new XMLHttpRequest()
   // xhr.open("POST", "https://api.imgur.com/3/image")
-  // xhr.onload = () => { 
+  // xhr.onload = () => {
   //   var imgUrl = JSON.parse(xhr.responseText).upload.links.imgur_page;
   //   console.log('imgUrl:', imgUrl)
   // }
@@ -218,6 +218,7 @@ async function createSnippet (file, title) {
   //   })
   // })
 }
+
 },{"imgur":114,"imgur-uploader":109,"request":152}],3:[function(require,module,exports){
 'use strict';
 

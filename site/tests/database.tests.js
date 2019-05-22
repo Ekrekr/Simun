@@ -59,7 +59,7 @@ describe('Snippet and Snippet Comment Creation, Retrieval, Forwarding and Deleti
   })
 
   it('Top ten snippets can be retrieved', async function () {
-    var topTen = await database.getTopTenSnippetIDs(true).then(res => { return res })
+    var topTen = await database.getTopTenSnippets(true).then(res => { return res })
     expect(topTen.length).to.equal(2)
   })
 
@@ -70,6 +70,11 @@ describe('Snippet and Snippet Comment Creation, Retrieval, Forwarding and Deleti
     snippet0 = await database.getSnippet(snippetID0, true).then(res => { return res[0] })
     snippet1 = await database.getSnippet(snippetID1, true).then(res => { return res[0] })
     expect(snippet0.contentid).to.equal(snippet1.contentid)
+  })
+
+  it('Snippet contents can be retrieved.', async function () {
+    var snippetContent = await database.getSnippetContent(snippet0.contentid, true).then(res => { return res[0] })
+    expect(snippetContent.content).to.equal('https://i.imgur.com/DccRRP7.jpg')
   })
 
   it('Snippets comments are stored correctly after having comment appended', async function () {
