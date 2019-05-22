@@ -202,8 +202,11 @@ img {
   }
 }
 @keyframes spin {
+  0% {
+    transform: translate(-50%, -50%);
+  }
   100% {
-    transform: rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 @keyframes opacity-oscillate {
@@ -304,17 +307,19 @@ home {
   border-radius: 6px;
   padding: 10px;
 }
-home house {
-  content: url("/assets/images/simun-logo-house.png");
+home center-piece {
+  content: url("/assets/images/button-simun-logo.png");
   display: block;
   position: absolute;
   left: 50%;
-  top: 42%;
+  top: 40%;
   transform: translate(-50%, -50%);
   height: 20%;
   width: auto;
-  box-sizing: border-box;
-  z-index: 5;
+  transition: 0.2s;
+  border-radius: 100%;
+  border: 4px solid #b8dbd9;
+  box-shadow: 0px 2px 4px #00000080;
 }
 home postbox {
   content: url("/assets/images/postbox.png");
@@ -332,15 +337,15 @@ home postbox:hover {
   animation-iteration-count: infinite;
 }
 home mail {
-  content: url("/assets/images/simun-mail.png");
+  content: url("/assets/images/plane-mail-spinner.png");
   display: block;
   position: absolute;
-  left: 64%;
-  top: 45%;
-  height: 3%;
+  top: 40.5%;
+  left: 50%;
+  height: 40%;
   width: auto;
   z-index: 5;
-  animation: spin 10s linear infinite;
+  animation: spin 2s linear infinite;
 }
 @media (min-width: 0px) {
   home text-box {
@@ -395,7 +400,7 @@ home mail {
   home text-box {
     display: block;
     position: absolute;
-    width: 600px;
+    width: 400px;
     height: 140px;
     top: 60%;
     left: 50%;
@@ -403,12 +408,12 @@ home mail {
     border-radius: 6px;
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 5px;
+    padding-top: 0px;
     transform: translate(-50%, 0%);
   }
   home text-box h1 {
     color: #b8dbd9;
-    font-size: 24px;
+    font-size: 22px;
     vertical-align: center;
   }
   home text-box arrow-right {

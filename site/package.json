@@ -9,6 +9,8 @@
   "dependencies": {
     "acorn": "^6.1.1",
     "acorn-dynamic-import": "^4.0.0",
+    "anime": "^0.1.2",
+    "animejs": "^3.0.1",
     "bcrypt": "^3.0.6",
     "bootstrap": "^4.3.1",
     "browserify": "^16.2.3",
