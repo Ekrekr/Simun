@@ -61,6 +61,7 @@ async function setActive (counter) {
   $('comment-button').onclick = async () => {
     var comment = $('comment-text').value
     var response = await tools.commentSnippet(snippet.id, comment).then(res => { return res })
+    // TODO: add fail check for adding comment, then forward snippet.
   }
 
   // Update trash it and forward it buttons to respond for this snippet in particular.

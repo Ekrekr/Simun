@@ -8,7 +8,6 @@ var fileField = $('snippet-file')
 var fileBackground = $('snippet-file-container')
 var sendButton = $('send-button')
 
-
 // When someone uploads a file, select the file being uploaded.
 fileField.addEventListener('change', (e) => {
   // The multiple field is not allowed, so the file will always be at the 0th index.
@@ -39,7 +38,7 @@ fileField.addEventListener('change', (e) => {
 })
 
 sendButton.onclick = async () => {
-  console.log("sendButton clicked.")
+  console.log('sendButton clicked.')
   var title = titleField.value
   var file = fileField.files[0]
 
@@ -47,10 +46,10 @@ sendButton.onclick = async () => {
   if (title === null || file === null) { return }
 
   // Read in the image a a binary string to prep for upload, then upload.
-  var reader = new FileReader();
+  var reader = new FileReader()
   reader.readAsBinaryString(file)
   reader.onload = (e) => {
-    console.log("string read, now creating snippet")
+    console.log('string read, now creating snippet')
     tools.createSnippet(e.target.result, title)
   }
 }

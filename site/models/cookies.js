@@ -57,6 +57,8 @@ async function sendSessionCookie (req, res, alias, redirectID) {
 }
 
 module.exports = {
+  sign: sign,
+  verify: verify,
   verifySessionCookie: verifySessionCookie,
   sendSessionCookie: sendSessionCookie
 }

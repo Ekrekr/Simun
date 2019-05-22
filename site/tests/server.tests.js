@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 var expect = require('chai').expect
-var jwtservice = require('../models/jwtservice.js')
+var cookies = require('../models/cookies.js')
 const jwt = require('jsonwebtoken')
 
 var legitToken = null
@@ -11,7 +11,7 @@ describe('Token logic', () => {
     var payload = { username: 'test user 1' }
 
     // Create a real token that should be viable to decode.
-    legitToken = jwtservice.sign(payload)
+    legitToken = cookies.sign(payload)
     expect(legitToken).to.not.equal(null)
 
     // Create a fake token with the same paylode that should not be accepted as legitimate.
@@ -21,9 +21,9 @@ describe('Token logic', () => {
   })
   it('Token can be verified', (done) => {
     // Test both the tokens, the legit being correctly decodeable and the fake being detectable as fake.
-    var legitVerifiedToken = jwtservice.verify(legitToken)
+    var legitVerifiedToken = cookies.verify(legitToken)
     expect(legitVerifiedToken.username).to.equal('test user 1')
-    var fakeVerifiedToken = jwtservice.verify(fakeToken)
+    var fakeVerifiedToken = cookies.verify(fakeToken)
     expect(fakeVerifiedToken.username).to.not.equal('test user 1')
     done()
   })

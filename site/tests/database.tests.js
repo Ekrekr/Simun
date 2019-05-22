@@ -58,6 +58,11 @@ describe('Snippet and Snippet Comment Creation, Retrieval, Forwarding and Deleti
     expect(commentSnippetID).to.not.equal(null)
   })
 
+  it('Top ten snippets can be retrieved', async function () {
+    var topTen = await database.getTopTenSnippetIDs(true).then(res => { return res })
+    expect(topTen.length).to.equal(2)
+  })
+
   var snippet0 = null
   var snippet1 = null
   it('Snippets can be retrieved.', async function () {
