@@ -396,7 +396,7 @@ home {
     content: url("/assets/images/plane-mail-spinner.png");
     display: block;
     position: absolute;
-    top: 40.5%;
+    top: 40.2%;
     left: 50%;
     height: 40%;
     width: auto;
@@ -608,16 +608,6 @@ receive {
     margin-left: auto;
     margin-right: auto;
 
-    // @media (min-width: 0px) {
-    //   $control-box-offset: 56px;
-    // }
-
-    // @media (min-width: 600px) {
-    //   $control-box-offset: calc((100vh - 600px)/2);
-    // }
-    // $control-box-offset: calc((100vh - 600px)/2);
-    $control-box-offset: 0;
-
     control-box {
       display: block;
       position: fixed;
@@ -689,7 +679,6 @@ receive {
       margin-bottom: 4px;
       overflow: auto;
 
-
       title-holder {
         display: block;
         border-radius: 4px;
@@ -704,8 +693,6 @@ receive {
           font-size: 26px;
           color: $color-dark;
           text-align: center;
-          // text-shadow: 2px 2px 4px $color-dark;
-          // text-decoration: underline;
         }
       }
 
@@ -939,3 +926,95 @@ outbox {
     }
   }
 }
+
+global {
+
+  center-column {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: auto;
+    max-width: 660px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 72px;
+    margin-bottom: 4px;
+
+    snippet {
+      display: block;
+      flex: 1;
+      border-radius: 4px;
+      background-color: $color-primary;
+      text-align: center;
+      margin-top: 8px;
+      margin-bottom: 0px;
+      padding: 4px;
+      height: auto;
+
+      title-holder {
+        display: block;
+        border-radius: 4px;
+        background-color: $color-light;
+        text-align: left;
+        padding: 8px;
+        margin: 4px;
+
+        h1 {
+          margin-top: 0px;
+          margin-bottom: 0px;
+          font-size: 26px;
+          color: $color-dark;
+          text-align: center;
+        }
+      }
+
+      img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px $color-shadow;
+        margin-top: 4px;
+        margin-bottom: 4px;
+      }
+    }
+  }
+}
+
+// comments {
+//   display: flex;
+//   flex-wrap: wrap;
+//   flex-direction: column;
+//   margin-top: 4px;
+//   width: 100%;
+//   height: auto;
+
+//   comment {
+//     display: block;
+//     flex: 1;
+//     border-radius: 4px;
+//     background-color: $color-dark;
+//     text-align: left;
+//     margin-top: 8px;
+//     margin-bottom: 0px;
+//     padding: 4px;
+
+//     h1 {
+//       color: $color-light;
+//       font-size: 18px;
+//       margin: 0px;
+//     }
+
+//     small {
+//       color: $color-primary;
+//       margin-left: 0px;
+//     }
+
+//     p {
+//       margin: 0;
+//       color: $color-light;
+//       line-height: 30px;
+//       font-size: 16px;
+//     }
+//   }
+// }

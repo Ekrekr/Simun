@@ -287,6 +287,11 @@ async function addSnippetComment (snippetid, alias, comment, testMode = false) {
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
+function getTopTenSnippetIDs (testMode = false) {
+  var sqlCode = 'SELECT * FROM snippet ORDER BY forwardcount LIMIT 10'
+  return sqlGet(sqlCode, snippetid, testMode)
+}
+
 /// ///////////////////////////////////////////////
 // Snippet Content Related Calls.
 /// ///////////////////////////////////////////////

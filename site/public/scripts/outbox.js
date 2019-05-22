@@ -218,7 +218,6 @@ async function createSnippet (file, title) {
   //   })
   // })
 }
-
 },{"imgur":114,"imgur-uploader":109,"request":152}],3:[function(require,module,exports){
 'use strict';
 
