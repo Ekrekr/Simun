@@ -292,7 +292,7 @@ footer small {
 }
 
 /* Page Specifics -------------------------------------------------- */
-index {
+home {
   display: block;
   position: absolute;
   top: 0;
@@ -304,7 +304,7 @@ index {
   border-radius: 6px;
   padding: 10px;
 }
-index house {
+home house {
   content: url("/assets/images/simun-logo-house.png");
   display: block;
   position: absolute;
@@ -316,7 +316,7 @@ index house {
   box-sizing: border-box;
   z-index: 5;
 }
-index postbox {
+home postbox {
   content: url("/assets/images/postbox.png");
   display: block;
   position: absolute;
@@ -327,11 +327,11 @@ index postbox {
   box-sizing: border-box;
   z-index: 5;
 }
-index postbox:hover {
+home postbox:hover {
   animation: shake 0.5s;
   animation-iteration-count: infinite;
 }
-index mail {
+home mail {
   content: url("/assets/images/simun-mail.png");
   display: block;
   position: absolute;
@@ -342,52 +342,103 @@ index mail {
   z-index: 5;
   animation: spin 10s linear infinite;
 }
-index text-box {
-  display: block;
-  position: absolute;
-  width: 400px;
-  height: 140px;
-  top: 60%;
-  left: 50%;
-  background-color: #2f4550;
-  border-radius: 6px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  transform: translate(-50%, 0%);
+@media (min-width: 0px) {
+  home text-box {
+    display: block;
+    position: absolute;
+    width: 300px;
+    height: 140px;
+    top: 60%;
+    left: 50%;
+    background-color: #2f4550;
+    border-radius: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    transform: translate(-50%, 0%);
+  }
+  home text-box h1 {
+    color: #b8dbd9;
+    font-size: 20px;
+    vertical-align: center;
+  }
+  home text-box arrow-right {
+    content: url("/assets/images/arrow-right.png");
+    position: absolute;
+    display: block;
+    top: 75%;
+    left: 56%;
+    width: 12%;
+    height: auto;
+    z-index: 6;
+    margin: 2%;
+    transform: translate(-50%, -50%);
+    animation: opacity-oscillate 1s linear infinite;
+    cursor: pointer;
+  }
+  home text-box arrow-left {
+    content: url("/assets/images/arrow-left.png");
+    position: absolute;
+    display: block;
+    top: 75%;
+    left: 41%;
+    width: 12%;
+    height: auto;
+    z-index: 6;
+    margin: 2%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    visibility: hidden;
+  }
 }
-index text-box h1 {
-  color: #b8dbd9;
-  font-size: 24px;
-  vertical-align: center;
-}
-index text-box arrow-right {
-  content: url("/assets/images/arrow-right.png");
-  position: absolute;
-  display: block;
-  top: 75%;
-  left: 56%;
-  width: 12%;
-  height: auto;
-  z-index: 6;
-  margin: 2%;
-  transform: translate(-50%, -50%);
-  animation: opacity-oscillate 1s linear infinite;
-  cursor: pointer;
-}
-index text-box arrow-left {
-  content: url("/assets/images/arrow-left.png");
-  position: absolute;
-  display: block;
-  top: 75%;
-  left: 41%;
-  width: 12%;
-  height: auto;
-  z-index: 6;
-  margin: 2%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  visibility: hidden;
+@media (min-width: 600px) {
+  home text-box {
+    display: block;
+    position: absolute;
+    width: 600px;
+    height: 140px;
+    top: 60%;
+    left: 50%;
+    background-color: #2f4550;
+    border-radius: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    transform: translate(-50%, 0%);
+  }
+  home text-box h1 {
+    color: #b8dbd9;
+    font-size: 24px;
+    vertical-align: center;
+  }
+  home text-box arrow-right {
+    content: url("/assets/images/arrow-right.png");
+    position: absolute;
+    display: block;
+    top: 75%;
+    left: 56%;
+    width: 12%;
+    height: auto;
+    z-index: 6;
+    margin: 2%;
+    transform: translate(-50%, -50%);
+    animation: opacity-oscillate 1s linear infinite;
+    cursor: pointer;
+  }
+  home text-box arrow-left {
+    content: url("/assets/images/arrow-left.png");
+    position: absolute;
+    display: block;
+    top: 75%;
+    left: 41%;
+    width: 12%;
+    height: auto;
+    z-index: 6;
+    margin: 2%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    visibility: hidden;
+  }
 }
 
 receive {

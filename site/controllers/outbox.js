@@ -32,42 +32,21 @@ router.get('/', async (req, res) => {
 // account_username:
 // Ekrekr
 
-
-function uploadToImgur (file) {
-  console.log('tools: Uploading', file, 'to Imgur')
-
-  return new Promise((resolve, reject) => {
-    var requestInfo = {
-      uri: 'https://api.imgur.com/3/upload',
-      body: { image: file },
-      method: 'POST',
-      headers: {
-        'clientId': '546c25a59c58ad7'
-      }
-    }
-    request(requestInfo, (err, res) => {
-      if (err) {
-        console.log('Error uploading to Imgur:', err)
-        reject(false)
-      } else {
-        console.log("Success uploading to imgur! res.body:", res.body)
-        resolve(res.body)
-      }
-    })
-  })
-}
-
 router.post('/create-snippet', async (req, res) => {
+  console.log('creating snippet')
+
   // Check cookie and retrieve redirect ID for attaching to the new snippets.
   var decodedCookie = cookies.verifySessionCookie(req, res)
   if (!decodedCookie) { return }
   var redirectID = decodedCookie.redirectid
+  console.log('redirectid:', redirectid)
 
   // Upload the image to imgur, construct the url from the returned data.
   var imgurSuccess = await uploadToImgur(req.body.content).then(res => { return res })
   console.log('imgurSuccess:', imgurSuccess)
   if (!imgurSuccess) { return }
   var imgUrl = 'https://imgur.com/' + imgurSuccess.data.id
+  console.log('imgUrl:', imgUrl)
 
   // Finally create the snippet according to the database's methodology.
   console.log('server: Creating snippet with imgUrl:', imgUrl, 'description:', req.body.title, 'redirectid:', redirectID)
