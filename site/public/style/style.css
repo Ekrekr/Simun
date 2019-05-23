@@ -497,6 +497,7 @@ inbox snippet-list row {
 }
 inbox snippet-list row snippet {
   display: table-cell;
+  position: relative;
   width: 280px;
   background-color: #586f7c;
   padding: 10px;
@@ -842,10 +843,7 @@ global center-column {
   height: auto;
   width: auto;
   max-width: 660px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 72px;
-  margin-bottom: 4px;
+  margin: 72px auto 4px auto;
 }
 global center-column snippet {
   display: block;
@@ -853,8 +851,7 @@ global center-column snippet {
   border-radius: 4px;
   background-color: #586f7c;
   text-align: center;
-  margin-top: 8px;
-  margin-bottom: 0px;
+  margin: 8px 4px 0px 4px;
   padding: 8px;
   height: auto;
   width: auto;

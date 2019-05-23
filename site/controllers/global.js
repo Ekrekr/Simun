@@ -3,16 +3,19 @@ var router = require('express').Router()
 var database = require('../models/database.js')
 
 router.get('/', async (req, res) => {
+  var decodedCookie = cookies.verifySessionCookie(req, res)
+
+  // Need logged in status in order to change sections shown in header.
   var clientVariables = {}
+  clientVariables.loggedIn = (decodedCookie !== false)
 
   clientVariables.snippets = await database.getTopTenSnippets().then(res => { return res })
 
   var snippetContents = []
   await clientVariables.snippets.forEach(async (entry, index) => {
-    console.log("ENTRYENTRYENTRY:", entry)
     var snippetContent = await database.getSnippetContent(entry.contentid).then(res => { return res[0] })
-    // console.log('snippetContent', snippetContent)
     snippetContents.push(snippetContent)
+    // console.log('snippet:', entry, '\ncontent:', snippetContent, '\n\n\n\n')
 
     // Only return final source if it's final iteration to prevent loss.
     if (index === clientVariables.snippets.length - 1) {

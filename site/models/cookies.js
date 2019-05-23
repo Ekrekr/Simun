@@ -30,12 +30,10 @@ function verify (token) {
 function verifySessionCookie (req, res) {
   // If there is no cookie, then send to login page.
   if (req.cookies === undefined) {
-    res.redirect('/')
     return false
   }
 
   if (req.cookies['session'] === undefined) {
-    res.redirect('/')
     return false
   }
 
@@ -43,7 +41,6 @@ function verifySessionCookie (req, res) {
   var decodedCookie = verify(req.cookies['session'])
   if (decodedCookie === false) {
     res.clearCookie('session')
-    res.redirect('/')
     return false
   }
   return decodedCookie

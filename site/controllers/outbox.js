@@ -5,7 +5,7 @@ var cookies = require('../models/cookies.js')
 
 router.get('/', async (req, res) => {
   var decodedCookie = cookies.verifySessionCookie(req, res)
-  if (!decodedCookie) { return }
+  if (!decodedCookie) { res.redirect('/account/login'); return }
 
   var clientVariables = {alias : decodedCookie.alias}
   res.render('outbox', clientVariables)
@@ -33,6 +33,8 @@ router.get('/', async (req, res) => {
 // Ekrekr
 
 router.post('/create-snippet', async (req, res) => {
+  var decodedCookie = cookies.verifySessionCookie(req, res)
+  if (!decodedCookie) { res.redirect('/account/login'); return }
   console.log('creating snippet')
 
   // Check cookie and retrieve redirect ID for attaching to the new snippets.
