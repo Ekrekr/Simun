@@ -819,6 +819,7 @@ global center-column {
   flex-wrap: wrap;
   flex-direction: column;
   height: auto;
+  width: auto;
   max-width: 660px;
   margin-left: auto;
   margin-right: auto;
@@ -835,6 +836,7 @@ global center-column snippet {
   margin-bottom: 0px;
   padding: 8px;
   height: auto;
+  width: 660px;
 }
 global center-column snippet title-holder {
   display: block;
@@ -850,14 +852,28 @@ global center-column snippet title-holder h1 {
   color: #2f4550;
   text-align: center;
 }
+global center-column snippet info-holder {
+  display: block;
+  margin-top: 8px;
+}
+global center-column snippet info-holder h1 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 20px;
+  color: #2f4550;
+  text-align: center;
+}
 global center-column snippet img {
   display: block;
   border-radius: 4px;
-  width: 100%;
   height: auto;
+  max-width: 660px;
+  max-height: 70vmin;
   box-shadow: 0 2px 4px #00000080;
   margin-top: 8px;
   margin-bottom: 4px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /*# sourceMappingURL=style.css.map */

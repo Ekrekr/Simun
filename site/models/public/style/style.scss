@@ -934,6 +934,7 @@ global {
     flex-wrap: wrap;
     flex-direction: column;
     height: auto;
+    width: auto;
     max-width: 660px;
     margin-left: auto;
     margin-right: auto;
@@ -950,6 +951,7 @@ global {
       margin-bottom: 0px;
       padding: 8px;
       height: auto;
+      width: 660px;
 
       title-holder {
         display: block;
@@ -967,14 +969,31 @@ global {
         }
       }
 
+      info-holder {
+        display: block;
+        margin-top: 8px;
+
+        h1 {
+          margin-top: 0px;
+          margin-bottom: 0px;
+          font-size: 20px;
+          color: $color-dark;
+          text-align: center;
+        }
+      }
+
       img {
         display: block;
         border-radius: 4px;
-        width: 100%;
+        // width: auto;
         height: auto;
+        max-width: 660px;
+        max-height: 70vmin;
         box-shadow: 0 2px 4px $color-shadow;
         margin-top: 8px;
         margin-bottom: 4px;
+        margin-left: auto;
+        margin-right: auto;
       }
     }
   }
