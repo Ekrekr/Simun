@@ -467,26 +467,27 @@ inbox snippet-list-background {
   top: 72px;
   left: -288px;
   width: 280px;
-  height: 100%;
   transition: 0.3s;
   z-index: 1;
   background-color: #2f4550;
-  box-shadow: 2px 0 4px #00000080;
 }
 inbox snippet-list {
   position: fixed;
-  display: table;
+  display: block;
   top: 72px;
   left: -288px;
   width: 280px;
-  height: auto;
-  overflow-x: hidden;
+  height: calc(100vh - 140px);
   border-collapse: separate;
   border-spacing: 2px 2px;
   transition: 0.3s;
   z-index: 2;
   padding-top: 66px;
   border-radius: 4px;
+  overflow-y: scroll;
+  background-color: #2f4550;
+  box-shadow: 2px 0 4px #00000080;
+  padding-bottom: 12px;
 }
 inbox snippet-list row {
   cursor: pointer;
