@@ -578,6 +578,7 @@ inbox {
           text-align: left;
           display: block;
           overflow: auto;
+          max-height: 180px;
   
           description {
             position: relative;
@@ -590,12 +591,21 @@ inbox {
           }
         }
   
-        img {
-          width: 40%;
-          height: auto;
-          max-height: 200px;
-          float: right;
+        img-holder {
           display: block;
+          width: 40%;
+          max-height: 180px;
+          float: right;
+          overflow: scroll;
+
+          img {
+            display: block;
+            height: auto;
+            width: 100%;
+            // max-height: 180px;
+            // max-height: 200px;
+            overflow: auto;
+          }
         }
       }
     }
@@ -993,7 +1003,7 @@ global {
       img {
         display: block;
         border-radius: 4px;
-        width: 100%;
+        max-width: 100%;
         height: auto;
         max-height: 80vmin;
         box-shadow: 0 2px 4px $color-shadow;

@@ -83,9 +83,10 @@ async function setActive (counter) {
   currentlyActive = counter
   rowItem.children[0].style.backgroundColor = tools.colorlight
 
-  // Return to top of page to make snippet immediately visible.
+  // Return to top of page to make snippet immediately visible, close navigation.
   document.body.scrollTop = 0
   document.documentElement.scrollTop = 0
+  closeSelect()
 }
 
 // Finds all row items and adds their onclick listener.

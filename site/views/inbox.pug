@@ -34,7 +34,8 @@ html(lang=lang)
               snippet(href="index" id=snippet.snippetid)
                 info
                   description #{snippet.description}
-                img(src=snippet.content)
+                img-holder
+                  img(src=snippet.content)
 
       center-column
         control-box(id="control-box")

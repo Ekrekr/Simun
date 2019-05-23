@@ -508,6 +508,7 @@ inbox snippet-list row snippet info {
   text-align: left;
   display: block;
   overflow: auto;
+  max-height: 180px;
 }
 inbox snippet-list row snippet info description {
   position: relative;
@@ -517,12 +518,18 @@ inbox snippet-list row snippet info from {
   font-size: 14px;
   font-family: GlacialIndifferenceItalic;
 }
-inbox snippet-list row snippet img {
-  width: 40%;
-  height: auto;
-  max-height: 200px;
-  float: right;
+inbox snippet-list row snippet img-holder {
   display: block;
+  width: 40%;
+  max-height: 180px;
+  float: right;
+  overflow: scroll;
+}
+inbox snippet-list row snippet img-holder img {
+  display: block;
+  height: auto;
+  width: 100%;
+  overflow: auto;
 }
 inbox center-column {
   display: block;
@@ -882,7 +889,7 @@ global center-column snippet info-holder h1 {
 global center-column snippet img {
   display: block;
   border-radius: 4px;
-  width: 100%;
+  max-width: 100%;
   height: auto;
   max-height: 80vmin;
   box-shadow: 0 2px 4px #00000080;
