@@ -446,10 +446,10 @@ home mail {
   }
 }
 
-receive {
+inbox {
   background-color: #2f4550;
 }
-receive expand-snippet-list-icon {
+inbox expand-snippet-list-icon {
   content: url("../assets/images/button-chevron.png");
   position: fixed;
   top: 86px;
@@ -461,7 +461,7 @@ receive expand-snippet-list-icon {
   transition: 0.2s;
   cursor: pointer;
 }
-receive snippet-list-background {
+inbox snippet-list-background {
   position: fixed;
   display: block;
   top: 72px;
@@ -473,7 +473,7 @@ receive snippet-list-background {
   background-color: #2f4550;
   box-shadow: 2px 0 4px #00000080;
 }
-receive snippet-list {
+inbox snippet-list {
   position: fixed;
   display: table;
   top: 72px;
@@ -488,50 +488,51 @@ receive snippet-list {
   padding-top: 66px;
   border-radius: 4px;
 }
-receive snippet-list row {
+inbox snippet-list row {
   cursor: pointer;
   display: table-row;
   column-span: 2;
   margin-bottom: 10px;
 }
-receive snippet-list row snippet {
+inbox snippet-list row snippet {
   display: table-cell;
   width: 280px;
   background-color: #586f7c;
   padding: 10px;
   border-radius: 6px;
 }
-receive snippet-list row snippet info {
+inbox snippet-list row snippet info {
   width: 55%;
   float: left;
   text-align: left;
   display: block;
   overflow: auto;
 }
-receive snippet-list row snippet info description {
+inbox snippet-list row snippet info description {
   position: relative;
   font-size: 20px;
 }
-receive snippet-list row snippet info from {
+inbox snippet-list row snippet info from {
   font-size: 14px;
   font-family: GlacialIndifferenceItalic;
 }
-receive snippet-list row snippet img {
+inbox snippet-list row snippet img {
   width: 40%;
   height: auto;
   max-height: 200px;
   float: right;
   display: block;
 }
-receive center-column {
+inbox center-column {
   display: block;
   position: relative;
-  height: 100vh;
+  height: auto;
+  width: auto;
   max-width: 660px;
   margin-left: auto;
   margin-right: auto;
 }
-receive center-column control-box {
+inbox center-column control-box {
   display: block;
   position: fixed;
   background-color: #586f7c;
@@ -543,10 +544,10 @@ receive center-column control-box {
   margin-left: 4px;
   overflow: auto;
 }
-receive center-column control-box a {
+inbox center-column control-box a {
   cursor: pointer;
 }
-receive center-column control-box action-holder {
+inbox center-column control-box action-holder {
   display: block;
   position: absolute;
   height: 144px;
@@ -556,7 +557,7 @@ receive center-column control-box action-holder {
   transform: translate(0%, -50%);
   transition: 0.2s;
 }
-receive center-column control-box action-holder forward-it {
+inbox center-column control-box action-holder forward-it {
   content: url("/assets/images/button-plane-mail.png");
   display: block;
   position: relative;
@@ -565,7 +566,7 @@ receive center-column control-box action-holder forward-it {
   margin-bottom: 10px;
   transition: 0.2s;
 }
-receive center-column control-box action-holder trash-it {
+inbox center-column control-box action-holder trash-it {
   content: url("/assets/images/button-bin.png");
   display: block;
   position: relative;
@@ -574,7 +575,7 @@ receive center-column control-box action-holder trash-it {
   margin-bottom: 10px;
   transition: 0.2s;
 }
-receive center-column control-box action-holder report-it {
+inbox center-column control-box action-holder report-it {
   content: url("/assets/images/button-report.png");
   display: block;
   position: relative;
@@ -583,10 +584,11 @@ receive center-column control-box action-holder report-it {
   margin-bottom: 10px;
   transition: 0.2s;
 }
-receive center-column snippet-selected {
+inbox center-column snippet-selected {
   display: block;
   position: absolute;
   height: auto;
+  width: auto;
   top: 80px;
   left: 64px;
   background-color: #586f7c;
@@ -596,7 +598,17 @@ receive center-column snippet-selected {
   margin-bottom: 4px;
   overflow: auto;
 }
-receive center-column snippet-selected title-holder {
+@media (min-width: 0px) {
+  inbox center-column snippet-selected {
+    width: calc(100vw - 88px);
+  }
+}
+@media (min-width: 660px) {
+  inbox center-column snippet-selected {
+    width: 570px;
+  }
+}
+inbox center-column snippet-selected title-holder {
   display: block;
   border-radius: 4px;
   background-color: #b8dbd9;
@@ -604,29 +616,30 @@ receive center-column snippet-selected title-holder {
   padding: 8px;
   margin-bottom: 8px;
 }
-receive center-column snippet-selected title-holder h1 {
+inbox center-column snippet-selected title-holder h1 {
   margin-top: 0px;
   margin-bottom: 0px;
   font-size: 26px;
   color: #2f4550;
   text-align: center;
 }
-receive center-column snippet-selected img {
+inbox center-column snippet-selected img {
   display: block;
   width: 100%;
+  min-width: 100%;
   height: auto;
   border-radius: 4px;
   box-shadow: 0 2px 4px #00000080;
 }
-receive center-column snippet-selected comments {
+inbox center-column snippet-selected comments {
   display: flex;
+  width: 100%;
+  height: auto;
   flex-wrap: wrap;
   flex-direction: column;
   margin-top: 4px;
-  width: 100%;
-  height: auto;
 }
-receive center-column snippet-selected comments comment {
+inbox center-column snippet-selected comments comment {
   display: block;
   flex: 1;
   border-radius: 4px;
@@ -636,27 +649,27 @@ receive center-column snippet-selected comments comment {
   margin-bottom: 0px;
   padding: 4px;
 }
-receive center-column snippet-selected comments comment h1 {
+inbox center-column snippet-selected comments comment h1 {
   color: #b8dbd9;
   font-size: 18px;
   margin: 0px;
 }
-receive center-column snippet-selected comments comment small {
+inbox center-column snippet-selected comments comment small {
   color: #586f7c;
   margin-left: 0px;
 }
-receive center-column snippet-selected comments comment p {
+inbox center-column snippet-selected comments comment p {
   margin: 0;
   color: #b8dbd9;
   line-height: 30px;
   font-size: 16px;
 }
-receive center-column snippet-selected textarea {
+inbox center-column snippet-selected textarea {
   width: auto;
   height: auto;
   margin-top: 8px;
 }
-receive center-column snippet-selected button {
+inbox center-column snippet-selected button {
   background-image: url("/assets/images/button-plus.png");
   background-position: 50% 50%;
   background-size: 52px 52px;
@@ -836,7 +849,8 @@ global center-column snippet {
   margin-bottom: 0px;
   padding: 8px;
   height: auto;
-  width: 660px;
+  width: auto;
+  max-width: 660px;
 }
 global center-column snippet title-holder {
   display: block;
@@ -844,6 +858,7 @@ global center-column snippet title-holder {
   background-color: #b8dbd9;
   text-align: left;
   padding: 8px;
+  width: auto;
 }
 global center-column snippet title-holder h1 {
   margin-top: 0px;
@@ -866,9 +881,9 @@ global center-column snippet info-holder h1 {
 global center-column snippet img {
   display: block;
   border-radius: 4px;
+  width: 100%;
   height: auto;
-  max-width: 660px;
-  max-height: 70vmin;
+  max-height: 80vmin;
   box-shadow: 0 2px 4px #00000080;
   margin-top: 8px;
   margin-bottom: 4px;
