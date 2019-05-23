@@ -10,7 +10,7 @@ router.use('/snippet', require('./snippet'))
 
 router.get('/', (req, res) => {
   var decodedCookie = cookies.verifySessionCookie(req, res)
-  if (!decodedCookie) { res.redirect('/global'); return }
+  if (!decodedCookie) { res.redirect('/home'); return }
 
   res.redirect('/inbox')
 })

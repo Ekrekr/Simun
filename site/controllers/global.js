@@ -1,6 +1,6 @@
-var express = require('express')
 var router = require('express').Router()
 var database = require('../models/database.js')
+var cookies = require('../models/cookies.js')
 
 router.get('/', async (req, res) => {
   var decodedCookie = cookies.verifySessionCookie(req, res)
@@ -28,11 +28,6 @@ router.get('/', async (req, res) => {
       }, 100)
     }
   })
-
-  console.log()
-
-  // res.render('global', {'topTenSnippets' : topTen})
-  // res.render('global')
 })
 
 module.exports = router

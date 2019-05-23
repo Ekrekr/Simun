@@ -11,15 +11,22 @@ html(lang=lang)
     header
       a(href="/")
         logo
-      ul
-        li
-          a.color-light(href="/account/logout") Logout
-        li
-          a.color-light(href="/inbox") Inbox
-        li
-          a.color-light(href="/outbox") Outbox
-        li.nav-item
-          a.color-light(href="/global") Global
+      if loggedIn
+        ul
+          li.nav-item
+            a.color-light(href="/account/logout") Logout
+          li.nav-item
+            a.color-light(href="/inbox") Inbox
+          li.nav-item
+            a.color-light(href="/outbox") Outbox
+          li.nav-item
+            a.color-light(href="/global") Global
+      else
+        ul
+          li.nav-item
+            a.color-light(href="/account/logout") Login
+          li.nav-item
+            a.color-light(href="/global") Global
 
     home
       center-piece(id="center-piece")
