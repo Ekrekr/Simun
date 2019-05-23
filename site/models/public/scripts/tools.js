@@ -93,70 +93,23 @@ async function forwardSnippet (snippetid) {
 async function createSnippet (file, title) {
   console.log('tools: creating snippet file with title', title)
 
-  // Method 1: Keeps rejectig authorization.
-  // var fd = new FormData()
-  // fd.append("image", file)
-  // fd.append("authorization", "546c25a59c58ad7")
-  // var xhr = new XMLHttpRequest()
-  // xhr.open("POST", "https://api.imgur.com/3/image")
-  // xhr.onload = () => {
-  //   var imgUrl = JSON.parse(xhr.responseText).upload.links.imgur_page;
-  //   console.log('imgUrl:', imgUrl)
-  // }
-  // xhr.send(fd)
-
-  // Method 2: Can't use, npm imgur internal error.
-  // imgur.setClientId('546c25a59c58ad7')
-  // console.log('client id set as', '546c25a59c58ad7')
-  // imgur.setAPIUrl('https://api.imgur.com/3/image')
-  // console.log('API url set to', 'https://api.imgur.com/3/image')
-  // imgur.uploadBase64(file)
-  // .then(function (json) {
-  //     console.log('Imgur response:', json.data.link);
-  // })
-  // .catch(function (err) {
-  //     console.error('Error uploading to imgur:', err.message);
-  // })
-
-  // Method 3.
-  // return new Promise((resolve, reject) => {
-  //   var requestInfo = {
-  //     uri: 'https://api.imgur.com/3/image',
-  //     body: { image: file },
-  //     method: 'POST',
-  //     headers: {
-  //       'authorization': 'Client-ID 546c25a59c58ad7',
-  //       'Content-Type': 'application/json'
-  //     }
-  //   }
-  //   request(requestInfo, (err, res) => {
-  //     if (err) {
-  //       console.log('Error uploading to Imgur', err)
-  //       reject(false)
-  //     } else {
-  //       console.log("Success!", res.body)
-  //       resolve(res.body)
-  //     }
-  //   })
-  // })
-
-  // return new Promise((resolve, reject) => {
-  //   var requestInfo = {
-  //     uri: 'http://localhost:7000/outbox/create-snippet/',
-  //     body: JSON.stringify({ fileUrl: json.data.link, title: title }),
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   }
-  //   request(requestInfo, (err, res) => {
-  //     if (err) {
-  //       console.log('tools: error creating snippet', err)
-  //       reject(false)
-  //     } else {
-  //       console.log("Success!", res.body)
-  //       resolve(res.body)
-  //     }
-  //   })
-  // })
+  return new Promise((resolve, reject) => {
+    var requestInfo = {
+      uri: 'http://localhost:7000/outbox/create-snippet/',
+      body: JSON.stringify({ fileUrl: json.data.link, title: title }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    request(requestInfo, (err, res) => {
+      if (err) {
+        console.log('tools: error creating snippet', err)
+        reject(false)
+      } else {
+        console.log("Success!", res.body)
+        resolve(res.body)
+      }
+    })
+  })
 }

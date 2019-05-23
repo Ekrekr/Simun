@@ -16,7 +16,7 @@
    width="400"
    height="400"
    viewBox="0 0 400 400"
-   sodipodi:docname="simun-logo-house copy.svg"
+   sodipodi:docname="simun-logo.svg"
    inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    inkscape:export-filename="/Users/eliaskassellraymond/Desktop/simon_logo_v1_expanded.png"
    inkscape:export-xdpi="96"
@@ -34,9 +34,9 @@
      inkscape:window-height="767"
      id="namedview3844"
      showgrid="true"
-     inkscape:zoom="0.65461935"
-     inkscape:cx="93.527018"
-     inkscape:cy="262.04969"
+     inkscape:zoom="1.3092387"
+     inkscape:cx="214.83607"
+     inkscape:cy="210.11628"
      inkscape:window-x="0"
      inkscape:window-y="1"
      inkscape:window-maximized="1"
@@ -412,7 +412,8 @@
        y1="465.41132"
        x2="398.70499"
        y2="465.41132"
-       gradientUnits="userSpaceOnUse" />
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0071067,0,0,0.99184748,-1.5384858,2.3829516)" />
   </defs>
   <g
      inkscape:groupmode="layer"
@@ -424,13 +425,12 @@
      inkscape:label="House"
      id="layer1"
      inkscape:groupmode="layer">
-    <ellipse
-       style="opacity:1;fill:url(#linearGradient905);fill-opacity:1.0"
+    <circle
+       style="opacity:1;fill:url(#linearGradient905);fill-opacity:1;stroke-width:0.999448"
        id="path899"
-       cx="200.1163"
-       cy="465.41132"
-       rx="198.58868"
-       ry="201.64391" />
+       cx="200"
+       cy="464"
+       r="200" />
   </g>
   <g
      inkscape:groupmode="layer"
