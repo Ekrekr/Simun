@@ -1,5 +1,5 @@
-const path = require('path')
 const express = require('express')
+var session = require('express-session');
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
@@ -12,7 +12,7 @@ app.set('view engine', 'pug')
 app.use(cookieParser())
 app.use(express.static('./public'))
 app.use('style', express.static('public/style'))
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '10mb'}))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(require('./controllers'))
 

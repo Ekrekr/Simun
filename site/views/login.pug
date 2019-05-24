@@ -27,11 +27,12 @@ html(lang=lang)
         form(class="login-submit" method="post" action="/account/login")
           h1 Simun  
           p 
-          input.shadow(type="text" name="username" id="Input Username" placeholder="Username" required autofocus)
+          input.shadow(type="text" name="username" id="Input Username" placeholder="Username" maxlength="100" required autofocus)
           br
-          input.shadow(type="password" name="password" id="Input Password" placeholder="Password" required)
+          input.shadow(type="password" name="password" id="Input Password" placeholder="Password" maxlength="100" required)
           br
           button(type="submit") Login
+          h2 #{errorMessage}
 
           
   +create-footer

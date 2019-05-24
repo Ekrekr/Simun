@@ -700,6 +700,10 @@ login-register h1 {
   margin-bottom: 10px;
   text-shadow: 0 2px 4px #00000080;
 }
+login-register h2 {
+  font-size: 18px;
+  color: #b8dbd9;
+}
 login-register holder {
   display: block;
   position: absolute;
@@ -714,8 +718,19 @@ login-register to-register {
   position: absolute;
   width: auto;
   height: auto;
-  top: 70%;
-  left: 70%;
+  transition: 1s;
+}
+@media (min-width: 0px) {
+  login-register to-register {
+    bottom: 5%;
+    right: 5%;
+  }
+}
+@media (min-width: 600px) {
+  login-register to-register {
+    top: 70%;
+    right: 20%;
+  }
 }
 login-register to-register arrow {
   content: url("/assets/images/arrow-right.png");
@@ -732,8 +747,19 @@ login-register to-login {
   position: absolute;
   width: auto;
   height: auto;
-  top: 70%;
-  left: 10%;
+  transition: 1s;
+}
+@media (min-width: 0px) {
+  login-register to-login {
+    bottom: 5%;
+    left: 5%;
+  }
+}
+@media (min-width: 600px) {
+  login-register to-login {
+    top: 70%;
+    left: 20%;
+  }
 }
 login-register to-login arrow {
   content: url("/assets/images/arrow-left.png");

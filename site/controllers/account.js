@@ -3,6 +3,7 @@ var router = require('express').Router()
 var cookies = require('../models/cookies.js')
 var database = require('../models/database.js')
 var identifiers = require('../models/identifiers.js')
+var passwordValidator = require('password-validator');
 
 function removeCookieIfPresent(req, res) {
   var decodedCookie = cookies.verifySessionCookie(req, res)
@@ -26,14 +27,32 @@ router.post('/login', async (req, res) => {
     await cookies.sendSessionCookie(req, res, redirect.alias, redirectID)
     res.redirect('/home')
   } else {
-    // TODO: Update this with notification of incorrect credentials.
-    console.log('Incorrect password. TODO: Add graphic response here to say already taken.')
-    res.render('login')
+    res.render('login', {errorMessage: 'Username or password is invalid.'})
   }
 })
 
 router.post('/register', async (req, res) => {
   removeCookieIfPresent(req, res)
+
+  // Check password follows rules.
+  var passwordSchema = new passwordValidator();
+  passwordSchema.is().min(8).is().max(32).has().uppercase().has().lowercase();
+  if(!passwordSchema.validate(req.body.password)) {
+    res.render('register', {errorMessage: 'Password must be 8 - 32 characters and have upper and lower case letters.'})
+    return
+  }
+
+  // Check username and alias follow rules.
+  var nameSchema = new passwordValidator();
+  nameSchema.is().min(3).is().max(16);
+  if(!nameSchema.validate(req.body.username)) {
+    res.render('register', {errorMessage: 'Username must be 3 - 15 characters.'})
+    return
+  }
+  if(!nameSchema.validate(req.body.alias)) {
+    res.render('register', {errorMessage: 'Alias must be 3 - 15 characters.'})
+    return
+  }
 
   // Create a redirect to attach to the user details.
   var redirectID = await database.createRedirect(req.body.alias, 1).then(res => { return res })
@@ -41,9 +60,8 @@ router.post('/register', async (req, res) => {
   // Create an account pointing to the redirect
   var userID = await database.createUser(req.body.username, req.body.password, redirectID).then(res => { return res })
   if (userID === identifiers.duplicateID) {
-    console.log('duplicate ID found. TODO: Add graphic response here to say already taken.')
     await database.removeRedirect(redirectID).then(res => { return res })
-    res.render('register')
+    res.render('register', {errorMessage: 'Username already taken.'})
     return
   }
 
@@ -53,6 +71,11 @@ router.post('/register', async (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
+  res.clearCookie('session')
+  res.redirect('/account/login')
+})
+
+router.get('/account', (req, res) => {
   res.clearCookie('session')
   res.redirect('/account/login')
 })

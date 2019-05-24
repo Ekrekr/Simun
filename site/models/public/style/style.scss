@@ -790,6 +790,11 @@ login-register {
     text-shadow: 0 2px 4px $color-shadow;
   }
 
+  h2 {
+    font-size: 18px;
+    color: $color-light;
+  }
+
   holder {
     display: block;
     position: absolute;
@@ -805,8 +810,16 @@ login-register {
     position: absolute;
     width: auto;
     height: auto;
-    top: 70%;
-    left: 70%;
+    transition: 1.0s;
+    @media (min-width: 0px) {
+      bottom: 5%;
+      right: 5%;
+    }
+  
+    @media (min-width: 600px) {
+      top: 70%;
+      right: 20%;
+    }
 
     arrow {
       content: url("/assets/images/arrow-right.png");
@@ -826,8 +839,16 @@ login-register {
     position: absolute;
     width: auto;
     height: auto;
-    top: 70%;
-    left: 10%;
+    transition: 1.0s;
+    @media (min-width: 0px) {
+      bottom: 5%;
+      left: 5%;
+    }
+  
+    @media (min-width: 600px) {
+      top: 70%;
+      left: 20%;
+    }
 
     arrow {
       content: url("/assets/images/arrow-left.png");
