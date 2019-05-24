@@ -53,6 +53,6 @@ sendButton.onclick = async () => {
     tools.createSnippet(reader.result, title)
   }
   reader.onerror = (e) => {
-    console.log('Error reading image: ', error);
+    console.log('Error reading image: ', error)
   }
 }

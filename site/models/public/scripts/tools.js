@@ -1,6 +1,4 @@
 const request = require('request')
-const imgur = require('imgur')
-const imgurUploader = require('imgur-uploader')
 
 module.exports = {
   colorblack: '#000000',
@@ -93,7 +91,7 @@ async function forwardSnippet (snippetid) {
 function uploadToImgur (file, title) {
   console.log('tools: Uploading to Imgur')
 
-  file = file.replace(/^data:image\/[a-z]+;base64,/, "");
+  file = file.replace(/^data:image\/[a-z]+;base64,/, '')
 
   return new Promise((resolve, reject) => {
     var requestInfo = {
@@ -110,10 +108,10 @@ function uploadToImgur (file, title) {
         console.log('tools: error uploading to imgur', err)
         reject(false)
       } else {
-        console.log("Success!", res.body)
+        console.log('Success!', res.body)
         var parsed = JSON.parse(res.body)
-        console.log("Parsed:", parsed)
-        console.log("ID:", parsed.data.id)
+        console.log('Parsed:', parsed)
+        console.log('ID:', parsed.data.id)
         resolve(parsed.data.id)
       }
     })
@@ -124,8 +122,9 @@ async function createSnippet (file, title) {
   // console.log('tools: creating snippet with title', title)
 
   // var imgUrl = await uploadToImgur(file, title).then( res => { return res })
-
   var imgUrl = 'O49BWOR'
+  var imgUrl = 'https://imgur.com/' + imgUrl
+
   console.log('image url:', imgUrl)
 
   return new Promise((resolve, reject) => {

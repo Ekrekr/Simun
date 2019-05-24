@@ -33,9 +33,28 @@ describe('Account authentication and utility.', async function () {
     isValid = await database.authenticateUser('TestUsername', 'pAsSwOrD*1', true).then(res => { return res })
     expect(isValid).to.equal(false)
   })
+
   it('Retrieve redirectID by using user\'s username', async function () {
     var redirectID = await database.getUserRedirectID('TestUsername', true).then(res => { return res })
     expect(redirect.id).to.equal(redirectID)
+  })
+
+  it('Snippets can be added to a redirect', async function () {
+    await database.addToRedirectSnippetList(redirect.id, 7, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+    await database.addToRedirectSnippetList(redirect.id, 3, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+    await database.addToRedirectSnippetList(redirect.id, 9, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+  })
+
+  it('Snippets can be removed from a redirect', async function () {
+    await database.removeFromRedirectSnippetList(redirect.id, 3, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+    await database.removeFromRedirectSnippetList(redirect.id, 9, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+    await database.removeFromRedirectSnippetList(redirect.id, 7, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
   })
 })
 

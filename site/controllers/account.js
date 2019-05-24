@@ -2,6 +2,7 @@ var express = require('express')
 var router = require('express').Router()
 var cookies = require('../models/cookies.js')
 var database = require('../models/database.js')
+var identifiers = require('../models/identifiers.js')
 
 function removeCookieIfPresent(req, res) {
   var decodedCookie = cookies.verifySessionCookie(req, res)
@@ -41,6 +42,7 @@ router.post('/register', async (req, res) => {
   var userID = await database.createUser(req.body.username, req.body.password, redirectID).then(res => { return res })
   if (userID === identifiers.duplicateID) {
     console.log('duplicate ID found. TODO: Add graphic response here to say already taken.')
+    await database.removeRedirect(redirectID).then(res => { return res })
     res.render('register')
     return
   }
