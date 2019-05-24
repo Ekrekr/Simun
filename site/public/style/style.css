@@ -800,6 +800,10 @@ outbox holder p {
   font-family: OpenSansItalic;
   margin-bottom: 0px;
 }
+outbox holder h2 {
+  font-size: 18px;
+  color: #b8dbd9;
+}
 outbox holder box-input {
   display: block;
   width: 400px;

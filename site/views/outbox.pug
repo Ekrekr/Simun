@@ -28,6 +28,7 @@ html(lang=lang)
           input.shadow(id="snippet-file" type="file" required)
         p From !{alias}
         button(id="send-button")
+        h2(id='error-message') #{errorMessage}
   
   +create-footer
   

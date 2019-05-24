@@ -23,6 +23,7 @@ router.get('/', async (req, res) => {
 
   // If no snippets found, then render an empty inbox page.
   if (snippets.length === 0) {
+    console.log('Rendering 0')
     clientVariables.placeholderImage = '/assets/images/placeholder.png'
     res.render('inbox', clientVariables)
     return
@@ -43,6 +44,7 @@ router.get('/', async (req, res) => {
 
     // Only return final source if it's final iteration to prevent loss.
     if (index === snippets.length - 1) {
+      console.log('Rendering page')
       // Send the created page back to user after loading all the variables,
       // with a slight delay to prevent further problems.
       setTimeout(function () {
@@ -58,20 +60,32 @@ router.post('/comment', async (req, res) => {
 
   var valid = await database.addSnippetComment(req.body.snippetid, decodedCookie.alias, req.body.comment).then(res => { return res })
 
-  if (valid)
-    res.redirect('back')
+  // Forward the snippet.
+  await database.forwardSnippet(req.body.snippetid)
+  await database.removeFromRedirectSnippetList(decodedCookie.redirectid, req.body.snippetid)
 
   res.send({success: true})
 })
 
-router.post('/forward-snippet', (req, res) => {
+router.post('/forward-snippet', async (req, res) => {
   var decodedCookie = cookies.verifySessionCookie(req, res)
   if (!decodedCookie) { res.redirect('/account/login'); return }
   
   console.log('server: Forwarding snippet id:', req.body.snippetid)
-  database.forwardSnippet(req.body.snippetid).then(res => {
-    return res
-  })
+  await database.forwardSnippet(req.body.snippetid)
+
+  res.send({success: true})
+})
+
+router.post('/trash-snippet', async (req, res) => {
+  var decodedCookie = cookies.verifySessionCookie(req, res)
+  if (!decodedCookie) { res.redirect('/account/login'); return }
+
+  console.log('server: Trashing snippet id:', req.body.snippetid)
+  await database.removeSnippet(req.body.snippetid)
+  await database.removeFromRedirectSnippetList(decodedCookie.redirectid, req.body.snippetid)
+
+  res.send({success: true})
 })
 
 module.exports = router
