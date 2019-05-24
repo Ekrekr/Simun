@@ -3,7 +3,7 @@ doctype html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xht
 include tools.pug
 
 html(lang=lang)
-  +create-head
+  +create-head('Outbox')
 
   body.index-bg(scroll="no")
 
@@ -21,18 +21,15 @@ html(lang=lang)
         li.nav-item
           a(href="/global") Global
 
-    send
-      form(method='post' action='/send')
-        br
-        input.shadow(type="text" name="title" placeholder="Snippet Title" required autofocus)
-        br
-        br
+    outbox
+      holder
+        input.shadow(id="snippet-title" type="text" placeholder="Title" required autofocus)
         box-input(id="snippet-file-container")
-          input.shadow(id="snippet-file-input" type="file" name="fileupload" required)
-        p From jhon
-        button(type="send")
+          input.shadow(id="snippet-file" type="file" required)
+        p From !{alias}
+        button(id="send-button")
   
   +create-footer
   
-  script(type="text/javascript" src="/scripts/send.js")
+  script(type="text/javascript" src="/scripts/outbox.js")
   script(type="text/javascript" src="/scripts/tools.js")

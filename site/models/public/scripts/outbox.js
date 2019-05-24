@@ -1,15 +1,19 @@
+var tools = require('./tools.js')
+
 // Shorthand for getting elements by ID.
 var $ = function (id) { return document.getElementById(id) }
 
-var fileField = $('snippet-file-input')
+var titleField = $('snippet-title')
+var fileField = $('snippet-file')
 var fileBackground = $('snippet-file-container')
+var sendButton = $('send-button')
 
 // When someone uploads a file, select the file being uploaded.
 fileField.addEventListener('change', (e) => {
   // The multiple field is not allowed, so the file will always be at the 0th index.
   var selectedFile = fileField.files[0]
 
-  // Once the file has loaded, read it.
+  // Once the file has loaded, read it in as an url in order to display.
   var reader = new window.FileReader()
   reader.readAsDataURL(selectedFile)
   reader.onload = (e) => {
@@ -32,3 +36,23 @@ fileField.addEventListener('change', (e) => {
     }
   }
 })
+
+sendButton.onclick = async () => {
+  console.log('sendButton clicked.')
+  var title = titleField.value
+  var file = fileField.files[0]
+
+  // Reject if title or file are not present.
+  if (title === null || file === null) { return }
+
+  // Read in the image a a binary string to prep for upload, then upload.
+  var reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onload = () => {
+    console.log('string read, now creating snippet')
+    tools.createSnippet(reader.result, title)
+  }
+  reader.onerror = (e) => {
+    console.log('Error reading image: ', error)
+  }
+}

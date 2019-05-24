@@ -69,7 +69,7 @@ function commentSnippet (snippetid, comment) {
   })
 }
 
-async function forwardSnippet (snippetid, _callback) {
+async function forwardSnippet (snippetid) {
   console.log('tools: forwarding snippet', snippetid)
 
   var requestInfo = {
@@ -89,23 +89,63 @@ async function forwardSnippet (snippetid, _callback) {
   })
 }
 
-async function createSnippet (content, description, redirectid, _callback) {
-  console.log('tools: creating snippet content', content, 'with description', description, 'from redirect id', redirectid)
+function uploadToImgur (file, title) {
+  console.log('tools: Uploading to Imgur')
 
-  var requestInfo = {
-    uri: 'http://localhost:7000/outbox/create-snippet/',
-    body: JSON.stringify({ content: content, description: description, redirectid: redirectid }),
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
+  file = file.replace(/^data:image\/[a-z]+;base64,/, '')
+
+  return new Promise((resolve, reject) => {
+    var requestInfo = {
+      uri: 'https://api.imgur.com/3/image',
+      body: JSON.stringify({ image: file, type: 'base64', title: title }),
+      method: 'POST',
+      headers: {
+        'Authorization': 'Client-ID 546c25a59c58ad7',
+        'Content-Type': 'application/json'
+      }
     }
-  }
-  request(requestInfo, function (err, res) {
-    if (err) {
-      console.log('tools: error creating snippet')
-      return false
+    request(requestInfo, (err, res) => {
+      if (err) {
+        console.log('tools: error uploading to imgur', err)
+        reject(false)
+      } else {
+        console.log('Success!', res.body)
+        var parsed = JSON.parse(res.body)
+        console.log('Parsed:', parsed)
+        console.log('ID:', parsed.data.id)
+        resolve(parsed.data.id)
+      }
+    })
+  })
+}
+
+async function createSnippet (file, title) {
+  // console.log('tools: creating snippet with title', title)
+
+  // var imgUrl = await uploadToImgur(file, title).then( res => { return res })
+  var imgUrl = 'O49BWOR'
+  var imgUrl = 'https://imgur.com/' + imgUrl
+
+  console.log('image url:', imgUrl)
+
+  return new Promise((resolve, reject) => {
+    var requestInfo = {
+      uri: 'http://localhost:7000/outbox/create-snippet/',
+      body: JSON.stringify({ imgurl: imgUrl, title: title }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }
-    return res.body
+    request(requestInfo, function (err, res) {
+      if (err) {
+        console.log('tools: error creating snippet')
+        reject(false)
+      } else {
+        console.log('tools: Repsonse:', res.body)
+        resolve(res.body)
+      }
+    })
   })
 }
 

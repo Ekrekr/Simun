@@ -13,15 +13,13 @@ function openSelect () {
   $('expand-icon').onclick = () => { closeSelect() }
   $('expand-icon-visual').style.transform = 'rotate(180deg)'
   $('snippet-list').style.left = '0px'
-  $('snippet-list-background').style.left = '0px'
 }
 
 // Close the snippet selector bar.
 function closeSelect () {
   $('expand-icon').onclick = () => { openSelect() }
   $('expand-icon-visual').style.transform = ''
-  $('snippet-list').style.left = '-288px'
-  $('snippet-list-background').style.left = '-288px'
+  $('snippet-list').style.left = '-280px'
 }
 
 // Make a snippet highlighted and fill the selected snippet content with.
@@ -62,6 +60,7 @@ async function setActive (counter) {
   $('comment-button').onclick = async () => {
     var comment = $('comment-text').value
     var response = await tools.commentSnippet(snippet.id, comment).then(res => { return res })
+    // TODO: add fail check for adding comment, then forward snippet.
   }
 
   // Update trash it and forward it buttons to respond for this snippet in particular.
@@ -82,9 +81,10 @@ async function setActive (counter) {
   currentlyActive = counter
   rowItem.children[0].style.backgroundColor = tools.colorlight
 
-  // Return to top of page to make snippet immediately visible.
+  // Return to top of page to make snippet immediately visible, close navigation.
   document.body.scrollTop = 0
   document.documentElement.scrollTop = 0
+  // closeSelect()
 }
 
 // Finds all row items and adds their onclick listener.
@@ -114,13 +114,10 @@ function assignButtons () {
 if ($('select-0') !== null) {
   assignButtons()
   setActive(0)
-} else {
-  $('selected-content').src = 'https://i.imgur.com/DccRRP7.jpg'
-  // $('selected-description').innerHTML = 'Example description'
-  // $('selected-author').innerHTML = 'Example author'
 }
 
 $('expand-icon').onclick = () => { openSelect() }
+// $('snippet-list').style.left = '-288px'
 
 },{"./tools.js":2,"moment":106}],2:[function(require,module,exports){
 const request = require('request')
@@ -193,7 +190,7 @@ function commentSnippet (snippetid, comment) {
   })
 }
 
-async function forwardSnippet (snippetid, _callback) {
+async function forwardSnippet (snippetid) {
   console.log('tools: forwarding snippet', snippetid)
 
   var requestInfo = {
@@ -213,23 +210,63 @@ async function forwardSnippet (snippetid, _callback) {
   })
 }
 
-async function createSnippet (content, description, redirectid, _callback) {
-  console.log('tools: creating snippet content', content, 'with description', description, 'from redirect id', redirectid)
+function uploadToImgur (file, title) {
+  console.log('tools: Uploading to Imgur')
 
-  var requestInfo = {
-    uri: 'http://localhost:7000/outbox/create-snippet/',
-    body: JSON.stringify({ content: content, description: description, redirectid: redirectid }),
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
+  file = file.replace(/^data:image\/[a-z]+;base64,/, '')
+
+  return new Promise((resolve, reject) => {
+    var requestInfo = {
+      uri: 'https://api.imgur.com/3/image',
+      body: JSON.stringify({ image: file, type: 'base64', title: title }),
+      method: 'POST',
+      headers: {
+        'Authorization': 'Client-ID 546c25a59c58ad7',
+        'Content-Type': 'application/json'
+      }
     }
-  }
-  request(requestInfo, function (err, res) {
-    if (err) {
-      console.log('tools: error creating snippet')
-      return false
+    request(requestInfo, (err, res) => {
+      if (err) {
+        console.log('tools: error uploading to imgur', err)
+        reject(false)
+      } else {
+        console.log('Success!', res.body)
+        var parsed = JSON.parse(res.body)
+        console.log('Parsed:', parsed)
+        console.log('ID:', parsed.data.id)
+        resolve(parsed.data.id)
+      }
+    })
+  })
+}
+
+async function createSnippet (file, title) {
+  // console.log('tools: creating snippet with title', title)
+
+  // var imgUrl = await uploadToImgur(file, title).then( res => { return res })
+  var imgUrl = 'O49BWOR'
+  var imgUrl = 'https://imgur.com/' + imgUrl
+
+  console.log('image url:', imgUrl)
+
+  return new Promise((resolve, reject) => {
+    var requestInfo = {
+      uri: 'http://localhost:7000/outbox/create-snippet/',
+      body: JSON.stringify({ imgurl: imgUrl, title: title }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }
-    return res.body
+    request(requestInfo, function (err, res) {
+      if (err) {
+        console.log('tools: error creating snippet')
+        reject(false)
+      } else {
+        console.log('tools: Repsonse:', res.body)
+        resolve(res.body)
+      }
+    })
   })
 }
 

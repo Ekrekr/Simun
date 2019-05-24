@@ -2,6 +2,11 @@
 var expect = require('chai').expect
 var database = require('../models/database.js')
 
+// Useful images:
+// Basic square, https://i.imgur.com/DccRRP7.jpg
+// Tall boi, https://i.imgur.com/EWLivIP.png
+// Wide boi, https://i.imgur.com/ZRftF7H.png
+
 // describe('Account registration.', async function () {
 //   it('Account is created and retrieved correctly for secure password, unsuccessful for insecure.', async function () {
 //   })

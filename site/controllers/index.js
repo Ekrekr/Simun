@@ -1,5 +1,5 @@
-var express = require('express')
-var router = express.Router()
+var cookies = require('../models/cookies.js')
+var router = require('express').Router()
 
 router.use('/account', require('./account'))
 router.use('/home', require('./home'))
@@ -9,7 +9,7 @@ router.use('/global', require('./global'))
 router.use('/snippet', require('./snippet'))
 
 router.get('/', (req, res) => {
-  res.redirect('/account/login')
+  res.redirect('/home')
 })
 
 module.exports = router

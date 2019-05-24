@@ -12,15 +12,13 @@ function openSelect () {
   $('expand-icon').onclick = () => { closeSelect() }
   $('expand-icon-visual').style.transform = 'rotate(180deg)'
   $('snippet-list').style.left = '0px'
-  $('snippet-list-background').style.left = '0px'
 }
 
 // Close the snippet selector bar.
 function closeSelect () {
   $('expand-icon').onclick = () => { openSelect() }
   $('expand-icon-visual').style.transform = ''
-  $('snippet-list').style.left = '-288px'
-  $('snippet-list-background').style.left = '-288px'
+  $('snippet-list').style.left = '-280px'
 }
 
 // Make a snippet highlighted and fill the selected snippet content with.
@@ -61,6 +59,7 @@ async function setActive (counter) {
   $('comment-button').onclick = async () => {
     var comment = $('comment-text').value
     var response = await tools.commentSnippet(snippet.id, comment).then(res => { return res })
+    // TODO: add fail check for adding comment, then forward snippet.
   }
 
   // Update trash it and forward it buttons to respond for this snippet in particular.
@@ -81,9 +80,10 @@ async function setActive (counter) {
   currentlyActive = counter
   rowItem.children[0].style.backgroundColor = tools.colorlight
 
-  // Return to top of page to make snippet immediately visible.
+  // Return to top of page to make snippet immediately visible, close navigation.
   document.body.scrollTop = 0
   document.documentElement.scrollTop = 0
+  // closeSelect()
 }
 
 // Finds all row items and adds their onclick listener.
@@ -113,10 +113,7 @@ function assignButtons () {
 if ($('select-0') !== null) {
   assignButtons()
   setActive(0)
-} else {
-  $('selected-content').src = 'https://i.imgur.com/DccRRP7.jpg'
-  // $('selected-description').innerHTML = 'Example description'
-  // $('selected-author').innerHTML = 'Example author'
 }
 
 $('expand-icon').onclick = () => { openSelect() }
+// $('snippet-list').style.left = '-288px'

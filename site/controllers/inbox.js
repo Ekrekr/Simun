@@ -5,12 +5,13 @@ var database = require('../models/database.js')
 
 router.get('/', async (req, res) => {
   var decodedCookie = cookies.verifySessionCookie(req, res)
-  if (!decodedCookie) { return }
+  if (!decodedCookie) { res.redirect('/account/login'); return }
 
   var redirectID = decodedCookie.redirectid
 
   var clientVariables = {}
   clientVariables.snippets = []
+  clientVariables.placeholderImage = '/assets/images/placeholder.png'
 
   // Need to load snippet data from the database to display on the page.
   var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
@@ -48,14 +49,20 @@ router.get('/', async (req, res) => {
 
 router.post('/comment', async (req, res) => {
   var decodedCookie = cookies.verifySessionCookie(req, res)
-  if (!decodedCookie) { return }
+  if (!decodedCookie) { res.redirect('/account/login'); return }
 
   var valid = await database.addSnippetComment(req.body.snippetid, decodedCookie.alias, req.body.comment).then(res => { return res })
+
+  if (valid)
+    res.redirect('back')
 
   res.send({success: true})
 })
 
-router.post('/forward-snippet/', (req, res) => {
+router.post('/forward-snippet', (req, res) => {
+  var decodedCookie = cookies.verifySessionCookie(req, res)
+  if (!decodedCookie) { res.redirect('/account/login'); return }
+  
   console.log('server: Forwarding snippet id:', req.body.snippetid)
   database.forwardSnippet(req.body.snippetid).then(res => {
     return res

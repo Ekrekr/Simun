@@ -3,7 +3,7 @@ doctype html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xht
 include tools.pug
 
 html(lang=lang)
-  +create-head
+  +create-head('About')
 
   body.index-bg(scroll="no")
 
@@ -11,20 +11,26 @@ html(lang=lang)
     header
       a(href="/")
         logo
-      ul
-        li
-          a.color-light(href="/account/logout") Logout
-        li
-          a.color-light(href="/inbox") Inbox
-        li
-          a.color-light(href="/outbox") Outbox
-        li.nav-item
-          a.color-light(href="/global") Global
+      if loggedIn
+        ul
+          li.nav-item
+            a.color-light(href="/account/logout") Logout
+          li.nav-item
+            a.color-light(href="/inbox") Inbox
+          li.nav-item
+            a.color-light(href="/outbox") Outbox
+          li.nav-item
+            a.color-light(href="/global") Global
+      else
+        ul
+          li.nav-item
+            a.color-light(href="/account/logout") Login
+          li.nav-item
+            a.color-light(href="/global") Global
 
-    index
-      house
-      postbox
-      mail
+    home
+      center-piece(id="center-piece")
+      mail(id='mail-icon' class="orbit")
       text-box
         h1(id="info-text") Welcome to Simun!
         arrow-left(id="arrow-left")

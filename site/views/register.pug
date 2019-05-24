@@ -3,7 +3,7 @@ doctype html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xht
 include tools.pug
 
 html(lang=lang)
-  +create-head
+  +create-head('Account')
 
   body.index-bg(scroll="no")
 
@@ -25,7 +25,7 @@ html(lang=lang)
           arrow
 
       holder
-        form(class="login-submit" method="post" action="/register")
+        form(class="login-submit" method="post" action="/account/register")
           h1 Simun  
           p These are your login credentials
           input.shadow(type="text" name="username" id="Input Username" placeholder="Username" required autofocus)

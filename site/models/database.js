@@ -16,6 +16,8 @@ module.exports = {
 
   createRedirect: createRedirect,
   getRedirect: getRedirect,
+  addToRedirectSnippetList: addToRedirectSnippetList,
+  removeFromRedirectSnippetList: removeFromRedirectSnippetList,
   removeRedirect: removeRedirect,
   getUserRedirectID: getUserRedirectID,
 
@@ -24,6 +26,7 @@ module.exports = {
   createSnippet: createSnippet,
   forwardSnippet: forwardSnippet,
   addSnippetComment: addSnippetComment,
+  getTopTenSnippets: getTopTenSnippets,
 
   getSnippetContent: getSnippetContent,
   removeSnippetContent: removeSnippetContent
@@ -167,8 +170,24 @@ function getRedirect (redirectid, testMode = false) {
   return sqlGet(sqlCode, redirectid, testMode)
 }
 
-function updateRedirectSnippetList (redirectid, snippetids, testMode = false) {
-  var sqlData = [snippetids, redirectid]
+async function addToRedirectSnippetList (redirectid, snippetid, testMode = false) {
+  var redirect = await getRedirect(redirectid, testMode).then(res => { return res[0] })
+  var snippetList = JSON.parse(redirect.snippetids)
+  snippetList.push(snippetid)
+  snippetList = JSON.stringify(snippetList)
+
+  var sqlData = [snippetList, redirectid]
+  var sqlCode = 'UPDATE redirect SET snippetids = ? WHERE id = ?'
+  return sqlPut(sqlCode, sqlData, testMode)
+}
+
+async function removeFromRedirectSnippetList (redirectid, snippetid, testMode = false) {
+  var redirect = await getRedirect(redirectid, testMode).then(res => { return res[0] })
+  var snippetList = JSON.parse(redirect.snippetids)
+  snippetList.splice(snippetList.indexOf(snippetid), 1)
+  snippetList = JSON.stringify(snippetList)
+
+  var sqlData = [snippetList, redirectid]
   var sqlCode = 'UPDATE redirect SET snippetids = ? WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
 }
@@ -215,10 +234,7 @@ async function createSnippet (content, description, redirectid, testMode = false
   var snippetID = await sqlPut(sqlCode, sqlData, testMode).then(res => { return res })
 
   // Append the snippet ID to the redirects list of owned redirect IDs.
-  var snippetList = JSON.parse(fromRedirect.snippetids)
-  snippetList.push(snippetID.toString())
-  snippetList = JSON.stringify(snippetList)
-  await updateRedirectSnippetList(fromRedirect.id, snippetList, testMode).then(res => { return res })
+  await addToRedirectSnippetList(fromRedirect.id, snippetID, testMode).then(res => { return res })
 
   var snippetIDs = await forwardSnippet(snippetID, testMode)
 
@@ -241,25 +257,15 @@ async function forwardSnippet (snippetid, testMode = false) {
   var sqlCode = 'INSERT INTO snippet (contentid, redirectid, firstowner, previousowner, forwardcount, comments) VALUES (?, ?, ?, ?, ?, ?)'
   var sqlData = [currentSnippet.contentid, toRedirect0.id, currentSnippet.firstowner, fromRedirect.alias, currentSnippet.forwardcount + 1, currentSnippet.comments]
   var newSnippetID0 = await sqlPut(sqlCode, sqlData, testMode).then(res => { return res })
-  sqlData = [currentSnippet.contentid, toRedirect1.id, currentSnippet.firstowner, fromRedirect.alias, currentSnippet.forwardcount + 1]
+  sqlData = [currentSnippet.contentid, toRedirect1.id, currentSnippet.firstowner, fromRedirect.alias, currentSnippet.forwardcount + 1, currentSnippet.comments]
   var newSnippetID1 = await sqlPut(sqlCode, sqlData, testMode).then(res => { return res })
 
   // Append the snippet ID to each of the toRedirects list of snippet IDs.
-  var snippetList = JSON.parse(toRedirect0.snippetids)
-  snippetList.push(newSnippetID0.toString())
-  snippetList = JSON.stringify(snippetList)
-  await updateRedirectSnippetList(toRedirect0.id, snippetList, testMode).then(res => { return res })
-
-  snippetList = JSON.parse(toRedirect1.snippetids)
-  snippetList.push(newSnippetID1.toString())
-  snippetList = JSON.stringify(snippetList)
-  await updateRedirectSnippetList(toRedirect1.id, snippetList, testMode).then(res => { return res })
+  await addToRedirectSnippetList(toRedirect0.id, newSnippetID0, testMode).then(res => { return res })
+  await addToRedirectSnippetList(toRedirect1.id, newSnippetID1, testMode).then(res => { return res })
 
   // Remove the snippet ID in the original redirects list of snippet IDs.
-  snippetList = JSON.parse(fromRedirect.snippetids)
-  snippetList.splice(snippetList.indexOf(currentSnippet.id.toString()), 1)
-  snippetList = JSON.stringify(snippetList)
-  await updateRedirectSnippetList(fromRedirect.id, snippetList, testMode).then(res => { return res })
+  await removeFromRedirectSnippetList(fromRedirect.id, snippetid, testMode).then(res => { return res })
 
   // Remove the original snippet
   await removeSnippet(currentSnippet.id, testMode).then(res => { return res })
@@ -275,8 +281,7 @@ async function addSnippetComment (snippetid, alias, comment, testMode = false) {
   var commentList = JSON.parse(currentSnippet.comments)
 
   // Form a new comment and push it to the comment list.
-  var timestamp = moment().toISOString();
-  console.log('Adding comment with timestap', timestamp)
+  var timestamp = moment().toISOString()
   var newComment = { alias: alias, timestamp: timestamp, comment: comment }
   commentList.push(newComment)
 
@@ -285,6 +290,19 @@ async function addSnippetComment (snippetid, alias, comment, testMode = false) {
   var sqlData = [commentList, snippetid]
   var sqlCode = 'UPDATE snippet SET comments = ? WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
+}
+
+function getTopTenSnippets (testMode = false) {
+  var sqlCode = 'SELECT * FROM snippet ORDER BY forwardcount DESC LIMIT 10'
+  let db = connectDatabase(testMode)
+  return new Promise((resolve, reject) => {
+    db.serialize(() => {
+      db.all(sqlCode, (err, result) => {
+        return err ? reject(err) : resolve(result)
+      })
+      closeDatabase(db)
+    })
+  })
 }
 
 /// ///////////////////////////////////////////////

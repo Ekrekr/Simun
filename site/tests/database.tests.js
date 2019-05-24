@@ -33,9 +33,28 @@ describe('Account authentication and utility.', async function () {
     isValid = await database.authenticateUser('TestUsername', 'pAsSwOrD*1', true).then(res => { return res })
     expect(isValid).to.equal(false)
   })
+
   it('Retrieve redirectID by using user\'s username', async function () {
     var redirectID = await database.getUserRedirectID('TestUsername', true).then(res => { return res })
     expect(redirect.id).to.equal(redirectID)
+  })
+
+  it('Snippets can be added to a redirect', async function () {
+    await database.addToRedirectSnippetList(redirect.id, 7, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+    await database.addToRedirectSnippetList(redirect.id, 3, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+    await database.addToRedirectSnippetList(redirect.id, 9, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+  })
+
+  it('Snippets can be removed from a redirect', async function () {
+    await database.removeFromRedirectSnippetList(redirect.id, 3, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+    await database.removeFromRedirectSnippetList(redirect.id, 9, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
+    await database.removeFromRedirectSnippetList(redirect.id, 7, true).then(res => { return res })
+    redirect = await database.getRedirect(redirect.id, true).then(res => { return res[0] })
   })
 })
 
@@ -58,6 +77,11 @@ describe('Snippet and Snippet Comment Creation, Retrieval, Forwarding and Deleti
     expect(commentSnippetID).to.not.equal(null)
   })
 
+  it('Top ten snippets can be retrieved', async function () {
+    var topTen = await database.getTopTenSnippets(true).then(res => { return res })
+    expect(topTen.length).to.equal(2)
+  })
+
   var snippet0 = null
   var snippet1 = null
   it('Snippets can be retrieved.', async function () {
@@ -65,6 +89,11 @@ describe('Snippet and Snippet Comment Creation, Retrieval, Forwarding and Deleti
     snippet0 = await database.getSnippet(snippetID0, true).then(res => { return res[0] })
     snippet1 = await database.getSnippet(snippetID1, true).then(res => { return res[0] })
     expect(snippet0.contentid).to.equal(snippet1.contentid)
+  })
+
+  it('Snippet contents can be retrieved.', async function () {
+    var snippetContent = await database.getSnippetContent(snippet0.contentid, true).then(res => { return res[0] })
+    expect(snippetContent.content).to.equal('https://i.imgur.com/DccRRP7.jpg')
   })
 
   it('Snippets comments are stored correctly after having comment appended', async function () {
