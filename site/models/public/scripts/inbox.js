@@ -12,15 +12,13 @@ function openSelect () {
   $('expand-icon').onclick = () => { closeSelect() }
   $('expand-icon-visual').style.transform = 'rotate(180deg)'
   $('snippet-list').style.left = '0px'
-  $('snippet-list-background').style.left = '0px'
 }
 
 // Close the snippet selector bar.
 function closeSelect () {
   $('expand-icon').onclick = () => { openSelect() }
   $('expand-icon-visual').style.transform = ''
-  $('snippet-list').style.left = '-288px'
-  $('snippet-list-background').style.left = '-288px'
+  $('snippet-list').style.left = '-280px'
 }
 
 // Make a snippet highlighted and fill the selected snippet content with.
@@ -85,7 +83,7 @@ async function setActive (counter) {
   // Return to top of page to make snippet immediately visible, close navigation.
   document.body.scrollTop = 0
   document.documentElement.scrollTop = 0
-  closeSelect()
+  // closeSelect()
 }
 
 // Finds all row items and adds their onclick listener.
@@ -118,3 +116,4 @@ if ($('select-0') !== null) {
 }
 
 $('expand-icon').onclick = () => { openSelect() }
+// $('snippet-list').style.left = '-288px'

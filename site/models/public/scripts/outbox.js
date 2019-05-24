@@ -47,9 +47,12 @@ sendButton.onclick = async () => {
 
   // Read in the image a a binary string to prep for upload, then upload.
   var reader = new FileReader()
-  reader.readAsBinaryString(file)
-  reader.onload = (e) => {
+  reader.readAsDataURL(file)
+  reader.onload = () => {
     console.log('string read, now creating snippet')
-    tools.createSnippet(e.target.result, title)
+    tools.createSnippet(reader.result, title)
+  }
+  reader.onerror = (e) => {
+    console.log('Error reading image: ', error);
   }
 }

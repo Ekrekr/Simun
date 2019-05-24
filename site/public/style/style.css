@@ -461,21 +461,11 @@ inbox expand-snippet-list-icon {
   transition: 0.2s;
   cursor: pointer;
 }
-inbox snippet-list-background {
-  position: fixed;
-  display: block;
-  top: 72px;
-  left: -288px;
-  width: 280px;
-  transition: 0.3s;
-  z-index: 1;
-  background-color: #2f4550;
-}
 inbox snippet-list {
   position: fixed;
   display: block;
   top: 72px;
-  left: -288px;
+  left: -280px;
   width: 280px;
   height: calc(100vh - 140px);
   border-collapse: separate;
