@@ -38,7 +38,6 @@ fileField.addEventListener('change', (e) => {
 })
 
 sendButton.onclick = async () => {
-  console.log('sendButton clicked.')
   var title = titleField.value
   var file = fileField.files[0]
 
@@ -49,7 +48,6 @@ sendButton.onclick = async () => {
   var reader = new FileReader()
   reader.readAsDataURL(file)
   reader.onload = () => {
-    console.log('string read, now creating snippet')
     tools.createSnippet(reader.result, title)
   }
   reader.onerror = (e) => {

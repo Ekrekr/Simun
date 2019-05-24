@@ -44,8 +44,6 @@ function retrieveSnippetContent (id) {
 }
 
 function commentSnippet (snippetid, comment) {
-  console.log('tools: commenting on snippet', snippetid, 'with', comment)
-
   return new Promise((resolve, reject) => {
     var requestInfo = {
       uri: 'http://localhost:7000/inbox/comment/',
@@ -108,10 +106,7 @@ function uploadToImgur (file, title) {
         console.log('tools: error uploading to imgur', err)
         reject(false)
       } else {
-        console.log('Success!', res.body)
         var parsed = JSON.parse(res.body)
-        console.log('Parsed:', parsed)
-        console.log('ID:', parsed.data.link)
         resolve(parsed.data.link)
       }
     })
@@ -120,9 +115,6 @@ function uploadToImgur (file, title) {
 
 async function createSnippet (file, title) {
   var imgUrl = await uploadToImgur(file, title).then( res => { return res })
-  // var imgUrl = 'https://i.imgur.com/' + imgUrl + '.png'
-
-  console.log('image url:', imgUrl)
 
   return new Promise((resolve, reject) => {
     var requestInfo = {
@@ -138,7 +130,6 @@ async function createSnippet (file, title) {
         console.log('tools: error creating snippet')
         reject(false)
       } else {
-        console.log('tools: Repsonse:', res.body)
         resolve(res.body)
       }
     })
