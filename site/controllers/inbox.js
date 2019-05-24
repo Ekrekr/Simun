@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
 
   var clientVariables = {}
   clientVariables.snippets = []
+  clientVariables.placeholderImage = '/assets/images/placeholder.png'
 
   // Need to load snippet data from the database to display on the page.
   var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
