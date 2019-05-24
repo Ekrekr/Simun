@@ -3,6 +3,7 @@ var database = require('../models/database.js')
 var cookies = require('../models/cookies.js')
 
 router.get('/', async (req, res) => {
+  console.log('delivering global')
   var decodedCookie = cookies.verifySessionCookie(req, res)
 
   // Need logged in status in order to change sections shown in header.
@@ -10,6 +11,12 @@ router.get('/', async (req, res) => {
   clientVariables.loggedIn = (decodedCookie !== false)
 
   clientVariables.snippets = await database.getTopTenSnippets().then(res => { return res })
+  console.log('clientVariables.snippets', clientVariables.snippets.length)
+
+  // if (clientVariables.snippets.length === 0) {
+  //   clientVariables.snippetContents = {}
+  //   res.render('global', 
+  // }
 
   var snippetContents = []
   await clientVariables.snippets.forEach(async (entry, index) => {

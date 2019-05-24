@@ -5,7 +5,7 @@ var cookies = require('../models/cookies.js')
 
 router.get('/', async (req, res) => {
   var decodedCookie = cookies.verifySessionCookie(req, res)
-  if (!decodedCookie) { res.redirect('/account/login'); return }
+  if (!decodedCookie) { res.redirect('/account/logout'); return }
 
   var clientVariables = {alias : decodedCookie.alias}
   res.render('outbox', clientVariables)
@@ -13,15 +13,12 @@ router.get('/', async (req, res) => {
 
 router.post('/create-snippet', async (req, res) => {
   var decodedCookie = cookies.verifySessionCookie(req, res)
-  if (!decodedCookie) { res.redirect('/account/login'); return }
-  console.log('creating snippet')
+  if (!decodedCookie) { res.redirect('/account/logout'); return }
 
   var redirectID = decodedCookie.redirectid
 
   // Finally create the snippet according to the database's methodology.
-  console.log('server: Creating snippet with imgUrl:', req.body.imgurl, 'description:', req.body.title, 'redirectid:', redirectID)
   snippetIDs = await database.createSnippet(req.body.imgurl, req.body.title, redirectID).then(res => { return res })
-  console.log("snippetIDs:", snippetIDs)
   res.send({success: (snippetIDs === null ? false : true)})
 })
 

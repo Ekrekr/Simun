@@ -11,14 +11,19 @@ router.get('/', async (req, res) => {
 
   var clientVariables = {}
   clientVariables.snippets = []
-  clientVariables.placeholderImage = '/assets/images/placeholder.png'
+  clientVariables.placeholderImage = '/assets/images/loading.gif'
 
   // Need to load snippet data from the database to display on the page.
   var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
+  if (typeof redirect === "undefined") {
+    console.log('No redirect found for ID:', redirectID)
+    res.redirect('/account/logout')
+  }
   var snippets = JSON.parse(redirect.snippetids)
 
   // If no snippets found, then render an empty inbox page.
   if (snippets.length === 0) {
+    clientVariables.placeholderImage = '/assets/images/placeholder.png'
     res.render('inbox', clientVariables)
     return
   }
