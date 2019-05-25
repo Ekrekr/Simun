@@ -220,7 +220,7 @@ function uploadToImgur (file, title) {
 }
 
 async function createSnippet (file, title) {
-  var imgUrl = await uploadToImgur(file, title).then( res => { return res })
+  var imgUrl = await uploadToImgur(file, title).then(res => { return res })
 
   return new Promise((resolve, reject) => {
     var requestInfo = {
