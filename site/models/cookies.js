@@ -10,7 +10,7 @@ var tokenOptions = {
   issuer: 'Simun',
   subject: 'User',
   audience: 'http://localhost:7000',
-  expiresIn: 600,
+  expiresIn: 604800,
   algorithm: 'RS256'
 }
 

@@ -188,7 +188,6 @@ async function addToRedirectSnippetList (redirectid, snippetid, testMode = false
 async function removeFromRedirectSnippetList (redirectid, snippetid, testMode = false) {
   redirectid = parseInt(redirectid)
   snippetid = parseInt(snippetid)
-  console.log('Removing snippet', snippetid, 'from redirect', redirectid)
   var redirect = await getRedirect(redirectid, testMode).then(res => { return res[0] })
   var snippetList = JSON.parse(redirect.snippetids)
   snippetList.splice(snippetList.indexOf(snippetid), 1)

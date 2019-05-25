@@ -44,7 +44,6 @@ router.get('/', async (req, res) => {
 
     // Only return final source if it's final iteration to prevent loss.
     if (index === snippets.length - 1) {
-      console.log('Rendering page')
       // Send the created page back to user after loading all the variables,
       // with a slight delay to prevent further problems.
       setTimeout(function () {
@@ -81,7 +80,6 @@ router.post('/trash-snippet', async (req, res) => {
   var decodedCookie = cookies.verifySessionCookie(req, res)
   if (!decodedCookie) { res.redirect('/account/login'); return }
 
-  console.log('server: Trashing snippet id:', req.body.snippetid)
   await database.removeSnippet(req.body.snippetid)
   await database.removeFromRedirectSnippetList(decodedCookie.redirectid, req.body.snippetid)
 
