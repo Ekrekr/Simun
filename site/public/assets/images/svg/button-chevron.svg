@@ -14,7 +14,7 @@
    viewBox="0 0 24 24"
    version="1.1"
    id="svg6"
-   sodipodi:docname="chevron-right.svg"
+   sodipodi:docname="button-chevron.svg"
    inkscape:export-filename="/Users/eliaskassellraymond/Desktop/chevron-right.png"
    inkscape:export-xdpi="640"
    inkscape:export-ydpi="640"
@@ -33,6 +33,14 @@
   <defs
      id="defs10">
     <linearGradient
+       id="linearGradient825"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#b8dbd9;stop-opacity:1;"
+         offset="0"
+         id="stop823" />
+    </linearGradient>
+    <linearGradient
        id="linearGradient4513"
        osb:paint="solid">
       <stop
@@ -42,11 +50,21 @@
     </linearGradient>
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient4513"
+       xlink:href="#linearGradient825"
        id="linearGradient4515"
-       x1="8.59"
+       x1="8.5900002"
        y1="12"
        x2="16"
+       y2="12"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(1.4571186,0.05084745)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4513"
+       id="linearGradient827"
+       x1="0"
+       y1="12"
+       x2="24"
        y2="12"
        gradientUnits="userSpaceOnUse" />
   </defs>
@@ -62,20 +80,55 @@
      inkscape:window-width="1092"
      inkscape:window-height="746"
      id="namedview8"
-     showgrid="false"
-     inkscape:zoom="9.8333333"
-     inkscape:cx="12"
-     inkscape:cy="12"
+     showgrid="true"
+     inkscape:zoom="19.666667"
+     inkscape:cx="12.348962"
+     inkscape:cy="12.697924"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg6" />
-  <path
-     d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-     id="path2"
-     style="fill-opacity:1;fill:url(#linearGradient4515)" />
+     inkscape:current-layer="layer1"
+     inkscape:snap-bbox="false"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:snap-nodes="false"
+     inkscape:snap-others="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid819" />
+  </sodipodi:namedview>
   <path
      d="M0 0h24v24H0z"
      fill="none"
      id="path4" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="bottom">
+    <circle
+       style="opacity:1;fill:url(#linearGradient827);fill-opacity:1"
+       id="path821"
+       cx="12"
+       cy="12"
+       r="12" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="top">
+    <path
+       d="m 11.457119,6.0508474 -1.41,1.41 4.58,4.5899996 -4.58,4.59 1.41,1.41 6,-6 z"
+       id="path2"
+       style="fill:url(#linearGradient4515);fill-opacity:1"
+       inkscape:connector-curvature="0" />
+  </g>
 </svg>
