@@ -805,10 +805,20 @@ outbox {
   background-image: radial-gradient(circle, #2f4550 70%, #b8dbd9, #2f4550, #2f4550);
 }
 outbox holder {
-  padding-top: 76px;
   display: table-cell;
   vertical-align: middle;
   text-align: center;
+  height: 100vh;
+}
+@media (min-width: 0px) {
+  outbox holder {
+    padding-top: 0px;
+  }
+}
+@media (min-width: 600px) {
+  outbox holder {
+    padding-top: 50px;
+  }
 }
 outbox holder p {
   color: #b8dbd9;
@@ -821,8 +831,6 @@ outbox holder h2 {
 }
 outbox holder box-input {
   display: block;
-  width: 400px;
-  height: 200px;
   margin-left: auto;
   margin-right: auto;
   background-color: #586f7c;
@@ -835,6 +843,18 @@ outbox holder box-input {
   background-size: cover;
   transition: all 0.4s;
   box-shadow: 0 2px 4px #00000080;
+}
+@media (min-width: 0px) {
+  outbox holder box-input {
+    width: 300px;
+    height: 150px;
+  }
+}
+@media (min-width: 600px) {
+  outbox holder box-input {
+    width: 400px;
+    height: 200px;
+  }
 }
 outbox holder box-input input {
   width: 380px;
