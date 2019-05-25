@@ -39684,7 +39684,7 @@ module.exports={
   "_args": [
     [
       "tough-cookie@2.4.3",
-      "/Users/eliaskassellraymond/Documents/GitHub/Simon/site"
+      "/Users/eliaskassellraymond/Documents/GitHub/Simun/site"
     ]
   ],
   "_from": "tough-cookie@2.4.3",
@@ -39708,7 +39708,7 @@ module.exports={
   ],
   "_resolved": "https://registry.npmjs.org/tough-cookie/-/tough-cookie-2.4.3.tgz",
   "_spec": "2.4.3",
-  "_where": "/Users/eliaskassellraymond/Documents/GitHub/Simon/site",
+  "_where": "/Users/eliaskassellraymond/Documents/GitHub/Simun/site",
   "author": {
     "name": "Jeremy Stashewsky",
     "email": "jstash@gmail.com"

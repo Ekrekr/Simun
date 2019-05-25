@@ -87,3 +87,13 @@ router.post('/trash-snippet', async (req, res) => {
 })
 
 module.exports = router
+
+
+    // "chai": "^4.2.0",
+    // "concurrently": "^4.1.0",
+    // "mocha": "^5.2.0",
+    // "standard": {
+    //   "env": [
+    //     "mocha"
+    //   ]
+    // }
