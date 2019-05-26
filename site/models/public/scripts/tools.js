@@ -39,7 +39,7 @@ function retrieveSnippet (id) {
 
 function retrieveSnippetContent (id) {
   return new Promise((resolve, reject) => {
-    request(identifiers.address + 'snippet/content/' + id, { json: true }, (err, res, body) => {
+    request(identifiers.address + '/snippet/content/' + id, { json: true }, (err, res, body) => {
       if (err) {
         reject(err)
       } else {

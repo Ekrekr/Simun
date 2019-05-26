@@ -32,8 +32,6 @@ html(lang=lang)
     global
       center-column
         for snippet, index in snippets
-          - console.log('Client side snippet forwardcount:', snippet.forwardcount)
-          - console.log('Client side snippetContents:', snippetContents[index].description)
           snippet(id=snippet.snippetid)
             title-holder
               h1 #{snippetContents[index].description}

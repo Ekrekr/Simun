@@ -29,7 +29,6 @@ router.get('/', async (req, res) => {
     // Only return final source if it's final iteration to prevent loss.
     if (index === clientVariables.snippets.length - 1) {
       clientVariables.snippetContents = snippetContents
-      console.log('clientVariables:', clientVariables)
       // Send the created page back to user after loading all the variables,
       // with a slight delay to prevent further problems.
       setTimeout(function () {
