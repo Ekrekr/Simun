@@ -3,11 +3,7 @@ var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var http = require('http')
 var https = require('https')
-
-// Load certificate and details for https.
-var privateKey  = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/privkey.pem', 'utf8')
-var certificate = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/fullchain.pem', 'utf8')
-var credentials = {key: privateKey, cert: certificate};
+var fs = require('fs')
 
 // Set up the node app.
 var app = express()
@@ -24,7 +20,15 @@ app.use(require('./controllers'))
 
 // Create the server and listen.
 var httpServer = http.createServer(app)
-var httpsServer = https.createServer(credentials, app)
-
 httpServer.listen(8080)
-httpsServer.listen(8443)
+
+// Load certificate and details for https. Catch used in case running locally.
+try {
+  var privateKey  = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/privkey.pem', 'utf8')
+  var certificate = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/fullchain.pem', 'utf8')
+  var credentials = {key: privateKey, cert: certificate};
+  var httpsServer = https.createServer(credentials, app)
+  httpsServer.listen(8443)
+} catch {
+  console.log('Error starting https server; credentials not found')
+}
