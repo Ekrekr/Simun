@@ -160,17 +160,21 @@ function removeUser (loginid, testMode = false) {
 /// ///////////////////////////////////////////////
 
 function createRedirect (alias, roleid, testMode = false) {
+  roleid = parseInt(roleid)
   var sqlData = [alias, '[]', roleid]
   var sqlCode = 'INSERT INTO redirect (alias, snippetids, roleid) VALUES (?, ?, ?)'
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
 function getRedirect (redirectid, testMode = false) {
+  redirectid = parseInt(redirectid)
   var sqlCode = 'SELECT * FROM redirect WHERE id = ?'
   return sqlGet(sqlCode, redirectid, testMode)
 }
 
 async function addToRedirectSnippetList (redirectid, snippetid, testMode = false) {
+  redirectid = parseInt(redirectid)
+  snippetid = parseInt(snippetid)
   var redirect = await getRedirect(redirectid, testMode).then(res => { return res[0] })
   var snippetList = JSON.parse(redirect.snippetids)
   snippetList.push(snippetid)
@@ -182,6 +186,8 @@ async function addToRedirectSnippetList (redirectid, snippetid, testMode = false
 }
 
 async function removeFromRedirectSnippetList (redirectid, snippetid, testMode = false) {
+  redirectid = parseInt(redirectid)
+  snippetid = parseInt(snippetid)
   var redirect = await getRedirect(redirectid, testMode).then(res => { return res[0] })
   var snippetList = JSON.parse(redirect.snippetids)
   snippetList.splice(snippetList.indexOf(snippetid), 1)
@@ -193,6 +199,7 @@ async function removeFromRedirectSnippetList (redirectid, snippetid, testMode = 
 }
 
 function removeRedirect (redirectid, testMode = false) {
+  redirectid = parseInt(redirectid)
   var sqlData = [redirectid]
   var sqlCode = 'DELETE FROM redirect WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
@@ -210,17 +217,21 @@ async function getUserRedirectID (username, testMode = false) {
 /// ///////////////////////////////////////////////
 
 function getSnippet (snippetid, testMode = false) {
+  snippetid = parseInt(snippetid)
   var sqlCode = 'SELECT * FROM snippet WHERE id = ?'
   return sqlGet(sqlCode, snippetid, testMode)
 }
 
 function removeSnippet (snippetid, testMode = false) {
+  snippetid = parseInt(snippetid)
   var sqlData = [snippetid]
   var sqlCode = 'DELETE FROM snippet WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)
 }
 
 async function createSnippet (content, description, redirectid, testMode = false) {
+  redirectid = parseInt(redirectid)
+
   // Retrieve the redirect corresponding to the redirectid.
   var fromRedirect = await getRedirect(redirectid, testMode).then(res => { return res[0] })
 
@@ -242,6 +253,8 @@ async function createSnippet (content, description, redirectid, testMode = false
 }
 
 async function forwardSnippet (snippetid, testMode = false) {
+  snippetid = parseInt(snippetid)
+
   // Retrieve the current snippet.
   var currentSnippet = await getSnippet(snippetid, testMode).then(res => { return res[0] })
 
@@ -274,6 +287,8 @@ async function forwardSnippet (snippetid, testMode = false) {
 }
 
 async function addSnippetComment (snippetid, alias, comment, testMode = false) {
+  snippetid = parseInt(snippetid)
+
   // Retrieve the desired snippet.
   var currentSnippet = await getSnippet(snippetid, testMode).then(res => { return res[0] })
 
@@ -310,11 +325,13 @@ function getTopTenSnippets (testMode = false) {
 /// ///////////////////////////////////////////////
 
 function getSnippetContent (snippetcontentid, testMode = false) {
+  snippetcontentid = parseInt(snippetcontentid)
   var sqlCode = 'SELECT * FROM snippetcontent WHERE id = ?'
   return sqlGet(sqlCode, snippetcontentid, testMode)
 }
 
 function removeSnippetContent (snippetcontentid, testMode = false) {
+  snippetcontentid = parseInt(snippetcontentid)
   var sqlData = [snippetcontentid]
   var sqlCode = 'DELETE FROM snippetcontent WHERE id = ?'
   return sqlPut(sqlCode, sqlData, testMode)

@@ -1,6 +1,9 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const request = require('request')
 
+// Shorthand for getting elements by ID.
+var $ = function (id) { return document.getElementById(id) }
+
 module.exports = {
   colorblack: '#000000',
   colordark: '#2f4550',
@@ -13,6 +16,8 @@ module.exports = {
   commentSnippet: commentSnippet,
   retrieveSnippetContent: retrieveSnippetContent,
   forwardSnippet: forwardSnippet,
+  trashSnippet: trashSnippet,
+  reportSnippet: reportSnippet,
   createSnippet: createSnippet
 }
 
@@ -45,8 +50,6 @@ function retrieveSnippetContent (id) {
 }
 
 function commentSnippet (snippetid, comment) {
-  console.log('tools: commenting on snippet', snippetid, 'with', comment)
-
   return new Promise((resolve, reject) => {
     var requestInfo = {
       uri: 'http://localhost:7000/inbox/comment/',
@@ -61,8 +64,7 @@ function commentSnippet (snippetid, comment) {
         console.log('tools: error commenting on snippet')
         reject(false)
       } else {
-        console.log('tools: error to client: ', err)
-        console.log('tools: body response to client: ', res.body)
+        document.location.reload()
         resolve(res.body)
       }
     })
@@ -70,22 +72,65 @@ function commentSnippet (snippetid, comment) {
 }
 
 async function forwardSnippet (snippetid) {
-  console.log('tools: forwarding snippet', snippetid)
+  return new Promise((resolve, reject) => {
+    var requestInfo = {
+      uri: 'http://localhost:7000/inbox/forward-snippet/',
+      body: JSON.stringify({ snippetid: snippetid }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    request(requestInfo, function (err, res) {
+      if (err) {
+        console.log('tools: error forwarding snippet')
+        reject(false)
+      } else {
+        resolve(res.body)
+      }
+    })
+  })
+}
 
-  var requestInfo = {
-    uri: 'http://localhost:7000/inbox/forward-snippet/',
-    body: JSON.stringify({ snippetid: snippetid }),
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
+async function trashSnippet (snippetid) {
+  return new Promise((resolve, reject) => {
+    var requestInfo = {
+      uri: 'http://localhost:7000/inbox/trash-snippet/',
+      body: JSON.stringify({ snippetid: snippetid }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }
-  }
-  request(requestInfo, function (err, res) {
-    if (err) {
-      console.log('tools: error forwarding snippet')
-      return false
+    request(requestInfo, function (err, res) {
+      if (err) {
+        console.log('tools: error trashing snippet')
+        reject(false)
+      } else {
+        resolve(res.body)
+      }
+    })
+  })
+}
+
+async function reportSnippet (snippetid) {
+  return new Promise((resolve, reject) => {
+    var requestInfo = {
+      uri: 'http://localhost:7000/inbox/trash-snippet/',
+      body: JSON.stringify({ snippetid: snippetid }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }
-    return res.body
+    request(requestInfo, function (err, res) {
+      if (err) {
+        console.log('tools: error reporting snippet')
+        reject(false)
+      } else {
+        resolve(res.body)
+      }
+    })
   })
 }
 
@@ -106,27 +151,18 @@ function uploadToImgur (file, title) {
     }
     request(requestInfo, (err, res) => {
       if (err) {
-        console.log('tools: error uploading to imgur', err)
+        $('error-message').innerHTML = 'Error uploading file.'
         reject(false)
       } else {
-        console.log('Success!', res.body)
         var parsed = JSON.parse(res.body)
-        console.log('Parsed:', parsed)
-        console.log('ID:', parsed.data.id)
-        resolve(parsed.data.id)
+        resolve(parsed.data.link)
       }
     })
   })
 }
 
 async function createSnippet (file, title) {
-  // console.log('tools: creating snippet with title', title)
-
-  // var imgUrl = await uploadToImgur(file, title).then( res => { return res })
-  var imgUrl = 'O49BWOR'
-  var imgUrl = 'https://imgur.com/' + imgUrl
-
-  console.log('image url:', imgUrl)
+  var imgUrl = await uploadToImgur(file, title).then(res => { return res })
 
   return new Promise((resolve, reject) => {
     var requestInfo = {
@@ -140,9 +176,10 @@ async function createSnippet (file, title) {
     request(requestInfo, function (err, res) {
       if (err) {
         console.log('tools: error creating snippet')
+        $('error-message').innerHTML = 'Error creating snippet.'
         reject(false)
       } else {
-        console.log('tools: Repsonse:', res.body)
+        $('error-message').innerHTML = 'Snippet sent!'
         resolve(res.body)
       }
     })
@@ -34917,7 +34954,7 @@ module.exports={
   "_args": [
     [
       "tough-cookie@2.4.3",
-      "/Users/eliaskassellraymond/Documents/GitHub/Simon/site"
+      "/Users/eliaskassellraymond/Documents/GitHub/Simun/site"
     ]
   ],
   "_from": "tough-cookie@2.4.3",
@@ -34941,7 +34978,7 @@ module.exports={
   ],
   "_resolved": "https://registry.npmjs.org/tough-cookie/-/tough-cookie-2.4.3.tgz",
   "_spec": "2.4.3",
-  "_where": "/Users/eliaskassellraymond/Documents/GitHub/Simon/site",
+  "_where": "/Users/eliaskassellraymond/Documents/GitHub/Simun/site",
   "author": {
     "name": "Jeremy Stashewsky",
     "email": "jstash@gmail.com"

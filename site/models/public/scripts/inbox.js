@@ -63,15 +63,20 @@ async function setActive (counter) {
   }
 
   // Update trash it and forward it buttons to respond for this snippet in particular.
-  $('forward-it').onclick = () => {
+  $('forward-it').onclick = async () => {
+    console.log('forward-it button pressed')
+    await tools.forwardSnippet(snippetID).then(res => { return res })
+    document.location.reload()
+  }
+  $('trash-it').onclick = async () => {
     console.log('trash-it button pressed')
-    tools.forwardSnippet(snippetID, (err, response) => {
-      if (err) {
-        console.log('Error forwarding snippet', err)
-        return
-      }
-      console.log('Snippet successfully forwarded, response:', response)
-    })
+    await tools.trashSnippet(snippetID).then(res => { return res })
+    document.location.reload()
+  }
+  $('report-it').onclick = async () => {
+    console.log('report-it button pressed')
+    await tools.reportSnippet(snippetID).then(res => { return res })
+    document.location.reload()
   }
 
   // Unhighlight the current selector and highlight the selected.

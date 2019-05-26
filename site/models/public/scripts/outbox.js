@@ -23,22 +23,23 @@ fileField.addEventListener('change', (e) => {
     var img = new window.Image()
     img.src = reader.result
     img.onload = () => {
+      // No resize if mobile version.
+      var maxWidth = window.matchMedia("(min-width: 600px)") ? 400 : 300;
       // If the image is wider than it is tall, then to maximise the area occupied set the width
       // to the width of the divider and the height to the maxium height while keeping the
       // correct aspect ratio. Do the opposite if the image is taller than it is wide.
       if (img.width >= (img.height * 2.0)) {
-        fileBackground.style.height = (img.height / img.width * 400) + 'px'
-        fileBackground.style.width = 400
+        fileBackground.style.height = (img.height / img.width * maxWidth) + 'px'
+        fileBackground.style.width = maxWidth
       } else {
-        fileBackground.style.width = (img.width / img.height * 200) + 'px'
-        fileBackground.style.height = 200
+        fileBackground.style.width = (img.width / img.height * maxWidth/2) + 'px'
+        fileBackground.style.height = maxWidth/2
       }
     }
   }
 })
 
 sendButton.onclick = async () => {
-  console.log('sendButton clicked.')
   var title = titleField.value
   var file = fileField.files[0]
 
@@ -49,7 +50,6 @@ sendButton.onclick = async () => {
   var reader = new FileReader()
   reader.readAsDataURL(file)
   reader.onload = () => {
-    console.log('string read, now creating snippet')
     tools.createSnippet(reader.result, title)
   }
   reader.onerror = (e) => {

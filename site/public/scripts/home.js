@@ -2,8 +2,6 @@
 // Shorthand for getting elements by ID.
 var $ = function (id) { return document.getElementById(id) }
 
-console.log('Index script started.')
-
 var infoTextList = ['Welcome to Simun!',
   'Simun is a depersonalized image sharing network.',
   '"A picture is worth a thousand words".',

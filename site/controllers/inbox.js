@@ -11,14 +11,20 @@ router.get('/', async (req, res) => {
 
   var clientVariables = {}
   clientVariables.snippets = []
-  clientVariables.placeholderImage = '/assets/images/placeholder.png'
+  clientVariables.placeholderImage = '/assets/images/loading.gif'
 
   // Need to load snippet data from the database to display on the page.
   var redirect = await database.getRedirect(redirectID).then(res => { return res[0] })
+  if (typeof redirect === "undefined") {
+    console.log('No redirect found for ID:', redirectID)
+    res.redirect('/account/logout')
+  }
   var snippets = JSON.parse(redirect.snippetids)
 
   // If no snippets found, then render an empty inbox page.
   if (snippets.length === 0) {
+    console.log('Rendering 0')
+    clientVariables.placeholderImage = '/assets/images/placeholder.png'
     res.render('inbox', clientVariables)
     return
   }
@@ -53,20 +59,41 @@ router.post('/comment', async (req, res) => {
 
   var valid = await database.addSnippetComment(req.body.snippetid, decodedCookie.alias, req.body.comment).then(res => { return res })
 
-  if (valid)
-    res.redirect('back')
+  // Forward the snippet.
+  await database.forwardSnippet(req.body.snippetid)
+  await database.removeFromRedirectSnippetList(decodedCookie.redirectid, req.body.snippetid)
 
   res.send({success: true})
 })
 
-router.post('/forward-snippet', (req, res) => {
+router.post('/forward-snippet', async (req, res) => {
   var decodedCookie = cookies.verifySessionCookie(req, res)
   if (!decodedCookie) { res.redirect('/account/login'); return }
   
   console.log('server: Forwarding snippet id:', req.body.snippetid)
-  database.forwardSnippet(req.body.snippetid).then(res => {
-    return res
-  })
+  await database.forwardSnippet(req.body.snippetid)
+
+  res.send({success: true})
+})
+
+router.post('/trash-snippet', async (req, res) => {
+  var decodedCookie = cookies.verifySessionCookie(req, res)
+  if (!decodedCookie) { res.redirect('/account/login'); return }
+
+  await database.removeSnippet(req.body.snippetid)
+  await database.removeFromRedirectSnippetList(decodedCookie.redirectid, req.body.snippetid)
+
+  res.send({success: true})
 })
 
 module.exports = router
+
+
+    // "chai": "^4.2.0",
+    // "concurrently": "^4.1.0",
+    // "mocha": "^5.2.0",
+    // "standard": {
+    //   "env": [
+    //     "mocha"
+    //   ]
+    // }
