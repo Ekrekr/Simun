@@ -16,4 +16,4 @@ app.use(bodyParser.json({limit: '10mb'}))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(require('./controllers'))
 
-app.listen(7000, 'localhost', () => {console.log('server: Express running → localhost:7000')})
+app.listen(8080, 'localhost', () => {console.log('server: Express running → localhost:8080')})

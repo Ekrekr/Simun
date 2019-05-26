@@ -9,7 +9,7 @@ var publicKey = fs.readFileSync(path.join(__dirname, '/keys/public.key'), 'utf8'
 var tokenOptions = {
   issuer: 'Simun',
   subject: 'User',
-  audience: 'http://localhost:7000',
+  audience: 'http://localhost:8080',
   expiresIn: 604800,
   algorithm: 'RS256'
 }

@@ -49,7 +49,7 @@
   },
   "scripts": {
     "test": "standard --fix 'models/**/*.js' 'controller/*.js' 'tests/**/*.js'; mocha './{,!(node_modules)}/*.tests.js'",
-    "open-website": "open http://localhost:7000",
+    "open-website": "open http://localhost:8080",
     "start-server": "nodemon app",
     "compile-css": "sass --watch models/public/style:public/style",
     "compile-scripts": "concurrently \"watchify models/public/scripts/inbox.js -o public/scripts/inbox.js\" \"watchify models/public/scripts/tools.js -o public/scripts/tools.js\" \"watchify models/public/scripts/home.js -o public/scripts/home.js\" \"watchify models/public/scripts/outbox.js -o public/scripts/outbox.js\"",
@@ -63,5 +63,5 @@
   "bugs": {
     "url": "https://github.com/Ekrekr/Simon/issues"
   },
-  "homepage": "http://localhost:7000/"
+  "homepage": "http://localhost:8080/"
 }

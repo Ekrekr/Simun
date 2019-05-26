@@ -1,4 +1,5 @@
 const request = require('request')
+var identifiers = require('../../identifiers.js')
 
 // Shorthand for getting elements by ID.
 var $ = function (id) { return document.getElementById(id) }
@@ -26,7 +27,7 @@ function standardise (data) {
 
 function retrieveSnippet (id) {
   return new Promise((resolve, reject) => {
-    request('http://localhost:7000/snippet/' + id, { json: true }, (err, res, body) => {
+    request(identifiers.address + '/snippet/' + id, { json: true }, (err, res, body) => {
       if (err) {
         reject(err)
       } else {
@@ -38,7 +39,7 @@ function retrieveSnippet (id) {
 
 function retrieveSnippetContent (id) {
   return new Promise((resolve, reject) => {
-    request('http://localhost:7000/snippet/content/' + id, { json: true }, (err, res, body) => {
+    request(identifiers.address + 'snippet/content/' + id, { json: true }, (err, res, body) => {
       if (err) {
         reject(err)
       } else {
@@ -51,7 +52,7 @@ function retrieveSnippetContent (id) {
 function commentSnippet (snippetid, comment) {
   return new Promise((resolve, reject) => {
     var requestInfo = {
-      uri: 'http://localhost:7000/inbox/comment/',
+      uri: identifiers.address + 'inbox/comment/',
       body: JSON.stringify({ snippetid: snippetid, comment: comment }),
       method: 'POST',
       headers: {
@@ -73,7 +74,7 @@ function commentSnippet (snippetid, comment) {
 async function forwardSnippet (snippetid) {
   return new Promise((resolve, reject) => {
     var requestInfo = {
-      uri: 'http://localhost:7000/inbox/forward-snippet/',
+      uri: identifiers.address + 'inbox/forward-snippet/',
       body: JSON.stringify({ snippetid: snippetid }),
       method: 'POST',
       headers: {
@@ -94,7 +95,7 @@ async function forwardSnippet (snippetid) {
 async function trashSnippet (snippetid) {
   return new Promise((resolve, reject) => {
     var requestInfo = {
-      uri: 'http://localhost:7000/inbox/trash-snippet/',
+      uri: identifiers.address + 'inbox/trash-snippet/',
       body: JSON.stringify({ snippetid: snippetid }),
       method: 'POST',
       headers: {
@@ -115,7 +116,7 @@ async function trashSnippet (snippetid) {
 async function reportSnippet (snippetid) {
   return new Promise((resolve, reject) => {
     var requestInfo = {
-      uri: 'http://localhost:7000/inbox/trash-snippet/',
+      uri: identifiers.address + 'inbox/trash-snippet/',
       body: JSON.stringify({ snippetid: snippetid }),
       method: 'POST',
       headers: {
@@ -165,7 +166,7 @@ async function createSnippet (file, title) {
 
   return new Promise((resolve, reject) => {
     var requestInfo = {
-      uri: 'http://localhost:7000/outbox/create-snippet/',
+      uri: identifiers.address + 'outbox/create-snippet/',
       body: JSON.stringify({ imgurl: imgUrl, title: title }),
       method: 'POST',
       headers: {
