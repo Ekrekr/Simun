@@ -1,11 +1,17 @@
-const express = require('express')
-var session = require('express-session');
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
+var express = require('express')
+var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
+var http = require('http')
+var https = require('https')
 
-const app = express()
+// Load certificate and details for https.
+var privateKey  = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/privkey.pem', 'utf8')
+var certificate = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/fullchain.pem', 'utf8')
+var credentials = {key: privateKey, cert: certificate};
 
-// Enables REST communication with server.
+// Set up the node app.
+var app = express()
+
 app.set('views', './views')
 app.set('view engine', 'pug')
 
@@ -16,4 +22,9 @@ app.use(bodyParser.json({limit: '10mb'}))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(require('./controllers'))
 
-app.listen(8080, () => {console.log('server: Express running → localhost:8080')})
+// Create the server and listen.
+var httpServer = http.createServer(app)
+var httpsServer = https.createServer(credentials, app)
+
+httpServer.listen(8080)
+httpsServer.listen(8443)
