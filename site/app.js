@@ -21,15 +21,17 @@ app.use(require('./controllers'))
 // Create the server and listen.
 var httpServer = http.createServer(app)
 httpServer.listen(8080)
+console.log('Server listening on port 8080')
 
 // Load certificate and details for https. Catch used in case running locally.
 try {
   var privateKey  = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/privkey.pem', 'utf8')
   var port = 8443
   var certificate = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/fullchain.pem', 'utf8')
-  var credentials = {key: privateKey, cert: certificate, port: 8443};
+  var credentials = {key: privateKey, cert: certificate, port: port};
   var httpsServer = https.createServer(credentials, app)
-  httpsServer.listen(8443)
-} catch {
-  console.log('Error starting https server; credentials not found')
+  httpsServer.listen(port)
+  console.log('Server also listening on port 8443')
+} catch (err) {
+  console.log('Error starting https server:', err)
 }

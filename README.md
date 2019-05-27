@@ -1,6 +1,6 @@
 # Simun
 
-Simun, name based on the childhood game “Simon says”’, is an anonymised image sharing random network. Users receive images at random from other users (provided it is amiable) and can then either remove their copy from the network or forward it on to two other users at random. These content items are called snippets. Users can also view interesting metric or facts about what has been shared. This includes current most popular posts, type of posts that are most popular.
+Simun, name based on the childhood game “Simon says”, is an anonymised image sharing random network. Users receive images at random from other users (provided it is amiable) and can then either remove their copy from the network or forward it on to two other users at random. These content items are called snippets. Users can also view interesting metric or facts about what has been shared. This includes current most popular posts, type of posts that are most popular.
 
 All accounts are be anonymous and discourage the sharing of personal information. Signing in will however be required for posting, in order to prevent spamming, bots, and to moderate content. This also provides the opportunity for interpreting trends in related amiability of posts to a viewer.
 
@@ -25,8 +25,9 @@ All accounts are be anonymous and discourage the sharing of personal information
 ### Development
 
 - Navigate to the `simun/site/` directory
-- Run `npm install` to install required modules. For other modules see prerequisites section above
-- Run `npm run dev`. This will start the server, dynamically watch for updates to Pug or Sass files and open the login page in browser, and watch for changes in javascript files to compile with nodemon. This page will not be found, Refresh this page after a few seconds once the server has finished starting up. If the login page fails to open automatically then the address will be `http://localhost:8080`
+- Run `npm install` to install required modules. For other modules see prerequisites section above.
+- If running locally, change the address in `site/models/identifiers.js` to `http://localhost:8080` (https is not configured) in order to send client requests to the correct destination.
+- Run `npm run dev`. This will start the server, dynamically watch for updates to Pug or Sass files and open the login page in browser, and watch for changes in javascript files to compile with nodemon. This page will not be found, Refresh this page after a few seconds once the server has finished starting up. If the login page fails to open automatically then the address will be `http://localhost:8080`.
 - Run `npm run tests` to run automated tests.
 
 ## Built With
@@ -43,4 +44,4 @@ See the [package-lock file](package-lock.json) for all packages.
 
 ## License
 
-I have propietary rights of the branding, but feel free to reuse parts of the code.
+I have propietary rights of the branding and design, but feel free to reuse parts of the code.
