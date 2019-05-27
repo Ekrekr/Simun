@@ -42,6 +42,7 @@ fileField.addEventListener('change', (e) => {
 sendButton.onclick = async () => {
   var title = titleField.value
   var file = fileField.files[0]
+  $('error-message').innerHTML = 'Loading...'
 
   // Reject if title or file are not present.
   if (title === null || file === null) { return }
