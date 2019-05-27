@@ -330,7 +330,7 @@ home center-piece {
   box-shadow: 0px 2px 4px #00000080;
 }
 home postbox {
-  content: url("/assets/images/svg/postbox.png");
+  content: url("/assets/images/postbox.png");
   display: block;
   position: absolute;
   left: 32%;
@@ -572,7 +572,7 @@ inbox center-column control-box action-holder {
   transition: 0.2s;
 }
 inbox center-column control-box action-holder forward-it {
-  content: url("/assets/images/svg/button-plane-mail.png");
+  content: url("/assets/images/button-plane-mail.png");
   display: block;
   position: relative;
   width: calc(100% - 4px);
@@ -581,7 +581,7 @@ inbox center-column control-box action-holder forward-it {
   transition: 0.2s;
 }
 inbox center-column control-box action-holder trash-it {
-  content: url("/assets/images/svg/button-bin.png");
+  content: url("/assets/images/button-bin.png");
   display: block;
   position: relative;
   width: calc(100% - 4px);
@@ -590,7 +590,7 @@ inbox center-column control-box action-holder trash-it {
   transition: 0.2s;
 }
 inbox center-column control-box action-holder report-it {
-  content: url("/assets/images/svg/button-report.png");
+  content: url("/assets/images/button-report.png");
   display: block;
   position: relative;
   width: calc(100% - 4px);
