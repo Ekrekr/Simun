@@ -464,7 +464,7 @@ inbox {
   background-color: #2f4550;
 }
 inbox expand-snippet-list-icon {
-  content: url("../assets/images/svg/button-chevron.png");
+  content: url("../assets/images/button-chevron.png");
   position: fixed;
   top: 86px;
   left: 12px;
