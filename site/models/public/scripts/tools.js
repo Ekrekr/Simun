@@ -50,9 +50,10 @@ function retrieveSnippetContent (id) {
 }
 
 function commentSnippet (snippetid, comment) {
+  console.log('Commenting on snippet')
   return new Promise((resolve, reject) => {
     var requestInfo = {
-      uri: identifiers.address + 'inbox/comment/',
+      uri: identifiers.address + '/inbox/comment/',
       body: JSON.stringify({ snippetid: snippetid, comment: comment }),
       method: 'POST',
       headers: {
@@ -74,7 +75,7 @@ function commentSnippet (snippetid, comment) {
 async function forwardSnippet (snippetid) {
   return new Promise((resolve, reject) => {
     var requestInfo = {
-      uri: identifiers.address + 'inbox/forward-snippet/',
+      uri: identifiers.address + '/inbox/forward-snippet/',
       body: JSON.stringify({ snippetid: snippetid }),
       method: 'POST',
       headers: {
@@ -95,7 +96,7 @@ async function forwardSnippet (snippetid) {
 async function trashSnippet (snippetid) {
   return new Promise((resolve, reject) => {
     var requestInfo = {
-      uri: identifiers.address + 'inbox/trash-snippet/',
+      uri: identifiers.address + '/inbox/trash-snippet/',
       body: JSON.stringify({ snippetid: snippetid }),
       method: 'POST',
       headers: {
@@ -116,7 +117,7 @@ async function trashSnippet (snippetid) {
 async function reportSnippet (snippetid) {
   return new Promise((resolve, reject) => {
     var requestInfo = {
-      uri: identifiers.address + 'inbox/trash-snippet/',
+      uri: identifiers.address + '/inbox/trash-snippet/',
       body: JSON.stringify({ snippetid: snippetid }),
       method: 'POST',
       headers: {
@@ -162,11 +163,13 @@ function uploadToImgur (file, title) {
 }
 
 async function createSnippet (file, title) {
+  console.log('Creating snippet')
   var imgUrl = await uploadToImgur(file, title).then(res => { return res })
+  console.log('Image uploaded to imgur')
 
   return new Promise((resolve, reject) => {
     var requestInfo = {
-      uri: identifiers.address + 'outbox/create-snippet/',
+      uri: identifiers.address + '/outbox/create-snippet/',
       body: JSON.stringify({ imgurl: imgUrl, title: title }),
       method: 'POST',
       headers: {
