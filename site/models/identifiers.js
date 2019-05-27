@@ -1,4 +1,6 @@
 
 module.exports = {
-  duplicateID: 'duplicateID'
+  duplicateID: 'duplicateID',
+  port: 443,
+  address: 'https://simun.co.uk'
 }

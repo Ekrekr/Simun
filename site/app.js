@@ -1,11 +1,13 @@
-const express = require('express')
-var session = require('express-session');
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
+var express = require('express')
+var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
+var http = require('http')
+var https = require('https')
+var fs = require('fs')
 
-const app = express()
+// Set up the node app.
+var app = express()
 
-// Enables REST communication with server.
 app.set('views', './views')
 app.set('view engine', 'pug')
 
@@ -16,4 +18,20 @@ app.use(bodyParser.json({limit: '10mb'}))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(require('./controllers'))
 
-app.listen(7000, 'localhost', () => {console.log('server: Express running → localhost:7000')})
+// Create the server and listen.
+var httpServer = http.createServer(app)
+httpServer.listen(8080)
+console.log('Server listening on port 8080')
+
+// Load certificate and details for https. Catch used in case running locally.
+try {
+  var privateKey  = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/privkey.pem', 'utf8')
+  var port = 8443
+  var certificate = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/fullchain.pem', 'utf8')
+  var credentials = {key: privateKey, cert: certificate, port: port};
+  var httpsServer = https.createServer(credentials, app)
+  httpsServer.listen(port)
+  console.log('Server also listening on port 8443')
+} catch (err) {
+  console.log('Error starting https server:', err)
+}

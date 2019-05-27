@@ -24,7 +24,7 @@ fileField.addEventListener('change', (e) => {
     img.src = reader.result
     img.onload = () => {
       // No resize if mobile version.
-      var maxWidth = window.matchMedia("(min-width: 600px)") ? 400 : 300;
+      var maxWidth = window.matchMedia('(min-width: 600px)') ? 400 : 300
       // If the image is wider than it is tall, then to maximise the area occupied set the width
       // to the width of the divider and the height to the maxium height while keeping the
       // correct aspect ratio. Do the opposite if the image is taller than it is wide.
@@ -32,8 +32,8 @@ fileField.addEventListener('change', (e) => {
         fileBackground.style.height = (img.height / img.width * maxWidth) + 'px'
         fileBackground.style.width = maxWidth
       } else {
-        fileBackground.style.width = (img.width / img.height * maxWidth/2) + 'px'
-        fileBackground.style.height = maxWidth/2
+        fileBackground.style.width = (img.width / img.height * maxWidth / 2) + 'px'
+        fileBackground.style.height = maxWidth / 2
       }
     }
   }

@@ -11,44 +11,44 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   version="1.1"
-   id="svg3842"
-   width="400"
-   height="400"
-   viewBox="0 0 400 400"
-   sodipodi:docname="simun-logo.svg"
-   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
-   inkscape:export-filename="/Users/eliaskassellraymond/Desktop/simon_logo_v1_expanded.png"
+   inkscape:export-ydpi="96"
    inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96">
+   inkscape:export-filename="/Users/eliaskassellraymond/Desktop/lapping.pnga"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="button-simun-logo.svg"
+   viewBox="0 0 400 400"
+   height="400"
+   width="400"
+   id="svg3842"
+   version="1.1">
   <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1440"
-     inkscape:window-height="767"
-     id="namedview3844"
-     showgrid="true"
-     inkscape:zoom="1.3092387"
-     inkscape:cx="214.83607"
-     inkscape:cy="210.11628"
-     inkscape:window-x="0"
-     inkscape:window-y="1"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1"
-     inkscape:snap-grids="true"
-     inkscape:snap-global="true"
-     inkscape:measure-start="326.908,492.653"
-     inkscape:measure-end="326.908,529.315"
-     inkscape:snap-bbox="false"
-     inkscape:snap-page="false"
+     inkscape:snap-nodes="false"
      inkscape:snap-others="false"
-     inkscape:snap-nodes="false">
+     inkscape:snap-page="false"
+     inkscape:snap-bbox="false"
+     inkscape:measure-end="326.908,529.315"
+     inkscape:measure-start="326.908,492.653"
+     inkscape:snap-global="true"
+     inkscape:snap-grids="true"
+     inkscape:current-layer="layer6"
+     inkscape:window-maximized="0"
+     inkscape:window-y="0"
+     inkscape:window-x="-4"
+     inkscape:cy="196.61676"
+     inkscape:cx="260.66423"
+     inkscape:zoom="1.3092387"
+     showgrid="true"
+     id="namedview3844"
+     inkscape:window-height="767"
+     inkscape:window-width="1440"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff">
     <inkscape:grid
        id="grid3861"
        type="xygrid" />
@@ -333,7 +333,7 @@
        y1="560"
        x2="340"
        y2="560"
-       gradientTransform="matrix(0.6754895,0,0,0.80994572,-14.9304,106.44794)" />
+       gradientTransform="matrix(0.6754895,0,0,0.80994572,-14.9304,-153.55206)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#primary-light"
@@ -357,29 +357,9 @@
     <linearGradient
        inkscape:collect="always"
        xlink:href="#primary-light"
-       id="linearGradient924"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0,-0.90312885,0.95336467,0,-265.76849,706.82728)"
-       x1="339.68649"
-       y1="500"
-       x2="460.44336"
-       y2="500" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#primary-light"
-       id="linearGradient926"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0,-0.90312885,0.95336467,0,-265.76849,706.82728)"
-       x1="340"
-       y1="500"
-       x2="460"
-       y2="500" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#primary-light"
        id="linearGradient934"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.6754895,0,0,0.80994572,-14.9304,106.44794)"
+       gradientTransform="matrix(0.6754895,0,0,0.80994572,-14.9304,-153.55206)"
        x1="200"
        y1="560"
        x2="270"
@@ -430,7 +410,10 @@
        id="path899"
        cx="200"
        cy="464"
-       r="200" />
+       r="200"
+       inkscape:export-filename="/Users/eliaskassellraymond/Desktop/scatter-cubes.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -444,25 +427,15 @@
      transform="translate(0,-260)">
     <path
        style="fill:url(#linearGradient934);fill-opacity:1;stroke:url(#linearGradient977);stroke-width:0.54138219"
-       d="m 95.19118,498.92469 c 104.25754,0.68406 125.40909,1.31158 229.66607,0.89286 L 211.57961,608.81566 95.43416,608.61432 Z"
-       id="rect4921"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96" />
+       d="M 210.91406 31.388672 L 96.398438 139.6582 L 201.94141 239.72461 C 173.01615 239.53017 143.07442 239.238 95.191406 238.92383 L 95.433594 348.61523 L 211.58008 348.81641 L 312.04883 252.14258 L 325.21289 239.66797 L 219.95312 139.76367 L 325.31836 139.76367 L 210.91406 31.388672 z "
+       transform="translate(0,260)"
+       id="rect4921" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="S"
-     transform="translate(0,-260)">
-    <path
-       style="fill:url(#linearGradient924);fill-opacity:1;stroke:url(#linearGradient926);stroke-width:0.58179754;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 96.39807,399.65734 210.91389,291.38801 325.31768,399.76347 H 219.95256 l 105.25948,99.904 -114.34296,108.36018 -0.0833,-99.91909 z"
-       id="path1041"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccc" />
-  </g>
+     transform="translate(0,-260)" />
   <g
      inkscape:groupmode="layer"
      id="layer9"
@@ -473,7 +446,10 @@
        d="m 95.85712,399.64825 124.67966,0.32287 105.03336,99.59771 -124.071,0.0101 z"
        id="rect928"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="/Users/eliaskassellraymond/Desktop/scatter-cubes.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -485,12 +461,18 @@
        d="m 95.8704,399.50486 c 31.57355,-1.87639 226.02428,-1.27403 228.38036,0.62501 -0.22281,1.44409 -54.27721,8.05856 -117.14828,7.84286 -62.87105,-0.21571 -111.45485,-7.02378 -111.23208,-8.46787 z"
        id="path936"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccsc" />
+       sodipodi:nodetypes="ccsc"
+       inkscape:export-filename="/Users/eliaskassellraymond/Desktop/scatter-cubes.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
     <path
        sodipodi:nodetypes="ccsc"
        inkscape:connector-curvature="0"
        id="path948"
        d="m 95.30628,498.56257 c 31.81999,2.11035 227.87932,2.94918 230.26903,1.06765 -0.21386,-1.4457 -54.66475,-8.46061 -118.05607,-8.71089 -63.39132,-0.25027 -112.42678,6.19754 -112.21296,7.64324 z"
-       style="fill:url(#linearGradient950);fill-opacity:1;stroke-width:0.6103071" />
+       style="fill:url(#linearGradient950);fill-opacity:1;stroke-width:0.6103071"
+       inkscape:export-filename="/Users/eliaskassellraymond/Desktop/scatter-cubes.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
   </g>
 </svg>
