@@ -25,8 +25,9 @@ httpServer.listen(8080)
 // Load certificate and details for https. Catch used in case running locally.
 try {
   var privateKey  = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/privkey.pem', 'utf8')
+  var port = 8443
   var certificate = fs.readFileSync('/etc/letsencrypt/live/simun.co.uk/fullchain.pem', 'utf8')
-  var credentials = {key: privateKey, cert: certificate};
+  var credentials = {key: privateKey, cert: certificate, port: 8443};
   var httpsServer = https.createServer(credentials, app)
   httpsServer.listen(8443)
 } catch {
