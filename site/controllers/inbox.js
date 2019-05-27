@@ -61,7 +61,6 @@ router.post('/comment', async (req, res) => {
 
   // Forward the snippet.
   await database.forwardSnippet(req.body.snippetid)
-  await database.removeFromRedirectSnippetList(decodedCookie.redirectid, req.body.snippetid)
 
   res.send({success: true})
 })
