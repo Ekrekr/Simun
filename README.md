@@ -1,6 +1,8 @@
 ![Simun Banner](docs/simun-cover-narrow.png)
 
-Simun, name based on the childhood game “Simon says”, is an anonymised image sharing random network. Users receive images at random from other users (provided it is amiable) and can then either remove their copy from the network or forward it on to two other users at random. These content items are called snippets. Users can also view interesting metric or facts about what has been shared. This includes current most popular posts, type of posts that are most popular.
+![Simun Banner](docs/simun-cover.png)
+
+Name based on the childhood game “Simon says”, this is an anonymised image sharing random network. Users receive images at random from other users (provided it is amiable) and can then either remove their copy from the network or forward it on to two other users at random. These content items are called snippets. Users can also view interesting metric or facts about what has been shared. This includes current most popular posts, type of posts that are most popular.
 
 All accounts are be anonymous and discourage the sharing of personal information. Signing in will however be required for posting, in order to prevent spamming, bots, and to moderate content. This also provides the opportunity for interpreting trends in related amiability of posts to a viewer.
 
