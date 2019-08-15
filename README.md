@@ -1,6 +1,8 @@
 # Simun
 
-Simun, name based on the childhood game “Simon says”, is an anonymised image sharing random network. Users receive images at random from other users (provided it is amiable) and can then either remove their copy from the network or forward it on to two other users at random. These content items are called snippets. Users can also view interesting metric or facts about what has been shared. This includes current most popular posts, type of posts that are most popular.
+![Simun Banner](docs/simun-cover.png)
+
+Name based on the childhood game “Simon says”, this is an anonymised image sharing random network. Users receive images at random from other users (provided it is amiable) and can then either remove their copy from the network or forward it on to two other users at random. These content items are called snippets. Users can also view interesting metric or facts about what has been shared. This includes current most popular posts, type of posts that are most popular.
 
 All accounts are be anonymous and discourage the sharing of personal information. Signing in will however be required for posting, in order to prevent spamming, bots, and to moderate content. This also provides the opportunity for interpreting trends in related amiability of posts to a viewer.
 
@@ -16,7 +18,7 @@ All accounts are be anonymous and discourage the sharing of personal information
 
 ### Production
 
-- For HTTPS delivert a certificate and key will be required to be created and stored in the directory `/etc/letsencrypt/live/simun.co.uk/` as `fullchain.pem` and `privkey.pem` respectively.
+- For HTTPS delivery, a certificate and key will be required to be created and stored in the directory `/etc/letsencrypt/live/simun.co.uk/` as `fullchain.pem` and `privkey.pem` respectively.
 - The app listens on port 8080 for HTTP requests and port 8443 for HTTPS requests in order to avoid the security issues of listening directly on port 80 or 443. To redirect the ports to those listening use:
   - `sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080`.
   - `sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8443`.
@@ -36,12 +38,10 @@ See the [package-lock file](package-lock.json) for all packages.
 
 ### Design
 
-- Follow this colour sheet in general
-  ![colour sheet](docs/colours.png)
 - Title and header font is [Glacial-indifference](http://scripts.sil.org/). Body font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
 - Current user flow.
   ![user-flow](docs/user-flow.jpg)
 
 ## License
 
-I have propietary rights of the branding and design, but feel free to reuse parts of the code.
+I retain my rights of the branding and design, but feel free to reuse parts of the code.
